@@ -1,0 +1,31 @@
+{
+    "name": "grandjs",
+    "version": "1.0.0",
+    "description": "A backend framework for solid web apps based on node.js",
+    "main": "Grand.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "handlebars": "*",
+        "url-pattern": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+/tareksalem/grandjs.git"
+    },
+    "keywords": [
+        "nodejs",
+        "javascript",
+        "grandjs",
+        "web",
+        "development",
+        "backend"
+    ],
+    "author": "tarek salem",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tareksalem/grandjs/issues"
+    },
+    "homepage": "https://github.com/tareksalem/grandjs#readme"
+}
