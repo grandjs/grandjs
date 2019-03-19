@@ -26,7 +26,6 @@ class BuildServer {
         this.helpers.enCrypt = helpers.enCrypt;
         this.helpers.beCrypt = helpers.beCrypt;
         this.helpers.validation = helpers.validation;
-        this._stacks = [];
         this.getRouters = {};
         this.postRouters = {};
         this.classes = [];
