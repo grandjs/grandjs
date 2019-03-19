@@ -257,7 +257,6 @@ class BuildServer {
         var staticArr = [];
         var requestsArr = [];
         var pathnames = [];
-        var stacks = this._stacks;
         // flask messages
         var flash = {};
         flash.reset = function() {

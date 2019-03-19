@@ -81,7 +81,9 @@ Grandjs.initServer();
     - [cryption](#cryption)
       - [encrypt](#encrypt)
       - [decrypt](#decrypt)
-  - [Deployment](#deployment)
+    - [session](#session)
+    - [Auth module](#auth-module)
+    - [Flash Messages](#flash-messages)
   - [Built With](#built-with)
   - [Contributing](#contributing)
   - [Versioning](#versioning)
@@ -842,6 +844,204 @@ let decryptedPassword = Grandjs.helpers.deCrypt("passowrd");
 <hr style="border:.5px solid black;height:0">
 
 
+###Session
+Grandjs represents to you a session module which you can use it in login processes and setting cookies for logged in users
+
+* you need to enable session in Grandjs configuration inside ``Grandjs.setConfig`` function as the following:
+```javascript
+Grandjs.setConfig({
+    // enable session module
+    session: true
+})
+```
+2- now you need to set the max age of cookies for global sessions inside ``Grandjs.setConfig`` function as the following:
+```javascript
+Grandjs.setConfig({
+    //enable session
+    session: true
+    //set cookies for one month and 30 minutes, after that it would be removed
+    setCookie: {
+        expires: {
+            days: 30, // refers to one month
+            minutes: 30 //refers to 30 minutes
+        }
+    }
+})
+```
+``setCooki`` is an object, you specify inside it an object called ``expires`` this object has two properties
+|property   | type  | description  |
+|---|---|---|
+|days   | number (optional)  | refers to the number of days that you want to set the cookie until it  |
+|minutes   | number  | referes to the number of minutes that you want set the cookie until it  |
+
+**Not that session is a global variable you can access on it from anywhere insde the project**
+
+<hr style="border:.5px solid black;height:0">
+#### ``session.set`` function
+This is a function you call it when you want to set a session, this function takes three parameters:
+| parameter  | type  | description  |
+|---|---|---|
+|sessionName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
+|obj   | object (required)  | this is the info that you want to store in the session  |
+|sessionOptions  | object (optional)  | represents specific cookie configuration for this session only  |
+
+**Example on session inside handler function**
+
+* set it without custom cookie
+```javascript
+postRouter () {
+    return {
+        url: "/user",
+        method: "post",
+        handler: () => {
+            let userdata = this.req.data;
+            // set it without custom cookie
+            session.set("userdata", userdata);
+        }
+    }
+}
+```
+* set it with a custom cookie
+```javascript
+postRouter () {
+    return {
+        url: "/user",
+        method: "post",
+        handler: () => {
+            let userdata = this.req.data;
+            // set it without custom cookie
+            session.set("userdata", userdata, {
+                days: 1 // set the cookie for one day only
+            });
+        }
+    }
+}
+```
+<hr style="border:.5px solid black;height:0">
+#### `session.getSession` function
+This function gets the session of the user based on the name of the session that you specified in ``session.set`` function
+
+if the session is exist this function returns an object contains data that you have stored, and if no session with that name it will return an undefined
+```javascript
+let info = session.getSession("userdata");
+console.log(info) //output: object || undefined
+```
+<hr style="border:.5px solid black;height:0">
+#### ``session.updateSession`` function
+This function is very similar to ``session.set`` function and it takes the same parameters but this function you use it to updating an already exist session
+```javascript
+    // update exit session
+    session.set("userdata", {name: "tarek", password: "blablabla"});
+```
+<hr style="border:.5px solid black;height:0">
+
+#### ``session.breakSession`` function
+This function breaks the session and stops it, so you use it when the user logs out
+
+This function takes one parameter, that parameter is the name of the session that you want to break
+```javascript
+// break the session
+session.breakSession("userdata");
+```
+<hr style="border:.5px solid black;height:0">
+### Auth module
+This module is a built in module in Grandjs, it is used to make authentication inside the system to allow user login and logout securely.
+This module depends on session
+
+* Auth module is a global module you can access on it from any file inside the project
+* This module represents to some functionalities for loging in process
+
+#### ``auth.login`` function
+This function is used to login the user when he signs up or in.
+* This function takes the same parameters of ``session.set`` function and ``auth.login`` depends on it
+
+
+This function takes three parameters:
+| parameter  | type  | description  |
+|---|---|---|
+|loginName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
+|obj   | object (required)  | this is the info that you want to store in the session  |
+|sessionOptions  | object (optional)  | represents specific cookie configuration for this session only  |
+```javascript
+// login the user
+auth.login("userdata", {username: "tarek", email:"test@gmail.com"});
+```
+<hr style="border:.5px solid black;height:0">
+
+#### ``auth.checkAuth`` function
+This function is used to check if the user is logged in or not
+* If the user is logged in returns: ``true``
+* if the user isn't logged in returns: ``false``
+```javascript
+let logged = auth.checkAuth();
+// output: true | false
+```
+<hr style="border:.5px solid black;height:0">
+#### ``auth.Auth`` function
+This function is optional to use, the of it is if you are doing a heavy checks before require ``auth.login`` function so Grandjs represents to you this function which enables you to make some processing and returns a callback function after that has ``done`` parameter, it's value is: ``true`` or ``false``
+```javascript
+auth.Auth((done, cb) => {
+    // make some logic here
+    let some = 1+2;
+    if(some === 3) {
+        // set the done parameter
+        done = true;
+        return cb(done);
+    } else {
+        done = false;
+        return cb(done);
+    }
+    //  
+}, (done) => {
+    console.log(done) // outputs true
+    if(done == true) {
+        // login the user
+        auth.login("userdata", {});
+    }
+})
+```
+<hr style="border:.5px solid black;height:0">
+#### ``auth.logout`` function
+This function depends on ``session.breakSession`` function, it logouts the user and destroys the session
+
+```javascript
+
+// logout the user
+auth.logout();
+```
+<hr style="border:.5px solid black;height:0">
+
+### Flash Messages
+Flash is an object inside ``request`` object, it allows you to set messages to send them to the handlebars to show allert messages or success or any message you want to show from backend to frontent
+
+
+flash is accessable inside any router handler
+**Example**
+```javascript
+// post router
+router.addRoute({
+    url: "/login",
+    method: "post",
+    handler: () => {
+        // set error message
+        req.flash.errorMessage = "user not found"
+    }
+})
+// get router
+router.addRoute({
+    url: "/login",
+    method: "get",
+    handler: () => {
+        this.res.render({
+            layouts: "./views/layouts/main.hbs",
+            body: "login.hbs",
+            data: {
+                errorMessage: this.req.flash.errorMessage
+            }
+        })
+    }
+})
+```
 ## Built With
 * [Tarek Salem](https://github.com/tareksalem)
 
