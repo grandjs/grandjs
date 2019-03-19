@@ -94,10 +94,10 @@ Grandjs.initServer();
 2- init a new project using npm, so then we will be able to install this framework
 
 ## Features
-* les packages and more productivity
-* Framework includes the most needed functionalities to build perfect web app
+* less packages and more productivity
+* Framework includes the most needed functionalities to build a perfect web app
 * depends on Handlebars template Engine which is friendly with many developers
-* solid routing system built on Javascript object oriented programming and you can extend it as you need
+* solid routing system built on Javascript object-oriented programming and you can extend it as you need
 * controlled handling for every error page in your app
 * Grandjs is built for solid and extended web apps
 
@@ -115,7 +115,7 @@ to start with Grandjs just install it and call it in your file as the following
 //require Grandjs framework
 const Grandjs = require("Grand");
 ```
-if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases Grandjs behind the seen requires HTTP module as a default.
+if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases, Grandjs behind the seen requires HTTP module as a default.
 
 Now you need to call seConfig function to set some configuration for the project
 
@@ -167,10 +167,10 @@ Grandjs.init();
 <hr style="border:.5px solid black;height:0">
 ### Router
 
-* Grandjs Routing system is built upon object oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
+* Grandjs Routing system is built upon object-oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
 <br>
 
-**to work with router class you need to extend it or instatiate it directly and every class implies a group of routes have a specific basename**
+**to work with router class you need to extend it or instantiate it directly and every class implies a group of routes have a specific basename**
 
 #### extend Router class
 
@@ -181,13 +181,13 @@ class HomeRouter extends Grandjs.Router{
     }
 }
 ```
-As any extended class you should call the super inside the constructor and pass the options parameter
+As an extended class, you should call the super inside the constructor and pass the options parameter
 
 | parameter   |     type   | 
 |----------|:-------------:|
 | options |  Object |
 
-Now after defining the class you should define the get routers which related to this class
+Now after defining the class, you should define the get routers which related to this class
 Router class has a property called "getRouters" this is an array and you push inside it the routers you add within the class with the GET method
 
 **Example**
@@ -206,7 +206,7 @@ class HomeRouter extends Grandjs.Router{
 |---|---|---|
 |  url |  string (required)| the url of the router  |
 | method  |  string (required) |  HTTP method get / post / patch / put / delete |
-| handler  |  function (required) | the function you want to run whem the request url matches the router url  |
+| handler  |  function (required) | the function you want to run when the requested url matches the router url  |
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
 <hr style="border:.5px solid black;height:0">
@@ -288,7 +288,7 @@ when you instantiate the class you should define the options parameter as an obj
 | property   |     type   |descriptions |
 |----------|:-------------:|-----: |
 | base |  string (required) | implies the base url you want to add routers to it. so if you defined it as "/admin" all routers inside this class would be added to /admin|
-| staticFolder  | string(optional)  | the name of the folder you want to serve assets and statoc files from it. The default value of it is the global staticFolder that you specified in setConfig function
+| staticFolder  | string(optional)  | the name of the folder you want to serve assets and static files from it. The default value of it is the global staticFolder that you specified in setConfig function
 
 **Example**
 ```javascript
@@ -299,7 +299,7 @@ const homeRoters = new HomeRouter({
 <hr style="border:.5px solid black;height:0">
 ### Access on request and response objects
 
-to handle the routers and check requests and responses you need to access on them, so these object are accessable using different ways
+to handle the routers and check requests and responses you need to access them, so these objects are accessible using different ways
 
 1- req & res objects are properties inside the class
 **Example**
@@ -476,7 +476,7 @@ home.addRoute({
 
 ####Request Object
 this is an object you can access on it inside the handler of the route
-and the object contains the all information about the request which is coming
+and the object contains all the information about the request which is coming
 
 |Property   |  type |  description |
 |---|---|---|
@@ -487,14 +487,14 @@ and the object contains the all information about the request which is coming
 | req.url  |  object | returns object contains the parsed url  |
 |req.query   |  object | contains the query & search in the url(it parsed as key and value)  |
 | req.params  |  object | returns the query parameters if it exists as key and value  |
-| req.validation  | object  | returns an object contains some helper functions to valiate the email and string  |
+| req.validation  | object  | returns an object contains some helper functions to validate the email and string  |
 | req.data  | object  | returns an object contains the posted data if the method is "post"  |
-|  req.headers | object  | returns the headers of the comming request  |
+|  req.headers | object  | returns the headers of the coming request  |
 | req.flash  | object  |  this object enables you to set messages to send it to handlebars to show to the user |
 
 #### Request params
 returns an object contains the parameters of the router url and it's value if it exists
-if there is no params so it returns an empty object
+if there are no params so it returns an empty object
 **Example**
 ```javascript
 const homePage = new Grandjs.Router({
@@ -533,7 +533,7 @@ home.addRoute({
 
 <hr style="border:.5px solid black;height:0">
 ####Handle post request
-Grandjs handls all types of post requests and sumited data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of router is post
+Grandjs handles all types of post requests and submitted data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of a router is post
 
 **Example**
 ```javascript
@@ -559,7 +559,7 @@ This function you use it to render html content using handlebars template engine
 ```javascript
 res.render()
 ```
-takes one parameter as an object, this object should contains the following properties:
+takes one parameter as an object, this object should contain the following properties:
 | property  |  type | description |
 |---|---|---|
 |  container |  string (required) | this property you specify the container folder which includes all handlebars files  |
@@ -623,7 +623,7 @@ this function sends json data, it accepts one parameter this parameter should be
 res.json({user: "tarek", email: "test@gmail.com", id: 1});
 ```
 ####``res.redirect`` function
-This function is used to make redirect to another link
+This function is used to make a redirect to another link
 It accepts one parameter
 |parameter   |  type | description  |
 |---|---|---|
@@ -638,9 +638,9 @@ res.redirect("/anotherurl");
 #### MiddleWares
 middlewares is a group of functions used to run something before executing the final handler
 
-the middWares property should be an array includes the functions
+the middleWares property should be an array includes the functions
 
-Every middleware should has three parameters
+Every middleware should have three parameters
 
 | parameter  | type  | description  |
 |---|---|---|
@@ -649,7 +649,7 @@ Every middleware should has three parameters
 | next  | function  | is a function you can execute it to continue to the final handler of the router  |
 **Example**
 ```javascript
-//middle ware
+//middleware
 function writeWithMiddleware(req, res, next) {    
     // has three parameters
     /*
@@ -698,7 +698,7 @@ this function takes two parameters
 
 | parameter  | type  |  description |
 |---|---|---|
-| email  |  string (required) | this parameter is required and it should be string that you want to test it as email or not |
+| email  |  string (required) | this parameter is required and it should be the string that you want to test it as email or not |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
 This function you can call it async with a callback function or sync without callback
 
@@ -753,7 +753,7 @@ it accepts three parameters:
 | parameter  | type  |  description |
 |---|---|---|
 | string  |  string (required) | to test it contains numbers or not |
-|  count | Number (required)  |  refers to the count of number you want to test the string contains. if you specify it for example 5 so the function checks if the given string contains five numbers |
+|  count | Number (required)  |  refers to the count of the number you want to test the string contains. if you specify it for example 5 so the function checks if the given string contains five numbers |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
 This function you can call it async with a callback function or sync without callback
 
@@ -777,7 +777,7 @@ console.log(containsNumbers) // returns true if it contains 3 numbers, returns f
 #### ``validation.checkIsNumber`` function
 
 This function checks if the given parameter is a number or not
-you can use this function to authenticate phone number and stuf like that
+you can use this function to authenticate phone number and stuff like that
 
 it accepts two parameters:
 | parameter  | type  |  description |
@@ -806,14 +806,14 @@ console.log(number) // returns true if it is number, returns false if not
 <hr style="border:.5px solid black;height:0">
 
 ###Cryption
-Grandjs gives you functionalities to crypt important info and cipher them and decrypt the
-cryption functions are inside helpers inside grandjs library
+Grandjs gives you functionalities to crypt important info and cipher them and decrypt them
+encryption functions are inside helpers inside Grandjs library
 This helper uses the ``ENCRYPTION_KEY`` that you specify in ``setConfig`` function.
 ####enCrypt
 ```javascript
 Grandjs.helpers.enCrypt(text);
 ```
-This function takes one parameter which referes to the string you wanna encrypt or cipher it
+This function takes one parameter which refers to the string you wanna encrypt or cipher it
 |parameter   | type  | description  |
 |---|---|---|
 | text  | string (required)  | implies the text that you wanna cipher it |
