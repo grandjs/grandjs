@@ -1,4 +1,4 @@
-const helpers = require("./helpers/helpers");
+const helpers = require("./helpers");
 var req, res, cookieOptions;
 
 function setSessionOptions(data) {
