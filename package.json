@@ -27,9 +27,13 @@
     "bugs": {
         "url": "https://github.com/tareksalem/grandjs/issues"
     },
+<<<<<<< HEAD
     "homepage": "https://github.com/tareksalem/grandjs#readme",
     "devDependencies": {
         "chai": "^4.2.0",
         "mocha": "^6.0.2"
     }
+=======
+    "homepage": "https://github.com/tareksalem/grandjs#readme"
+>>>>>>> ffd21a37ef44fe2a8e8ac591b7ea0ccffb7aa00b
 }
