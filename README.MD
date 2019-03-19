@@ -4,8 +4,9 @@ A backend framework for solid web apps based on node.js
 
 * Grandjs is built for solid and extended web apps
 
-
-
+![GitHub contributors](https://img.shields.io/github/contributors/tareksalem/grandjs.svg?style=flat-square)
+![GitHub All Releases](https://img.shields.io/github/downloads/tareksalem/grandjs/total.svg)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/tareksalem/grandjs.svg)
 
 ```javascript
 //require HTTP module
@@ -106,7 +107,7 @@ Grandjs.initServer();
 open the command prompt and navigate to the project folder and just say
 
 ```
-npm install Grandjs --save
+npm install grandjs --save
 ```
 ## Getting Started
 #### Server configuration
