@@ -106,7 +106,7 @@ Grandjs.initServer();
 open the command prompt and navigate to the project folder and just say
 
 ```
-npm install Grandjs --save
+npm install grandjs --save
 ```
 ## Getting Started
 #### Server configuration
