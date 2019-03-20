@@ -687,7 +687,7 @@ Grandjs includes awesome validation system to validate inputs and remove strip t
 #### ``validation.strip_html_tags`` function
 this function removes weird characters from the string to insure that there is no harmful characters inside the string
 ```javascript
-let str = "<h1>hello world</h1>"
+let str = "h1hello worldh1"
 Grandjs.helpers.validation.strip_html_tags(str) // output hello world
 ```
 
