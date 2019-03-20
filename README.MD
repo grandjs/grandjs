@@ -63,8 +63,6 @@ Grandjs.setConfig({
 // init Grandjs
 Grandjs.initServer();
 ```
-<<<<<<< HEAD
-
 **content**
   - [Installing](#installing)
   - [Getting Started](#getting-started)
@@ -110,7 +108,7 @@ open the command prompt and navigate to the project folder and just say
 npm install grandjs --save
 ```
 ## Getting Started
-#### Server configuration
+### Server configuration
 to start with Grandjs just install it and call it in your file as the following
 ```javascript
 //require Grandjs framework
@@ -1059,5 +1057,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Handlebars template engine
 * Hat tip to anyone whose code was used
 * Inspiration
-=======
->>>>>>> 7b301d78f3b34515b174edd251f72bcf5c2f3fc7
