@@ -213,6 +213,7 @@ class HomeRouter extends Grandjs.Router{
 ### Define get routers
 
 **Example**
+
 ```javascript
 class HomeRouter extends Grandjs.Router{
     constructor(options) {
@@ -237,7 +238,9 @@ class HomeRouter extends Grandjs.Router{
 <!-- <hr style="border:.5px solid black;height:0"> -->
 
 ### Define post routers
+
 **Example**
+
 ```javascript
 class HomeRouter extends Grandjs.Router{
     constructor(options) {
@@ -261,7 +264,9 @@ class HomeRouter extends Grandjs.Router{
 ```
 
 ### instantiate router class
+
 **Example**
+
 ```javascript
 class HomeRouter extends Grandjs.Router{
     constructor(options) {
@@ -294,6 +299,7 @@ when you instantiate the class you should define the options parameter as an obj
 | staticFolder  | string(optional)  | the name of the folder you want to serve assets and statoc files from it. The default value of it is the global staticFolder that you specified in setConfig function
 
 **Example**
+
 ```javascript
 const homeRoters = new HomeRouter({
     base: "/"
@@ -305,7 +311,9 @@ const homeRoters = new HomeRouter({
 to handle the routers and check requests and responses you need to access on them, so these object are accessable using different ways
 
 1- req & res objects are properties inside the class
+
 **Example**
+
 ```javascript
 class HomeRouter extends Grandjs.Router{
     constructor(options) {
@@ -334,7 +342,9 @@ class HomeRouter extends Grandjs.Router{
 ```
 
 2- request & response are accessable as parameters inside handler function
+
 **Example**
+
 ```javascript
 homePage() {
     return {
@@ -376,6 +386,7 @@ this function takes one (required) parameter as an object has the following prop
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
 **Example**
+
 ```javascript
 const adminRoute = new Grandjs.Router({
     baes: "/admin"
@@ -405,6 +416,7 @@ you can specify a custom error page for every class you instantiate it to contro
 to do that you need to define "errorPage" method to the class
 
 1- define it inside the class
+
 **Example**
 
 ```javascript
@@ -437,7 +449,9 @@ class HomeRouter extends Grandjs.Router{
 }
 ```
 2-Define error page from outside the class
+
 **Example**
+
 ```javascript
 const homeRouter = new Grandjs.Router({
     baes: "/"
@@ -472,7 +486,9 @@ you can add params to the url of the router to make dynamic routes like the foll
 url: "/posts/:postId"
 ```
 to access on the parameters inside the url using [request.params property](#request-params)
+
 **Example**
+
 ```javascript
 const homePage = new Grandjs.Router({
     baes: "/"
@@ -508,7 +524,9 @@ and the object contains the all information about the request which is coming
 #### Request params
 returns an object contains the parameters of the router url and it's value if it exists
 if there is no params so it returns an empty object
+
 **Example**
+
 ```javascript
 const homePage = new Grandjs.Router({
     baes: "/"
@@ -551,6 +569,7 @@ home.addRoute({
 Grandjs handls all types of post requests and sumited data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of router is post
 
 **Example**
+
 ```javascript
 postAdminPage() {
     return {
@@ -585,7 +604,9 @@ takes one parameter as an object, this object should contains the following prop
 | body  | string (optional)  | should be the path of the body file  |
 |  partials | Array (optional)  | every item inside this array should be a string refers to the path of the partial file that you want to append to the layout  |
 | data  | object (optional)  | object contains the data you want to render inside the handlbars files  
+
 **Example**
+
 ```javascript
     homePageRouter() {
         return {
@@ -629,7 +650,9 @@ this function takes on parameter
 |  path |  String (required) | this parameter should specify the path of the file which you want to send |
 
 this function uses promise to return a ``catch`` function if the file isn't exist
+
 **Example**
+
 ```javascript
 res.sendFile("/views/pages/home.html").catch((err) => {
     console.log(err) //output no such file
@@ -669,6 +692,7 @@ Every middleware should has three parameters
 | next  | function  | is a function you can execute it to continue to the final handler of the router  |
 
 **Example**
+
 ```javascript
 //middle ware
 function writeWithMiddleware(req, res, next) {    
@@ -1047,7 +1071,9 @@ Flash is an object inside ``request`` object, it allows you to set messages to s
 
 
 flash is accessable inside any router handler
+
 **Example**
+
 ```javascript
 // post router
 router.addRoute({
