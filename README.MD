@@ -365,7 +365,7 @@ This function enables you to add routers to the class from outside it
 ```javascript
 homeRoters.addRoute(obj);
 ```
-this function takes one (required) parameter as an object has the following properties:
+this function takes one (required) parameter as an object has the following properties
 |Property   |  type |  description |
 |---|---|---|
 |  url |  string (required)| the url of the router  |
@@ -573,7 +573,7 @@ This function you use it to render html content using handlebars template engine
 ```javascript
 res.render()
 ```
-takes one parameter as an object, this object should contains the following properties:
+takes one parameter as an object, this object should contains the following properties
 | property  |  type | description |
 |---|---|---|
 |  container |  string (required) | this property you specify the container folder which includes all handlebars files  |
@@ -764,7 +764,7 @@ console.log(email) // returns true if it isn't empty, if it is empty,  returns f
 
 This function checks if the given string contains numbers or not
 
-it accepts three parameters:
+it accepts three parameters
 | parameter  | type  |  description |
 |---|---|---|
 | string  |  string (required) | to test it contains numbers or not |
@@ -794,7 +794,7 @@ console.log(containsNumbers) // returns true if it contains 3 numbers, returns f
 This function checks if the given parameter is a number or not
 you can use this function to authenticate phone number and stuf like that
 
-it accepts two parameters:
+it accepts two parameters
 | parameter  | type  |  description |
 |---|---|---|
 | val  |  any (required) | to test it is number or not |
@@ -891,7 +891,7 @@ Grandjs.setConfig({
 
 <!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``session.set`` function
-This is a function you call it when you want to set a session, this function takes three parameters:
+This is a function you call it when you want to set a session, this function takes three parameters
 | parameter  | type  | description  |
 |---|---|---|
 |sessionName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
@@ -969,7 +969,7 @@ This function is used to login the user when he signs up or in.
 * This function takes the same parameters of ``session.set`` function and ``auth.login`` depends on it
 
 
-This function takes three parameters:
+This function takes three parameters
 | parameter  | type  | description  |
 |---|---|---|
 |loginName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
