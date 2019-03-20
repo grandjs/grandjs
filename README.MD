@@ -210,11 +210,8 @@ class HomeRouter extends Grandjs.Router{
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
 ### Define get routers
-=======
-###Define get routers
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 **Example**
 ```javascript
 class HomeRouter extends Grandjs.Router{
@@ -238,11 +235,8 @@ class HomeRouter extends Grandjs.Router{
 }
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 ### Define post routers
-=======
-###Define post routers
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
 **Example**
 ```javascript
 class HomeRouter extends Grandjs.Router{
@@ -353,11 +347,9 @@ homePage() {
 }
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 #### Specify a separated folder for static files for this group of routes
-=======
-####Specify a separated folder for static files for this group of routes
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 ```javascript
 const homeRoters = new HomeRouter({
     base: "/",
@@ -366,11 +358,9 @@ const homeRoters = new HomeRouter({
 });
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 #### Router add route
-=======
-####Router add route
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 This function enables you to add routers to the class from outside it
 ```javascript
 homeRoters.addRoute(obj);
@@ -406,11 +396,9 @@ homePage.addRoute({
 });
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 ### Router class errorPage
-=======
-###Router class errorPage
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 you can specify a custom error page for every class you instantiate it to control on error links in a group of routes
 to do that you need to define "errorPage" method to the class
 
@@ -473,11 +461,9 @@ homeRouter.errorPage = (req, res) => {
 ```
 *not that if you didn't define error page for the router class it automatically call error page which you specified in setConfig function
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 ### Router url define params
-=======
-###Router url define params
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 you can add params to the url of the router to make dynamic routes like the following:
 ```javascript
 url: "/posts/:postId"
@@ -556,11 +542,9 @@ home.addRoute({
 ```
 
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 #### Handle post request
-=======
-####Handle post request
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 Grandjs handls all types of post requests and sumited data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of router is post
 
 **Example**
@@ -576,11 +560,9 @@ postAdminPage() {
 }
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
+
 #### Response Object
-=======
-####Response Object
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 this is an object you can access on it inside the handler of the route
 This object contains all methods that you need to send a response or content to the coming request
 
@@ -856,11 +838,8 @@ This function rreturns the string after cipher it
 let encryptedPassword = Grandjs.helpers.enCrypt("passowrd");
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-<<<<<<< HEAD
 #### deCrypt
-=======
-####deCrypt
->>>>>>> fa5e26fce57cc3ec8f9e21c717073a06e16c7ef3
+
 ```javascript
 Grandjs.helpers.deCrypt(text);
 ```
