@@ -63,14 +63,14 @@ Grandjs.setConfig({
 // init Grandjs
 Grandjs.initServer();
 ```
-<<<<<<< HEAD
-
 **content**
   - [Installing](#installing)
   - [Getting Started](#getting-started)
     - [Server configuration](#server-configuration)
     - [Router](#router)
       - [extend Router class](#extend-router-class)
+      - [define get routers](#define-get-routers)
+      - [define get routers](#define-post-routers)
       - [Access on request and response objects](#access-on-request-and-response-objects)
       - [Request object](#request-object)
         - [Request params](#request-params)
@@ -110,7 +110,7 @@ open the command prompt and navigate to the project folder and just say
 npm install grandjs --save
 ```
 ## Getting Started
-#### Server configuration
+### Server configuration
 to start with Grandjs just install it and call it in your file as the following
 ```javascript
 //require Grandjs framework
@@ -165,11 +165,10 @@ until now Grandjs doesn't work so you need to call "init function" to initialize
 ```javascript
 Grandjs.init();
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 ### Router
 
 * Grandjs Routing system is built upon object oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
-<br>
 
 **to work with router class you need to extend it or instatiate it directly and every class implies a group of routes have a specific basename**
 
@@ -210,8 +209,8 @@ class HomeRouter extends Grandjs.Router{
 | handler  |  function (required) | the function you want to run whem the request url matches the router url  |
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
-<hr style="border:.5px solid black;height:0">
-###Define get routers
+<!-- <hr style="border:.5px solid black;height:0"> -->
+### Define get routers
 **Example**
 ```javascript
 class HomeRouter extends Grandjs.Router{
@@ -234,8 +233,8 @@ class HomeRouter extends Grandjs.Router{
     }
 }
 ```
-<hr style="border:.5px solid black;height:0">
-###Define post routers
+<!-- <hr style="border:.5px solid black;height:0"> -->
+### Define post routers
 **Example**
 ```javascript
 class HomeRouter extends Grandjs.Router{
@@ -259,7 +258,7 @@ class HomeRouter extends Grandjs.Router{
 }
 ```
 
-###instantiate router class
+### instantiate router class
 **Example**
 ```javascript
 class HomeRouter extends Grandjs.Router{
@@ -297,7 +296,7 @@ const homeRoters = new HomeRouter({
     base: "/"
 });
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 ### Access on request and response objects
 
 to handle the routers and check requests and responses you need to access on them, so these object are accessable using different ways
@@ -345,8 +344,8 @@ homePage() {
     }
 }
 ```
-<hr style="border:.5px solid black;height:0">
-####Specify a separated folder for static files for this group of routes
+<!-- <hr style="border:.5px solid black;height:0"> -->
+#### Specify a separated folder for static files for this group of routes
 ```javascript
 const homeRoters = new HomeRouter({
     base: "/",
@@ -354,8 +353,8 @@ const homeRoters = new HomeRouter({
     staticFolder: "homePublic"
 });
 ```
-<hr style="border:.5px solid black;height:0">
-####Router add route
+<!-- <hr style="border:.5px solid black;height:0"> -->
+#### Router add route
 This function enables you to add routers to the class from outside it
 ```javascript
 homeRoters.addRoute(obj);
@@ -390,8 +389,8 @@ homePage.addRoute({
     }
 });
 ```
-<hr style="border:.5px solid black;height:0">
-###Router class errorPage
+<!-- <hr style="border:.5px solid black;height:0"> -->
+### Router class errorPage
 you can specify a custom error page for every class you instantiate it to control on error links in a group of routes
 to do that you need to define "errorPage" method to the class
 
@@ -453,8 +452,8 @@ homeRouter.errorPage = (req, res) => {
 }
 ```
 *not that if you didn't define error page for the router class it automatically call error page which you specified in setConfig function
-<hr style="border:.5px solid black;height:0">
-###Router url define params
+<!-- <hr style="border:.5px solid black;height:0"> -->
+### Router url define params
 you can add params to the url of the router to make dynamic routes like the following:
 ```javascript
 url: "/posts/:postId"
@@ -473,9 +472,9 @@ home.addRoute({
     }
 });
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
-####Request Object
+#### Request Object
 this is an object you can access on it inside the handler of the route
 and the object contains the all information about the request which is coming
 
@@ -532,8 +531,8 @@ home.addRoute({
 });
 ```
 
-<hr style="border:.5px solid black;height:0">
-####Handle post request
+<!-- <hr style="border:.5px solid black;height:0"> -->
+#### Handle post request
 Grandjs handls all types of post requests and sumited data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of router is post
 
 **Example**
@@ -548,8 +547,8 @@ postAdminPage() {
     }
 }
 ```
-<hr style="border:.5px solid black;height:0">
-####Response Object
+<!-- <hr style="border:.5px solid black;height:0"> -->
+#### Response Object
 this is an object you can access on it inside the handler of the route
 This object contains all methods that you need to send a response or content to the coming request
 
@@ -618,12 +617,12 @@ res.sendFile("/views/pages/home.html").catch((err) => {
 })
 ```
 
-####``res.json`` function
+#### ``res.json`` function
 this function sends json data, it accepts one parameter this parameter should be an object and Grandjs stringify this object automatically
 ```javascript
 res.json({user: "tarek", email: "test@gmail.com", id: 1});
 ```
-####``res.redirect`` function
+#### ``res.redirect`` function
 This function is used to make redirect to another link
 It accepts one parameter
 |parameter   |  type | description  |
@@ -634,7 +633,7 @@ It accepts one parameter
 res.redirect("/anotherurl");
 ```
 
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
 #### MiddleWares
 middlewares is a group of functions used to run something before executing the final handler
@@ -676,7 +675,7 @@ homePage() {
     }
 }
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 ### Validation
 Grandjs includes awesome validation system to validate inputs and remove strip tags and check the correct email
 **you can access on validation using on of two ways**
@@ -689,7 +688,7 @@ let str = "h1hello worldh1"
 Grandjs.helpers.validation.strip_html_tags(str) // output hello world
 ```
 
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
 #### ``validation.checkEmail`` function
 This function checks if the string is emain or not
@@ -718,7 +717,7 @@ Grandjs.helpers.validation.checkEmail("test@gmail.com", (email) => {
 let email = Grandjs.helpers.validation.checkEmail("test@gmail");
 console.log(email) // returns true if it email, if not,  returns false
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``validation.notEmpty`` function
 
 This function checks if the given string is empty or not
@@ -745,7 +744,7 @@ Grandjs.helpers.validation.notEmpty("", (notEmpty) => {
 let notEmpty = Grandjs.helpers.validation.notEmpty("");
 console.log(email) // returns true if it isn't empty, if it is empty,  returns false
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``validation.checkContainsNumber`` function
 
 This function checks if the given string contains numbers or not
@@ -774,7 +773,7 @@ let containsNumbers =
 Grandjs.helpers.validation.checkContainsNumber("Grandjs32test1", 3);
 console.log(containsNumbers) // returns true if it contains 3 numbers, returns false if not
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``validation.checkIsNumber`` function
 
 This function checks if the given parameter is a number or not
@@ -804,13 +803,13 @@ let test = 1222;
 let number = Grandjs.helpers.validation.checkIsNumber(test);
 console.log(number) // returns true if it is number, returns false if not
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
-###Cryption
+### Cryption
 Grandjs gives you functionalities to crypt important info and cipher them and decrypt the
 cryption functions are inside helpers inside grandjs library
 This helper uses the ``ENCRYPTION_KEY`` that you specify in ``setConfig`` function.
-####enCrypt
+#### enCrypt
 ```javascript
 Grandjs.helpers.enCrypt(text);
 ```
@@ -824,8 +823,8 @@ This function rreturns the string after cipher it
 // encrypt password
 let encryptedPassword = Grandjs.helpers.enCrypt("passowrd");
 ```
-<hr style="border:.5px solid black;height:0">
-####deCrypt
+<!-- <hr style="border:.5px solid black;height:0"> -->
+#### deCrypt
 ```javascript
 Grandjs.helpers.deCrypt(text);
 ```
@@ -839,10 +838,10 @@ This function rreturns the string after decipher it
 // encrypt password
 let decryptedPassword = Grandjs.helpers.deCrypt("passowrd");
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
 
-###Session
+### Session
 Grandjs represents to you a session module which you can use it in login processes and setting cookies for logged in users
 
 * you need to enable session in Grandjs configuration inside ``Grandjs.setConfig`` function as the following:
@@ -874,7 +873,7 @@ Grandjs.setConfig({
 
 **Not that session is a global variable you can access on it from anywhere insde the project**
 
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``session.set`` function
 This is a function you call it when you want to set a session, this function takes three parameters:
 | parameter  | type  | description  |
@@ -915,7 +914,7 @@ postRouter () {
     }
 }
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### `session.getSession` function
 This function gets the session of the user based on the name of the session that you specified in ``session.set`` function
 
@@ -924,14 +923,14 @@ if the session is exist this function returns an object contains data that you h
 let info = session.getSession("userdata");
 console.log(info) //output: object || undefined
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``session.updateSession`` function
 This function is very similar to ``session.set`` function and it takes the same parameters but this function you use it to updating an already exist session
 ```javascript
     // update exit session
     session.set("userdata", {name: "tarek", password: "blablabla"});
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
 #### ``session.breakSession`` function
 This function breaks the session and stops it, so you use it when the user logs out
@@ -941,7 +940,7 @@ This function takes one parameter, that parameter is the name of the session tha
 // break the session
 session.breakSession("userdata");
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 ### Auth module
 This module is a built in module in Grandjs, it is used to make authentication inside the system to allow user login and logout securely.
 This module depends on session
@@ -964,7 +963,7 @@ This function takes three parameters:
 // login the user
 auth.login("userdata", {username: "tarek", email:"test@gmail.com"});
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
 #### ``auth.checkAuth`` function
 This function is used to check if the user is logged in or not
@@ -974,7 +973,7 @@ This function is used to check if the user is logged in or not
 let logged = auth.checkAuth();
 // output: true | false
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``auth.Auth`` function
 This function is optional to use, the of it is if you are doing a heavy checks before require ``auth.login`` function so Grandjs represents to you this function which enables you to make some processing and returns a callback function after that has ``done`` parameter, it's value is: ``true`` or ``false``
 ```javascript
@@ -998,7 +997,7 @@ auth.Auth((done, cb) => {
     }
 })
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``auth.logout`` function
 This function depends on ``session.breakSession`` function, it logouts the user and destroys the session
 
@@ -1007,7 +1006,7 @@ This function depends on ``session.breakSession`` function, it logouts the user 
 // logout the user
 auth.logout();
 ```
-<hr style="border:.5px solid black;height:0">
+<!-- <hr style="border:.5px solid black;height:0"> -->
 
 ### Flash Messages
 Flash is an object inside ``request`` object, it allows you to set messages to send them to the handlebars to show allert messages or success or any message you want to show from backend to frontent
@@ -1059,5 +1058,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Handlebars template engine
 * Hat tip to anyone whose code was used
 * Inspiration
-=======
->>>>>>> 7b301d78f3b34515b174edd251f72bcf5c2f3fc7
