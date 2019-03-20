@@ -695,7 +695,7 @@ Grandjs includes awesome validation system to validate inputs and remove strip t
 **you can access on validation using on of two ways**
 1- Grandjs.helpers.validation
 2- as a property inside request object inside handlers
-#### ``validation.strip_html_tags`` function
+#### ``validation.striphtmltags`` function
 this function removes weird characters from the string to insure that there is no harmful characters inside the string
 ```javascript
 let str = "h1hello worldh1"
@@ -736,7 +736,8 @@ console.log(email) // returns true if it email, if not,  returns false
 
 This function checks if the given string is empty or not
 
-it accepts two parameters:
+it accepts two parameters
+
 | parameter  | type  |  description |
 |---|---|---|
 | string  |  string (required) | to test it is empty or not |
