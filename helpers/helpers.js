@@ -244,7 +244,12 @@ helpers.staticFiles = function(req, res, pathname, staticFolder, typeReq, cacheC
         ".ogv": "video/ogg",
         ".opus": "audio/ogg",
         ".svg": "image/svg+xml",
-        ".svgz": "image/svg+xml"
+        ".svgz": "image/svg+xml",
+        ".woff": "application/x-font-woff",
+        ".ttf": "font/ttf",
+        ".eot": "font/eot",
+        ".otf": "font/otf",
+        ".woff2": "font/woff2"
     };
     var dirName = path.join("", `${sourceFolder}`);
     var fileSource = path.join(dirName, pathname);
@@ -256,7 +261,7 @@ helpers.staticFiles = function(req, res, pathname, staticFolder, typeReq, cacheC
                 let fileState = fs.statSync(fileSource);
                 var headers = {
                     "Content-Type": mimeTypes[path.extname(pathname)] || 'application/octet-stream',
-                    'Cache-Control': `public, max-age=${cacheControl || 24*60*60}`,
+                    'Cache-Control': `public, max-age=${cacheControl || 'no-cache'}`,
                     'Content-Length': fileState.size
                 };
                 res.writeHead(302, headers);
