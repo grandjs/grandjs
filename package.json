@@ -1,14 +1,14 @@
 {
     "name": "grandjs",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "Grand.js",
     "scripts": {
         "test": "mocha"
     },
     "dependencies": {
-        "handlebars": "^4.1.1",
-        "url-pattern": "^1.0.3"
+        "handlebars": "*",
+        "url-pattern": "*"
     },
     "repository": {
         "type": "git",

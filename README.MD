@@ -2,11 +2,26 @@
 
 A backend framework for solid web apps based on node.js
 
+You want to build a solid web application but you don't want to use express and alot of packages you need to build a basic website, Grandjs is one framework includes all main functionalities you need to build amazin, solid and secured web application without needing for ton of packages and libraries.
+
 * Grandjs is built for solid and extended web apps
 
 ![GitHub contributors](https://img.shields.io/github/contributors/tareksalem/grandjs.svg?style=flat-square)
-![GitHub All Releases](https://img.shields.io/github/downloads/tareksalem/grandjs/total.svg)
+![npm](https://img.shields.io/npm/v/grandjs.svg)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/tareksalem/grandjs.svg)
+![npm](https://img.shields.io/npm/dt/grandjs.svg?color=green&style=popout)
+### Prerequisites
+
+1- you need to install node.js on your system
+2- init a new project using npm, so then we will be able to install this framework
+
+## Features
+* les packages and more productivity
+* Framework includes the most needed functionalities to build perfect web app
+* depends on Handlebars template Engine which is friendly with many developers
+* solid routing system built on Javascript object oriented programming and you can extend it as you need
+* controlled handling for every error page in your app
+* Grandjs is built for solid and extended web apps
 
 ```javascript
 //require HTTP module
@@ -53,8 +68,6 @@ Grandjs.initServer();
 ```
 
 **content**
-  - [Prerequisites](#prerequisites)
-  - [Features](#features)
   - [Installing](#installing)
   - [Getting Started](#getting-started)
     - [Server configuration](#server-configuration)
@@ -90,19 +103,6 @@ Grandjs.initServer();
   - [Authors](#authors)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
-
-### Prerequisites
-
-1- you need to install node.js on your system
-2- init a new project using npm, so then we will be able to install this framework
-
-## Features
-* les packages and more productivity
-* Framework includes the most needed functionalities to build perfect web app
-* depends on Handlebars template Engine which is friendly with many developers
-* solid routing system built on Javascript object oriented programming and you can extend it as you need
-* controlled handling for every error page in your app
-* Grandjs is built for solid and extended web apps
 
 ## Installing
 
