@@ -1,5 +1,5 @@
 const assert = require("chai").assert;
-const app = require("../Grand");
+const app = require("../lib/Grand");
 
 describe("App", () => {
     it("app should return an object", () => {

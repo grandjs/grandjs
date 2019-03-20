@@ -1,5 +1,5 @@
 const assert = require("chai").assert;
-const sessionLib = require("../helpers/sessionLib");
+const sessionLib = require("../lib/helpers/sessionLib");
 
 describe("sessionLib", () => {
     it("sessionLib should return an object", () => {

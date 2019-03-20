@@ -1,5 +1,5 @@
 const assert = require("chai").assert;
-const loginSystem = require("../helpers/loginSystem");
+const loginSystem = require("../lib/helpers/loginSystem");
 
 describe("loginSystem", () => {
     it("loginSystem should return an object", () => {
