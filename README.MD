@@ -406,6 +406,7 @@ to do that you need to define "errorPage" method to the class
 
 1- define it inside the class
 **Example**
+
 ```javascript
 class HomeRouter extends Grandjs.Router{
     constructor(options) {
@@ -416,7 +417,7 @@ class HomeRouter extends Grandjs.Router{
             url: "/",
             method: "get",
             handler: () => {
-                this.res.end("hello home page);
+                this.res.end("hello home page");
             }
         }
     }
@@ -425,7 +426,7 @@ class HomeRouter extends Grandjs.Router{
             url: "/about",
             method: "get",
             handler: () => {
-                this.res.end("hello about page);
+                this.res.end("hello about page");
             }
         }
     }
@@ -622,6 +623,7 @@ res.end("hello world");
 res.sendFile(path);
 ```
 this function takes on parameter
+
 |parameter   |  type | description  |
 |---|---|---|
 |  path |  String (required) | this parameter should specify the path of the file which you want to send |
@@ -642,6 +644,7 @@ res.json({user: "tarek", email: "test@gmail.com", id: 1});
 #### ``res.redirect`` function
 This function is used to make redirect to another link
 It accepts one parameter
+
 |parameter   |  type | description  |
 |---|---|---|
 |  url |  String (required) | this parameter should specify url that you want to redirect to |
@@ -664,6 +667,7 @@ Every middleware should has three parameters
 | req  | object  | implies the coming request object contains all information about the request  |
 |res   | object  | represents the response object  |
 | next  | function  | is a function you can execute it to continue to the final handler of the router  |
+
 **Example**
 ```javascript
 //middle ware
@@ -717,6 +721,7 @@ this function takes two parameters
 |---|---|---|
 | email  |  string (required) | this parameter is required and it should be string that you want to test it as email or not |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
+
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
@@ -745,6 +750,7 @@ it accepts two parameters
 |---|---|---|
 | string  |  string (required) | to test it is empty or not |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
+
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
@@ -774,6 +780,7 @@ it accepts three parameters
 | string  |  string (required) | to test it contains numbers or not |
 |  count | Number (required)  |  refers to the count of number you want to test the string contains. if you specify it for example 5 so the function checks if the given string contains five numbers |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
+
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
@@ -804,6 +811,7 @@ it accepts two parameters
 |---|---|---|
 | val  |  any (required) | to test it is number or not |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
+
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
@@ -834,6 +842,7 @@ This helper uses the ``ENCRYPTION_KEY`` that you specify in ``setConfig`` functi
 Grandjs.helpers.enCrypt(text);
 ```
 This function takes one parameter which referes to the string you wanna encrypt or cipher it
+
 |parameter   | type  | description  |
 |---|---|---|
 | text  | string (required)  | implies the text that you wanna cipher it |
@@ -850,6 +859,7 @@ let encryptedPassword = Grandjs.helpers.enCrypt("passowrd");
 Grandjs.helpers.deCrypt(text);
 ```
 This function takes one parameter which referes to the string you wanna decrypt or decipher it
+
 |parameter   | type  | description  |
 |---|---|---|
 | text  | string (required)  | implies the text that you wanna decipher it |
