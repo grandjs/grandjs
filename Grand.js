@@ -17,7 +17,8 @@ const sessionModule = require("./helpers/sessionLib");
 const loginSystem = require("./helpers/loginSystem");
 const RouteParser = require("url-pattern");
 // end dependencies
-
+let inited = false,
+    initedposts = false;
 //define a global variable
 global.baseDir = __dirname;
 class BuildServer {
@@ -43,7 +44,6 @@ class BuildServer {
                 self.classes.push(this);
                 self.bases.push(this.base);
                 self.classesRoutes[this.base] = this;
-                this.inited = false;
             }
             serveFiles(cb) {
                 let pathname = this.req.pathname;
@@ -76,7 +76,7 @@ class BuildServer {
                 if (req.method == "get") {
                     let getRouters = this.getRouters;
                     self.getRouters[this.id] = getRouters;
-                    if (this.inited == false) {
+                    if (inited == false) {
                         this.finalGetRouters = [];
                         this.getRouters.forEach((router) => {
                             router.url = `${this.base}/${router.url}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2").replace(/^(.+?)\/*?$/, "$1");
@@ -86,7 +86,7 @@ class BuildServer {
                             router.value = routePattern.ast[0].value.replace(/(https?:\/\/)|(\/)+/g, "$1$2").replace(/^(.+?)\/*?$/, "$1");
                             this.finalGetRouters.push(routePattern);
                         });
-                        this.inited = true;
+                        inited = true;
                     }
                     let matchedFinal;
                     let matchedRe = req.pathname;
@@ -130,7 +130,7 @@ class BuildServer {
                     }
                 } else if (req.method == "post" || req.method == "put" || req.method == "delete" || req.method == "patch") {
                     let postRouters = this.postRouters;
-                    if (this.inited == false) {
+                    if (initedposts == false) {
                         this.postRouters.forEach((router) => {
                             router.url = `${this.base}/${router.url}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2").replace(/^(.+?)\/*?$/, "$1");
                             router.method.toLowerCase();
@@ -139,7 +139,7 @@ class BuildServer {
                             router.value = routePattern.ast[0].value.replace(/(https?:\/\/)|(\/)+/g, "$1$2").replace(/^(.+?)\/*?$/, "$1");
                             this.finalGetRouters.push(routePattern);
                         });
-                        this.inited = true;
+                        initedposts = true;
                     }
                     self.postRouters[this.id] = postRouters;
                     let matchedFinal;
@@ -151,7 +151,7 @@ class BuildServer {
                             req.params = matchedFinal;
                         }
                     })
-                    let matchedURL = getRouters.find((router) => { return router.value == matchedRe });
+                    let matchedURL = postRouters.find((router) => { return router.value == matchedRe });
                     if (matchedURL) {
                         if (matchedURL.method == "post" || matchedURL.method == "put" || matchedURL.method == "delete" || matchedURL.method == "patch") {
                             res.statusCode = 200;
@@ -183,13 +183,13 @@ class BuildServer {
                                     function next() {
                                         nexted++;
                                         if (middleWares.length <= nexted) {
-                                            return matchedURL.handler(this.req, this.res);
+                                            return matchedURL.handler(req, res);
                                         } else {
                                             return middleWares[nexted](req, res, next);
                                         }
                                     }
                                 } else {
-                                    return matchedURL.handler(this.req, this.res);
+                                    return matchedURL.handler(req, res);
                                 }
                             })
                         } else {

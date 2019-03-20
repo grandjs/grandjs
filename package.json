@@ -1,6 +1,6 @@
 {
     "name": "grandjs",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "Grand.js",
     "scripts": {
