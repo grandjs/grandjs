@@ -287,6 +287,7 @@ const homeRoters = new HomeRouter({});
 ```
 
 when you instantiate the class you should define the options parameter as an object includes two properties
+
 | property   |     type   |descriptions |
 |----------|:-------------:|-----: |
 | base |  string (required) | implies the base url you want to add routers to it. so if you defined it as "/admin" all routers inside this class would be added to /admin|
@@ -366,6 +367,7 @@ This function enables you to add routers to the class from outside it
 homeRoters.addRoute(obj);
 ```
 this function takes one (required) parameter as an object has the following properties
+
 |Property   |  type |  description |
 |---|---|---|
 |  url |  string (required)| the url of the router  |
@@ -574,6 +576,7 @@ This function you use it to render html content using handlebars template engine
 res.render()
 ```
 takes one parameter as an object, this object should contains the following properties
+
 | property  |  type | description |
 |---|---|---|
 |  container |  string (required) | this property you specify the container folder which includes all handlebars files  |
@@ -765,6 +768,7 @@ console.log(email) // returns true if it isn't empty, if it is empty,  returns f
 This function checks if the given string contains numbers or not
 
 it accepts three parameters
+
 | parameter  | type  |  description |
 |---|---|---|
 | string  |  string (required) | to test it contains numbers or not |
@@ -795,6 +799,7 @@ This function checks if the given parameter is a number or not
 you can use this function to authenticate phone number and stuf like that
 
 it accepts two parameters
+
 | parameter  | type  |  description |
 |---|---|---|
 | val  |  any (required) | to test it is number or not |
@@ -882,6 +887,7 @@ Grandjs.setConfig({
 })
 ```
 ``setCooki`` is an object, you specify inside it an object called ``expires`` this object has two properties
+
 |property   | type  | description  |
 |---|---|---|
 |days   | number (optional)  | refers to the number of days that you want to set the cookie until it  |
@@ -892,6 +898,7 @@ Grandjs.setConfig({
 <!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``session.set`` function
 This is a function you call it when you want to set a session, this function takes three parameters
+
 | parameter  | type  | description  |
 |---|---|---|
 |sessionName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
@@ -970,6 +977,7 @@ This function is used to login the user when he signs up or in.
 
 
 This function takes three parameters
+
 | parameter  | type  | description  |
 |---|---|---|
 |loginName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
