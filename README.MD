@@ -72,7 +72,7 @@ Grandjs.initServer();
     - [Router](#router)
       - [extend Router class](#extend-router-class)
       - [define get routers](#define-get-routers)
-      - [define get routers](#define-post-routers)
+      - [define post routers](#define-post-routers)
       - [Access on request and response objects](#access-on-request-and-response-objects)
       - [Request object](#request-object)
         - [Request params](#request-params)
@@ -120,7 +120,7 @@ const Grandjs = require("Grand");
 ```
 if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases Grandjs behind the seen requires HTTP module as a default.
 
-Now you need to call seConfig function to set some configuration for the project
+Now you need to call setConfig function to set some configuration for the project
 
 ```javascript
 Grandjs.setConfig({});
@@ -222,7 +222,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters.push(this.homePage);
+        this.getRouters.push(this.homePage());
     }
     homePage() {
         return {
@@ -249,7 +249,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.postRouters.push(this.homePagePost);
+        this.postRouters.push(this.homePagePost());
     }
     homePagePost() {
         return {
@@ -275,7 +275,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters.push(this.homePage);
+        this.getRouters.push(this.homePage());
     }
     homePage() {
         return {
@@ -310,7 +310,7 @@ const homeRoters = new HomeRouter({
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Access on request and response objects
 
-to handle the routers and check requests and responses you need to access on them, so these object are accessable using different ways
+to handle the routers and check requests and responses you need to access on them, so these objects are accessable using different ways
 
 1- req & res objects are properties inside the class
 
@@ -322,7 +322,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters.push(this.homePage);
+        this.getRouters.push(this.homePage());
     }
     homePage() {
         return {
@@ -479,7 +479,57 @@ homeRouter.errorPage = (req, res) => {
 }
 ```
 *not that if you didn't define error page for the router class it automatically call error page which you specified in setConfig function
-<!-- <hr style="border:.5px solid black;height:0"> -->
+
+### Global middleWares
+
+Global middle ware is a way to apply middlewares on a class which includes group of routers
+
+globalMiddleWares is an array inside the class you can define it inside the constructor and put inside it functions that you want to run when the client requests the base name of that class
+**Example**
+```javascript
+class HomeRouter extends Grandjs.Router{
+    constructor(options) {
+        super(options);
+        // you can add one middleWare or more and it would be applied according to the arrangment
+        this.globalMiddleWares = [this.sendMessage]
+    }
+    sendMessage(req, res, next) {
+        res.write("message from middleWare");
+        // continue to the next hanlders
+        next();
+    }
+    homePage() {
+        return {
+            url: "/",
+            method: "get",
+            handler: () => {
+                this.res.end("hello home page");
+            }
+        }
+    }
+    aboutPage() {
+        return {
+            url: "/about",
+            method: "get",
+            handler: () => {
+                this.res.end("hello about page");
+            }
+        }
+    }
+    // customize error page
+    errorPage() {
+        this.res.end("error page")
+    }
+}
+```
+**not that the middlWares array can include many middleWare functions and the middleWares are applied according to the indexing inside the array**
+Every middleWare has three parameters
+
+| parameter  | type  | description  |
+|---|---|---|
+| req  | object  | implies the coming request object contains all information about the request  |
+|res   | object  | represents the response object  |
+| next  | function  | is a function you can execute it to continue to the next middleWare or to the final handler of the router  |
 
 ### Router url define params
 
@@ -691,7 +741,7 @@ Every middleware should has three parameters
 |---|---|---|
 | req  | object  | implies the coming request object contains all information about the request  |
 |res   | object  | represents the response object  |
-| next  | function  | is a function you can execute it to continue to the final handler of the router  |
+| next  | function  | is a function you can execute it to continue to the next middleWare or to the final handler of the router  |
 
 **Example**
 
@@ -722,6 +772,8 @@ homePage() {
     }
 }
 ```
+**not that the middlWares array can include many middleWare functions and the middleWares are applied according to the indexing inside the array**
+
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Validation
 Grandjs includes awesome validation system to validate inputs and remove strip tags and check the correct email
