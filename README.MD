@@ -1,7 +1,7 @@
 # Grandjs
 A backend framework for solid web apps based on node.js
 
-You want to build a solid web application but you don't want to use express and alot of packages you need to build a basic website, Grandjs is one framework includes all main functionalities you need to build amazin, solid and secured web application without needing for ton of packages and libraries.
+You want to build a solid web application but you don't want to use express and a lot of packages you need to build a basic website, Grandjs is one framework includes all main functionalities you need to build amazing, solid and secured web application without need for a ton of packages and libraries.
 
 * Grandjs is built for solid and extended web apps
 
@@ -16,10 +16,10 @@ You want to build a solid web application but you don't want to use express and 
 2- init a new project using npm, so then we will be able to install this framework
 
 ## Features
-* les packages and more productivity
-* Framework includes the most needed functionalities to build perfect web app
+* fewer packages and more productivity
+* Framework includes the most needed functionalities to build a perfect web app
 * depends on Handlebars template Engine which is friendly with many developers
-* solid routing system built on Javascript object oriented programming and you can extend it as you need
+* solid routing system built on Javascript object-oriented programming and you can extend it as you need
 * controlled handling for every error page in your app
 * Grandjs is built for solid and extended web apps
 ```javascript
@@ -118,7 +118,7 @@ to start with Grandjs just install it and call it in your file as the following
 //require Grandjs framework
 const Grandjs = require("Grand");
 ```
-if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases Grandjs behind the seen requires HTTP module as a default.
+if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases, Grandjs behind the seen requires HTTP module as a default.
 
 Now you need to call setConfig function to set some configuration for the project
 
@@ -170,7 +170,7 @@ Grandjs.init();
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Router
 
-* Grandjs Routing system is built upon object oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
+* Grandjs Routing system is built upon object-oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
 
 **to work with router class you need to extend it or instatiate it directly and every class implies a group of routes have a specific basename**
 
@@ -183,13 +183,13 @@ class HomeRouter extends Grandjs.Router{
     }
 }
 ```
-As any extended class you should call the super inside the constructor and pass the options parameter
+As any extended class, you should call the super inside the constructor and pass the options parameter
 
 | parameter   |     type   | 
 |----------|:-------------:|
 | options |  Object |
 
-Now after defining the class you should define the get routers which related to this class
+Now after defining the class, you should define the get routers which related to this class
 Router class has a property called "getRouters" this is an array and you push inside it the routers you add within the class with the GET method
 
 **Example**
@@ -206,9 +206,9 @@ class HomeRouter extends Grandjs.Router{
 
 |Property   |  type |  description |
 |---|---|---|
-|  url |  string (required)| the url of the router  |
+|  URL |  string (required)| the URL of the router  |
 | method  |  string (required) |  HTTP method get / post / patch / put / delete |
-| handler  |  function (required) | the function you want to run whem the request url matches the router url  |
+| handler  |  function (required) | the function you want to run when the request URL matches the router url  |
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
 <!-- <hr style="border:.5px solid black;height:0"> -->
@@ -297,8 +297,8 @@ when you instantiate the class you should define the options parameter as an obj
 
 | property   |     type   |descriptions |
 |----------|:-------------:|-----: |
-| base |  string (required) | implies the base url you want to add routers to it. so if you defined it as "/admin" all routers inside this class would be added to /admin|
-| staticFolder  | string(optional)  | the name of the folder you want to serve assets and statoc files from it. The default value of it is the global staticFolder that you specified in setConfig function
+| base |  string (required) | implies the base URL you want to add routers to it. so if you defined it as "/admin" all routers inside this class would be added to /admin|
+| staticFolder  | string(optional)  | the name of the folder you want to serve assets and static files from it. The default value of it is the global staticFolder that you specified in setConfig function
 
 **Example**
 
@@ -310,7 +310,7 @@ const homeRoters = new HomeRouter({
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Access on request and response objects
 
-to handle the routers and check requests and responses you need to access on them, so these objects are accessable using different ways
+to handle the routers and check requests and responses you need to access them, so these objects are accessible using different ways
 
 1- req & res objects are properties inside the class
 
@@ -382,9 +382,9 @@ this function takes one (required) parameter as an object has the following prop
 
 |Property   |  type |  description |
 |---|---|---|
-|  url |  string (required)| the url of the router  |
+|  URL |  string (required)| the URL of the router  |
 | method  |  string (required) |  HTTP method get / post / patch / put / delete |
-| handler  |  function (required) | the function you want to run whem the request url matches the router url  |
+| handler  |  function (required) | the function you want to run when the request URL matches the router url  |
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
 **Example**
@@ -482,7 +482,7 @@ homeRouter.errorPage = (req, res) => {
 
 ### Global middleWares
 
-Global middle ware is a way to apply middlewares on a class which includes group of routers
+Global middleware is a way to apply middlewares on a class which includes a group of routers
 
 globalMiddleWares is an array inside the class you can define it inside the constructor and put inside it functions that you want to run when the client requests the base name of that class
 **Example**
@@ -529,15 +529,15 @@ Every middleWare has three parameters
 |---|---|---|
 | req  | object  | implies the coming request object contains all information about the request  |
 |res   | object  | represents the response object  |
-| next  | function  | is a function you can execute it to continue to the next middleWare or to the final handler of the router  |
+| next  | function  | is a function you can execute it to continue to the next middleware or to the final handler of the router  |
 
-### Router url define params
+### Router URL define params
 
-you can add params to the url of the router to make dynamic routes like the following:
+you can add params to the URL of the router to make dynamic routes like the following:
 ```javascript
 url: "/posts/:postId"
 ```
-to access on the parameters inside the url using [request.params property](#request-params)
+to access the parameters inside the URL using [request.params property](#request-params)
 
 **Example**
 
@@ -557,25 +557,25 @@ home.addRoute({
 
 #### Request Object
 this is an object you can access on it inside the handler of the route
-and the object contains the all information about the request which is coming
+and the object contains all information about the request which is coming
 
 |Property   |  type |  description |
 |---|---|---|
 | req.method  | string  | returns the method of the current request  |
-|  req.pathname |  string |  returns the requested url without query string |
-|req.path  |  string | returns the requested url with query string |
-|req.href  |  string | returns the requested url with query string |
-| req.url  |  object | returns object contains the parsed url  |
-|req.query   |  object | contains the query & search in the url(it parsed as key and value)  |
+|  req.pathname |  string |  returns the requested URL without query string |
+|req.path  |  string | returns the requested URL with query string |
+|req.href  |  string | returns the requested URL with query string |
+| req.url  |  object | returns object contains the parsed URL  |
+|req.query   |  object | contains the query & search in the URL(it parsed as key and value)  |
 | req.params  |  object | returns the query parameters if it exists as key and value  |
-| req.validation  | object  | returns an object contains some helper functions to valiate the email and string  |
+| req.validation  | object  | returns an object contains some helper functions to validate the email and string  |
 | req.data  | object  | returns an object contains the posted data if the method is "post"  |
-|  req.headers | object  | returns the headers of the comming request  |
+|  req.headers | object  | returns the headers of the coming request  |
 | req.flash  | object  |  this object enables you to set messages to send it to handlebars to show to the user |
 
 #### Request params
-returns an object contains the parameters of the router url and it's value if it exists
-if there is no params so it returns an empty object
+returns an object contains the parameters of the router URL and it's value if it exists
+if there are no params so it returns an empty object
 
 **Example**
 
@@ -618,7 +618,7 @@ home.addRoute({
 
 #### Handle post request
 
-Grandjs handls all types of post requests and sumited data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of router is post
+Grandjs handles all types of post requests and submitted data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of the router is post
 
 **Example**
 
@@ -642,12 +642,12 @@ This object contains all methods that you need to send a response or content to 
 
 #### ``res.render`` function
 
-This function you use it to render html content using handlebars template engine
+This function you use it to render HTML content using handlebars template engine
 
 ```javascript
 res.render()
 ```
-takes one parameter as an object, this object should contains the following properties
+takes one parameter as an object, this object should contain the following properties
 
 | property  |  type | description |
 |---|---|---|
@@ -735,7 +735,7 @@ middlewares is a group of functions used to run something before executing the f
 
 the middWares property should be an array includes the functions
 
-Every middleware should has three parameters
+Every middleware should have three parameters
 
 | parameter  | type  | description  |
 |---|---|---|
@@ -797,7 +797,7 @@ this function takes two parameters
 
 | parameter  | type  |  description |
 |---|---|---|
-| email  |  string (required) | this parameter is required and it should be string that you want to test it as email or not |
+| email  |  string (required) | this parameter is required and it should be a string that you want to test it as email or not |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
 
 This function you can call it async with a callback function or sync without callback
@@ -856,7 +856,7 @@ it accepts three parameters
 | parameter  | type  |  description |
 |---|---|---|
 | string  |  string (required) | to test it contains numbers or not |
-|  count | Number (required)  |  refers to the count of number you want to test the string contains. if you specify it for example 5 so the function checks if the given string contains five numbers |
+|  count | Number (required)  |  refers to the count of the number you want to test the string contains. if you specify it for example 5 so the function checks if the given string contains five numbers |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
 
 This function you can call it async with a callback function or sync without callback
@@ -881,13 +881,13 @@ console.log(containsNumbers) // returns true if it contains 3 numbers, returns f
 #### ``validation.checkIsNumber`` function
 
 This function checks if the given parameter is a number or not
-you can use this function to authenticate phone number and stuf like that
+you can use this function to authenticate phone number and stuff like that
 
 it accepts two parameters
 
 | parameter  | type  |  description |
 |---|---|---|
-| val  |  any (required) | to test it is number or not |
+| value  |  any (required) | to test it is number or not |
 |  cb |  function (optional) |  this is a callback function you can call it and includes one parameter either be true or false  |
 
 This function you can call it async with a callback function or sync without callback
@@ -912,14 +912,14 @@ console.log(number) // returns true if it is number, returns false if not
 <!-- <hr style="border:.5px solid black;height:0"> -->
 
 ### Cryption
-Grandjs gives you functionalities to crypt important info and cipher them and decrypt the
-cryption functions are inside helpers inside grandjs library
+Grandjs gives you functionalities to crypt important info and cipher them and decrypt them
+encryption functions are inside helpers inside grandjs library
 This helper uses the ``ENCRYPTION_KEY`` that you specify in ``setConfig`` function.
 #### enCrypt
 ```javascript
 Grandjs.helpers.enCrypt(text);
 ```
-This function takes one parameter which referes to the string you wanna encrypt or cipher it
+This function takes one parameter which refers to the string you wanna encrypt or cipher it
 
 |parameter   | type  | description  |
 |---|---|---|
@@ -936,7 +936,7 @@ let encryptedPassword = Grandjs.helpers.enCrypt("passowrd");
 ```javascript
 Grandjs.helpers.deCrypt(text);
 ```
-This function takes one parameter which referes to the string you wanna decrypt or decipher it
+This function takes one parameter which refers to the string you wanna decrypt or decipher it
 
 |parameter   | type  | description  |
 |---|---|---|
@@ -979,9 +979,9 @@ Grandjs.setConfig({
 |property   | type  | description  |
 |---|---|---|
 |days   | number (optional)  | refers to the number of days that you want to set the cookie until it  |
-|minutes   | number  | referes to the number of minutes that you want set the cookie until it  |
+|minutes   | number  | refers to the number of minutes that you want to set the cookie until it  |
 
-**Not that session is a global variable you can access on it from anywhere insde the project**
+**Not that session is a global variable you can access on it from anywhere inside the project**
 
 <!-- <hr style="border:.5px solid black;height:0"> -->
 #### ``session.set`` function
@@ -995,7 +995,7 @@ This is a function you call it when you want to set a session, this function tak
 
 **Example on session inside handler function**
 
-* set it without custom cookie
+* set it without a custom cookie
 ```javascript
 postRouter () {
     return {
@@ -1054,13 +1054,13 @@ session.breakSession("userdata");
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Auth module
 This module is a built in module in Grandjs, it is used to make authentication inside the system to allow user login and logout securely.
-This module depends on session
+This module depends on the session
 
 * Auth module is a global module you can access on it from any file inside the project
-* This module represents to some functionalities for loging in process
+* This module represents to some functionalities for logging in process
 
 #### ``auth.login`` function
-This function is used to login the user when he signs up or in.
+This function is used to log in the user when he signs up or in.
 * This function takes the same parameters of ``session.set`` function and ``auth.login`` depends on it
 
 
@@ -1121,7 +1121,7 @@ auth.logout();
 <!-- <hr style="border:.5px solid black;height:0"> -->
 
 ### Flash Messages
-Flash is an object inside ``request`` object, it allows you to set messages to send them to the handlebars to show allert messages or success or any message you want to show from backend to frontent
+Flash is an object inside ``request`` object, it allows you to set messages to send them to the handlebars to show alert messages or success or any message you want to show from backend to frontend
 
 
 flash is accessable inside any router handler
