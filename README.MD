@@ -1010,6 +1010,11 @@ postRouter () {
 }
 ```
 * set it with a custom cookie
+
+| property  | type  | description  |
+|---|---|---|
+|expires   | object  | the epires days and minutes of cookies  |
+|  path | string (default: /)  | represents the path that you want to make the user logged in, it is set to / as default  |
 ```javascript
 postRouter () {
     return {
@@ -1019,7 +1024,10 @@ postRouter () {
             let userdata = this.req.data;
             // set it without custom cookie
             session.set("userdata", userdata, {
-                days: 1 // set the cookie for one day only
+                expires: {
+                    days: 1 // set the cookie for one day only
+                },
+                path: "/" // if you want set the cookie for a specific path
             });
         }
     }
