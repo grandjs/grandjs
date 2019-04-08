@@ -97,12 +97,14 @@ Grandjs.initServer();
     - [session](#session)
     - [Auth module](#auth-module)
     - [Flash Messages](#flash-messages)
+    - [Add MimeTypees](#add-mimetypes)
   - [Built With](#built-with)
   - [Contributing](#contributing)
   - [Versioning](#versioning)
   - [Authors](#authors)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
+  - 
 
 ## Installing
 
@@ -1161,6 +1163,25 @@ router.addRoute({
     }
 })
 ```
+## Add MimeTypes
+if you want to serve more static files with another mimetype not exist in our built in mimetypes, so you can use the following function
+```javascript
+Grandjs.addMimeTypes(extention, mimeType);
+```
+
+This function takes two parameters
+
+|Parameter| type| description|
+|---|---|----|
+|   extention   |  string (required) | represents the extention of the file that you want to check  |
+|   mimeType   |  string (required) | The mime type that you want to set in the response header for the specific file  |
+
+**Exanple**
+
+```javascript
+Granjs.addMimeType(".pdf", "application/pdf");
+```
+
 ## Built With
 * [Tarek Salem](https://github.com/tareksalem)
 
