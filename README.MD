@@ -1176,7 +1176,7 @@ This function takes two parameters
 |   extention   |  string (required) | represents the extention of the file that you want to check  |
 |   mimeType   |  string (required) | The mime type that you want to set in the response header for the specific file  |
 
-**Exanple**
+**Exmple**
 
 ```javascript
 Granjs.addMimeType(".pdf", "application/pdf");
