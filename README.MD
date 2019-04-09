@@ -1179,7 +1179,7 @@ This function takes two parameters
 **Exmple**
 
 ```javascript
-Granjs.addMimeType(".pdf", "application/pdf");
+Granjs.addMimeTypes(".pdf", "application/pdf");
 ```
 
 ## Built With
