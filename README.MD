@@ -26,7 +26,7 @@ You want to build a solid web application but you don't want to use express and 
 //require HTTP module
 const http = require("http");
 //require Grandjs framework
-const Grandjs = require("Grand");
+const Grandjs = require("grandjs");
 
 // set the configuration of the framework
 Grandjs.setConfig({
@@ -118,7 +118,7 @@ npm install grandjs --save
 to start with Grandjs just install it and call it in your file as the following
 ```javascript
 //require Grandjs framework
-const Grandjs = require("Grand");
+const Grandjs = require("grandjs");
 ```
 if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases, Grandjs behind the seen requires HTTP module as a default.
 
@@ -167,7 +167,7 @@ Grandjs.setConfig({
 
 until now Grandjs doesn't work so you need to call "init function" to initialize the server
 ```javascript
-Grandjs.init();
+Grandjs.initServer();
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Router
