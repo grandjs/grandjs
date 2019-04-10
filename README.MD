@@ -200,7 +200,7 @@ Router class has a property called "getRouters" this is an array and you push in
 class HomeRouter extends Grandjs.Router{
     constructor(options) {
         super(options);
-        this.getRouters.push()
+        this.getRouters = []
     }
 }
 ```
@@ -224,7 +224,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters.push(this.homePage());
+        this.getRouters = [this.homePage()];
     }
     homePage() {
         return {
@@ -251,7 +251,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.postRouters.push(this.homePagePost());
+        this.postRouters  = [this.homePagePost()];
     }
     homePagePost() {
         return {
@@ -277,7 +277,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters.push(this.homePage());
+        this.getRouters = [this.homePage()];
     }
     homePage() {
         return {
@@ -324,7 +324,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters.push(this.homePage());
+        this.getRouters = [this.homePage()];
     }
     homePage() {
         return {
