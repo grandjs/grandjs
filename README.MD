@@ -144,6 +144,11 @@ Grandjs.setConfig({
     staticFolder: "public",
     //enable the session
     session: true,
+    // if you specified https so you should ssl files in this object
+    httpsMode: {
+        key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+        cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+    }
     //set the encryption key, Grandjs uses encription key to cypher info
     ENCRYPTION_KEY: "ncryptiontestforencryptionproces",
     // set the max age of cookies when you set the session of logged in users
