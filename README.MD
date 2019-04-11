@@ -917,11 +917,11 @@ let number = Grandjs.helpers.validation.checkIsNumber(test);
 console.log(number) // returns true if it is number, returns false if not
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
-
 ### Cryption
 Grandjs gives you functionalities to crypt important info and cipher them and decrypt them
 encryption functions are inside helpers inside grandjs library
 This helper uses the ``ENCRYPTION_KEY`` that you specify in ``setConfig`` function.
+**not that the length of ``ENCRYPTION_KEY`` should be 32 character**
 #### enCrypt
 ```javascript
 Grandjs.helpers.enCrypt(text);
