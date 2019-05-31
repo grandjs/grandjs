@@ -1,3 +1,4 @@
+<p align="center"><img width="200" height="200" src="https://i.ibb.co/t4MDdkq/grandjs.png" alt="Grandjs logo"></p>
 # Grandjs
 A backend framework for solid web apps based on node.js
 
