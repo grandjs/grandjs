@@ -1,6 +1,6 @@
 {
     "name": "grandjs",
-    "version": "1.2.12",
+    "version": "1.2.14",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "index.js",
     "scripts": {
