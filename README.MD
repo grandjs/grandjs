@@ -86,7 +86,7 @@ Grandjs.initServer();
         - [``res.json`` function](#resjson-function)
         - [``res.redirect`` function](#resredirect-function)
       - [middleWares](#middlewares)
-      - [Use Router class inside another router class](#userRouter)
+      - [Use Router class inside another router class](#Use-Router-class-inside-another-router-class)
     - [Validation](#validation)
       - [``validation.strip_html_tags`` function](#validationstriphtmltags-function)
       - [``validation.checkEmail`` function](#validationcheckemail-function)
@@ -741,49 +741,7 @@ this function sets the status of the response with http status code, it accepts 
 ```javascript
 res.status(200).json({user: "tarek", email: "test@gmail.com", id: 1});
 ```
-#### UserRouter
-you can build a router class and append another router class to its parent, This is designed for special use case as the following:
-suggest you have parent router class has basename `/admin`
-and you want to group some of routes to manage products for example so the default way you can create another class with basename `/admin/products`
-so we came up with the solution to use router classes inside another routing classes which give you the flexibility to use child routes inside parent route as the following:
-```javascript
-// admin product routes
-class ProductRoutes extends Router{
-    constructor(options) {
-        super(options);
-        // add post routers to the array
-        this.postRouters = [this.addProduct()]
-    }
-    addProduct() {
-        return {
-            url: "/product",
-            method: "POST",
-            handler: (req, res) => {
-                console.log(req.data);
-            }
-        }
-    }
-}
 
-// admin router
-class AdminRoutes extends Router{
-    constructor(options) {
-        super(options)
-        this.getRouters = [this.homePage()];
-        // use child router class
-        this.useRouter(ProductRoutes)
-    }
-    homePaage() {
-        return {
-            url: "/",
-            method: "GET",
-            handler: (req, res) => {
-                res.end("home page!");
-            }
-        }
-    }
-}
-```
 #### MiddleWares
 middleWares is a group of functions used to run something before executing the final handler
 
@@ -826,9 +784,52 @@ homePage() {
     }
 }
 ```
-**not that the middlWares array can include many middleWare functions and the middleWares are applied according to the indexing inside the array**
+**note that the middlWares array can include many middleWare functions and the middleWares are applied according to the indexing inside the array**
 
-<!-- <hr style="border:.5px solid black;height:0"> -->
+#### Use Router class inside another router class
+you can build a router class and append another router class to its parent, This is designed for special use case as the following:
+suggest you have parent router class has basename `/admin`
+and you want to group some of routes to manage products for example so the default way you can create another class with basename `/admin/products`
+so we came up with the solution to use router classes inside another routing classes which give you the flexibility to use child routes inside parent route as the following:
+```javascript
+// admin product routes
+class ProductRoutes extends Router{
+    constructor(options) {
+        super(options);
+        // add post routers to the array
+        this.postRouters = [this.addProduct()]
+    }
+    addProduct() {
+        return {
+            url: "/product",
+            method: "POST",
+            handler: (req, res) => {
+                console.log(req.data);
+            }
+        }
+    }
+}
+
+// admin router
+class AdminRoutes extends Router{
+    constructor(options) {
+        super(options)
+        this.getRouters = [this.homePage()];
+        // use child router class
+        this.useRouter(ProductRoutes)
+    }
+    homePaage() {
+        return {
+            url: "/",
+            method: "GET",
+            handler: (req, res) => {
+                res.end("home page!");
+            }
+        }
+    }
+}
+```
+
 ### Validation
 Grandjs includes awesome validation system to validate inputs and remove strip tags and check the correct email
 **you can access on validation using on of two ways**
