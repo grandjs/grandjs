@@ -183,6 +183,7 @@ Grandjs.initServer();
 
 **to work with router class you need to extend it or instatiate it directly and every class implies a group of routes have a specific basename**
 
+
 #### extend Router class
 
 ```javascript
