@@ -1,15 +1,15 @@
 {
     "name": "grandjs",
-    "version": "1.2.24",
+    "version": "1.2.25",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "index.js",
     "scripts": {
         "test": "mocha"
     },
     "dependencies": {
-        "handlebars": "*",
-        "url-pattern": "*",
-        "multiparty": "*"
+        "handlebars": "^4.5.3",
+        "multiparty": "*",
+        "url-pattern": "*"
     },
     "repository": {
         "type": "git",
@@ -31,6 +31,6 @@
     "homepage": "https://github.com/tareksalem/grandjs#readme",
     "devDependencies": {
         "chai": "^4.2.0",
-        "mocha": "^6.0.2"
+        "mocha": "^6.2.2"
     }
 }
