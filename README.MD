@@ -70,6 +70,8 @@ Grandjs.initServer();
   - [Installing](#installing)
   - [Getting Started](#getting-started)
     - [Server configuration](#server-configuration)
+    -[Accessing Grandjs Server](#accessing-grandjs-server)
+    - [Grandjs MiddleWares](#grandjs-middlewares)
     - [Router](#router)
       - [extend Router class](#extend-router-class)
       - [define get routers](#define-get-routers)
@@ -78,6 +80,7 @@ Grandjs.initServer();
       - [Request object](#request-object)
         - [Request params](#request-params)
         - [Handle post request](#handle-post-request)
+        - [Request Uploaded Files](#request-uploaded-files)
       - [Response object](#response-object)
         - [``res.render`` function](#resrender-function)
         - [``res.write`` function](#reswrite-function)
@@ -100,13 +103,14 @@ Grandjs.initServer();
     - [Auth module](#auth-module)
     - [Flash Messages](#flash-messages)
     - [Add MimeTypees](#add-mimetypes)
+    - [Grandjs File Upload](#grandjs-file-upload)
+    - [Socket Io Support](#socket-io-support)
   - [Built With](#built-with)
   - [Contributing](#contributing)
   - [Versioning](#versioning)
   - [Authors](#authors)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
-  - 
 
 ## Installing
 
@@ -177,6 +181,54 @@ until now Grandjs doesn't work so you need to call "init function" to initialize
 Grandjs.initServer();
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
+
+
+### Accessing Grandjs Server
+After initializing grandjs, maybe you want to use the created server or access on it's properties so you can access on grandjs node server via this property from grandjs
+```javascript
+Grandjs.server // returns the nodejs server
+```
+
+
+### Grandjs MiddleWares
+as every nodejs developer used to add middleware to the express app to be executed before the routes, grandjs does also something similar
+
+In grandjs you have three types of middlewares
+- global middleare over app
+- global middleware over single router class (group of routes)
+- private middleware over single route
+
+we will explain the last two types of middlewares in the Router section, but here we will talk about global middlewares over app.
+
+Global middlewares over app are middlewares you want to run before executing any router in the app, this type of middlewares often is used for injecting dependencies in the app or make global settings for the whole app.
+
+to set global middleware you can use `Grandjs.use` function as the following:
+
+```javascript
+Grandjs.setConfig({});
+
+// add global middleware here
+Grandjs.use();
+Grandjs.initServer();
+```
+`Grandjs.use` function takes one argument which should be a function, this function has regular three arguments as the following:
+```javascript
+Grandjs.use((req, res, next) => {
+    // continue
+    return next();
+});
+```
+
+- `req` is the incoming request object
+- `res` is the response object to send response or set headers
+- `next` is a function to call to continue to the next middleware or to start executing the routers
+
+
+**Note**
+
+Grandjs takes the function which passed in `use` function and pushes it to an array of middlewares which will be executed later when a route hs requested, so these middlewares will be executed by their arrange inside the array.
+To continue to the next global middleware or to start executing the matched router class you have to call `next` function, without it the routes will not be executed.
+
 ### Router
 
 * Grandjs Routing system is built upon object-oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
@@ -643,8 +695,49 @@ postAdminPage() {
     }
 }
 ```
-<!-- <hr style="border:.5px solid black;height:0"> -->
 
+
+
+
+
+#### Request Uploaded Files
+
+In Grandjs You can upload files easily without any extra settings, all you should do is specifying Request header as `multipart/form-data`
+
+Grandjs Uses multiparty package for file uploading
+
+You can access on the uploaded files via `files` property in the request object as the following:
+
+```javascript
+postAdminPage() {
+    return {
+        method: "post",
+        url: "/admin/uploadInfo",
+        handler: (req, res) => {
+            console.log(req.files) //output {} contains all uploaded files
+        }
+    }
+}
+```
+
+`req.files` property is an object which includes the uploaded files as properties, each property incarnates the uploaded file as an object, but if there are multiple files uploaded with the same filed name so they will be grouped together inside the property name as an array of objects
+
+each object has the following properties:
+
+```javascript
+{
+      name: 'images' // the name of the filed,
+      filename: 'download (1).jpeg' // original file name,
+      data: <Buffer> // the file content as buffer,
+      size: 14473 // size of file,
+      extension: '.jpg' // the extension type of file,
+      mimetype: 'image/jpeg' // mime type of file,
+      stream: [Duplex] // ability to use this file to stream it,
+       headers: [Object] // the sent headers with this file,
+      byteOffset: 147,
+      byteCount: 27975 // bytes count
+
+```
 #### Response Object
 
 this is an object you can access on it inside the handler of the route
@@ -1235,6 +1328,98 @@ This function takes two parameters
 ```javascript
 Granjs.addMimeTypes(".pdf", "application/pdf");
 ```
+
+
+### Grandjs File Upload
+
+<font color='red'>Experimental Feature</font>
+
+
+Grandjs includes a small helpers for working with files and images specifically, you can use it  via calling it from grandjs:
+```javascript
+const Grandjs = require("grandjs");
+
+const FileUpload = Grandjs.FileUpload;
+```
+
+file upload has property called `uploadPath` which is the destination to save files in, you can change it anytime by calling `setUploadPath` method as the following:
+
+```javascript
+FileUpload.setUploadPath("./uploads");
+```
+
+FileUpload has implementation to make a directory in a specific destination
+
+**Example**
+```javascript
+FileUpload.makeDirectory("./uploads/images");
+```
+
+
+##### Save Base64 as image
+you can save base 64 file as image using this function:
+```javascript
+FileUpload.saveImageBase64(data, uploadPath)
+/*
+uploadPth: // default is uploadPath of the class
+*/
+```
+this function returns promise
+
+
+
+
+### Socket Io Support
+Grandjs is extendable to use with socket io for realtime applications, here is an example on using grandjs with socket io
+
+```javascript
+const Grandjs = require("grandjs");
+const socketIo = require("socket.io");
+Grandjs.setConfig({
+    //define the port
+    port: process.env.PORT || 3000,
+    // http is optional you can specify http or https, if you don't specify Grandjs automatically require HTTP module
+    http: http,
+    // if you specified https so you should ssl files in this object
+    httpsMode: {
+        key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+        cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+    }
+    // define the static files container folder
+    staticFolder: "public",
+    //enable the session
+    session: true,
+    //set the encryption key, Grandjs uses encription key to cypher info
+    ENCRYPTION_KEY: "ncryptiontestforencryptionproces",
+    // set the max age of cookies when you set the session of logged in users
+    setCookie: {
+        expires: {
+            days: 20,
+            minutes: 30
+        }
+    },
+
+    //set it true to see the console info while development process
+    logger: true,
+
+    //set error page for global error pages
+    errorPage(req, res) {
+        res.end("error page");
+    }
+});
+
+// init Grandjs
+Grandjs.initServer();
+
+
+const io = socketIo(Grandjs.server);
+io.on("connect", () => {
+    console.log("connected successfully")
+})
+```
+
+now once you run the application you can connect on socket via port `3000`
+
 
 ## Built With
 * [Tarek Salem](https://github.com/tareksalem)
