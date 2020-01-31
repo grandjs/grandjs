@@ -70,6 +70,7 @@ Grandjs.initServer();
   - [Installing](#installing)
   - [Getting Started](#getting-started)
     - [Server configuration](#server-configuration)
+    - [Cors]($cors)
     -[Accessing Grandjs Server](#accessing-grandjs-server)
     - [Grandjs MiddleWares](#grandjs-middlewares)
     - [Router](#router)
@@ -167,6 +168,12 @@ Grandjs.setConfig({
 
     //set it true to see the console info while development process
     logger: true,
+    cors : {
+        origin: '*',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+    },
 
     //set error page for global error pages
     errorPage(req, res) {
@@ -182,6 +189,70 @@ Grandjs.initServer();
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
 
+
+### Cors
+Grandjs uses Cors Module which is used in express, you can use the default settings of it as you use in expressjs
+
+Grandjs installs cors and set default configuration automatically, however you can set your own configurations
+
+
+### Cors Configuration
+Grandjs allows you to set cors configuration on multiple level of routes as the following:
+- cors setting over all app routes
+**Example**
+```javascript
+Grandjs.setConfig({
+    cors : {
+        origin: '*',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+    },
+
+})
+```
+- cors setting over specific Router "group of routes"
+**Example**
+```javascript
+class HomeRouter extends Grandjs.Router{
+    constructor(options) {
+        super(options);
+        this.cors = {
+            origin: '*',
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            preflightContinue: false,
+            optionsSuccessStatus: 204
+        };
+    }
+}
+```
+- cors setting over specific route
+**Example**
+```javascript
+class HomeRouter extends Grandjs.Router{
+    constructor(options) {
+        super(options);
+        this.getRouters = [this.homePage()];
+    }
+    homePage() {
+        return {
+            cors: {
+                origin: '*',
+                methods: 'GET,',
+                preflightContinue: false,
+                optionsSuccessStatus: 204
+        }   ,
+            //define the url of router
+            url: "/",
+            // define the method of the router
+            method: "GET",
+            handler: () => {
+                // handle the request and do the functionalities
+            }
+        }
+    }
+}
+```
 
 ### Accessing Grandjs Server
 After initializing grandjs, maybe you want to use the created server or access on it's properties so you can access on grandjs node server via this property from grandjs
