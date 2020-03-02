@@ -42,6 +42,8 @@ Grandjs.setConfig({
     }
     // define the static files container folder
     staticFolder: "public",
+        // internal path
+    bindStaticFolder: process.env.assetsPath,
     //enable the session
     session: true,
     //set the encryption key, Grandjs uses encription key to cypher info
@@ -149,6 +151,8 @@ Grandjs.setConfig({
     http: http,
     // define the static files container folder
     staticFolder: "public",
+        // internal path
+    bindStaticFolder: process.env.assetsPath,
     //enable the session
     session: true,
     // if you specified https so you should ssl files in this object
@@ -433,6 +437,8 @@ when you instantiate the class you should define the options parameter as an obj
 | base |  string (required) | implies the base URL you want to add routers to it. so if you defined it as "/admin" all routers inside this class would be added to /admin|
 | staticFolder  | string(optional)  | the name of the folder you want to serve assets and static files from it. The default value of it is the global staticFolder that you specified in setConfig function
 
+| bindStaticFolder  | string(optional)  | the internal path that you want to redirect your assets route to it without showing it in the url
+
 **Example**
 
 ```javascript
@@ -509,7 +515,10 @@ homePage() {
 const homeRoters = new HomeRouter({
     base: "/",
     //specify the container folder fo static file for all routes inside this class
-    staticFolder: "homePublic"
+    // front path
+    staticFolder: "homePublic",
+    // internal path
+    bindStaticFolder: process.env.assetsPath
 });
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
@@ -1467,6 +1476,8 @@ Grandjs.setConfig({
     }
     // define the static files container folder
     staticFolder: "public",
+        // internal path
+    bindStaticFolder: process.env.assetsPath,
     //enable the session
     session: true,
     //set the encryption key, Grandjs uses encription key to cypher info
