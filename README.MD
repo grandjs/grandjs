@@ -440,6 +440,15 @@ const homeRoters = new HomeRouter({
     base: "/"
 });
 ```
+
+### Build Router
+after instantiating the router, to make it works you need to call `build` method to start building and constructing the router
+```javascript
+const homeRoters = new HomeRouter({
+    base: "/"
+});
+homeRouters.build();
+```
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Access on request and response objects
 
