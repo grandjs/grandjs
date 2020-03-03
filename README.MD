@@ -446,6 +446,18 @@ const homeRoters = new HomeRouter({
     base: "/"
 });
 ```
+####  Note
+you can also specify the basename of the router class inside the class constructor as the following:
+```javascript
+class HomeRouters extends Grand.Router{
+    constructor() {
+        this.base = "/admin"
+    }
+}
+```
+
+if you follow this pattern so you don't need to add base property when you instantiate the class because the base will be passed before
+
 
 ### Build Router
 after instantiating the router, to make it works you need to call `build` method to start building and constructing the router
