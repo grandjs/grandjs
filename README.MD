@@ -23,6 +23,12 @@ You want to build a solid web application but you don't want to use express and 
 * solid routing system built on Javascript object-oriented programming and you can extend it as you need
 * controlled handling for every error page in your app
 * Grandjs is built for solid and extended web apps
+* Built in template engine using jsx
+* Extendable Routing System
+* Accepts Express Packages such as (body-parser, cookie-parser, morgan, cors)
+* built in cors Handler
+Built in request body parser
+Usable for Typescript Apps
 ```javascript
 //require HTTP module
 const http = require("http");
@@ -41,23 +47,16 @@ Grandjs.setConfig({
         cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
     }
     // define the static files container folder
-    staticFolder: "public",
-        // internal path
-    bindStaticFolder: process.env.assetsPath,
-    //enable the session
-    session: true,
-    //set the encryption key, Grandjs uses encription key to cypher info
-    ENCRYPTION_KEY: "ncryptiontestforencryptionproces",
-    // set the max age of cookies when you set the session of logged in users
-    setCookie: {
-        expires: {
-            days: 20,
-            minutes: 30
-        }
+    staticFolder: {
+        // set the path of the folder of assets
+        path: path.join(process.cwd(), "/public"),
+        // set the global url that will be consumed by http request
+        url: "/public"
     },
-
-    //set it true to see the console info while development process
-    logger: true,
+        //set the encryption key, Grandjs uses encription key to cypher info
+    ENCRYPTION_KEY: "ncryptiontestforencryptionproces",
+    // use native request body parser or not
+    nativeParser: true || false,
 
     //set error page for global error pages
     errorPage(req, res) {
@@ -114,6 +113,20 @@ Grandjs.initServer();
   - [Authors](#authors)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
+  - [JSX](#JSX)
+
+
+# Whats New ?
+Grandjs now supports the following
+- JSX Syntax for rendering dynamic content instead of using template engins
+- many of express packages are now compatible with Grandjs such as cookie-parser, session, flash, morgan, express-fileupload, body-parser
+- Typescript support!, Grandjs has major updates one of these updates is rebuilding the package again using typescript and changing the architecture of the project
+
+## Please don't Forget to support us by rating the project!, Also you can contribute us
+
+
+## Objectives
+We aim to make grandjs the successor of express js with new vision, architecture, and modern javascript features like Router inheritance to build extendable, scalable web applications without repeating your self!
 
 ## Installing
 
@@ -125,10 +138,17 @@ npm install grandjs --save
 ## Getting Started
 ### Server configuration
 to start with Grandjs just install it and call it in your file as the following
+**Javascript**
 ```javascript
-//require Grandjs framework
-const Grandjs = require("grandjs");
+//require Grandjs framework in javascript
+const {Server, Router, Request, Response} = require("grandjs/lib");
 ```
+
+**Typescript**
+```typescript
+import {Server, Router, Request, Response} from "grandjs/src"
+```
+
 if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases, Grandjs behind the seen requires HTTP module as a default.
 
 Now you need to call setConfig function to set some configuration for the project
@@ -140,48 +160,46 @@ Grandjs.setConfig({});
 
 **Example on all configuration**
 ```javascript
-const http = require("http");
-const Grandjs = require("Grand");
+
+//javascript
+const {Server, Router} = require("grandjs/lib");
+
+//typescript
+import {Server, Router} from "grandjs/src";
 
 // define Grandjs configuration
-Grandjs.setConfig({
-    //define the port of the server
-    port: 3000,
+Server.setConfig({
+    //define the port
+    port: process.env.PORT || 3000,
     // http is optional you can specify http or https, if you don't specify Grandjs automatically require HTTP module
     http: http,
-    // define the static files container folder
-    staticFolder: "public",
-        // internal path
-    bindStaticFolder: process.env.assetsPath,
-    //enable the session
-    session: true,
     // if you specified https so you should ssl files in this object
     httpsMode: {
         key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
         cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
-    }
+    },
+    // define the static files container folder
+    staticFolder: {
+        // set the path of the folder of assets
+        path: path.join(process.cwd(), "/public"),
+        // set the global url that will be consumed by http request
+        url: "/public"
+    },
     //set the encryption key, Grandjs uses encription key to cypher info
     ENCRYPTION_KEY: "ncryptiontestforencryptionproces",
-    // set the max age of cookies when you set the session of logged in users
-    setCookie: {
-        expires: {
-            days: 20,
-            minutes: 30
-        }
-    },
+    // use native request body parser or not
+    nativeParser: true || false,
 
-    //set it true to see the console info while development process
-    logger: true,
+    //set error page for global error pages
+    errorPage(req, res) {
+        res.end("error page");
+    },
+    // configure cors
     cors : {
         origin: '*',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         preflightContinue: false,
         optionsSuccessStatus: 204
-    },
-
-    //set error page for global error pages
-    errorPage(req, res) {
-        res.end("error page");
     }
 })
 ```
@@ -189,9 +207,9 @@ Grandjs.setConfig({
 
 until now Grandjs doesn't work so you need to call "init function" to initialize the server
 ```javascript
-Grandjs.initServer();
+Server.initServer();
 ```
-<!-- <hr style="border:.5px solid black;height:0"> -->
+
 
 
 ### Cors
@@ -204,8 +222,15 @@ Grandjs installs cors and set default configuration automatically, however you c
 Grandjs allows you to set cors configuration on multiple level of routes as the following:
 - cors setting over all app routes
 **Example**
+
 ```javascript
-Grandjs.setConfig({
+// javascript
+const {Server} = require("grandjs/lib");
+// typescript
+
+import {Server} from "grandjs/src";
+
+Server.setConfig({
     cors : {
         origin: '*',
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -217,8 +242,14 @@ Grandjs.setConfig({
 ```
 - cors setting over specific Router "group of routes"
 **Example**
+
 ```javascript
-class HomeRouter extends Grandjs.Router{
+// javascript
+const {Server, Router} = require("grandjs/lib");
+// typescript
+
+import {Server, Router} from "grandjs/src";
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
         this.cors = {
@@ -232,8 +263,14 @@ class HomeRouter extends Grandjs.Router{
 ```
 - cors setting over specific route
 **Example**
+
 ```javascript
-class HomeRouter extends Grandjs.Router{
+// javascript
+const {Server, Router} = require("grandjs/lib");
+// typescript
+
+import {Server, Router} from "grandjs/src";
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
         this.getRouters = [this.homePage()];
@@ -260,8 +297,17 @@ class HomeRouter extends Grandjs.Router{
 
 ### Accessing Grandjs Server
 After initializing grandjs, maybe you want to use the created server or access on it's properties so you can access on grandjs node server via this property from grandjs
+
 ```javascript
-Grandjs.server // returns the nodejs server
+// javascript
+const {Server} = require("grandjs/lib");
+// typescript
+
+import {Server} from "grandjs/src";
+
+
+Server.Server
+// -> http Server
 ```
 
 
@@ -277,18 +323,23 @@ we will explain the last two types of middlewares in the Router section, but her
 
 Global middlewares over app are middlewares you want to run before executing any router in the app, this type of middlewares often is used for injecting dependencies in the app or make global settings for the whole app.
 
-to set global middleware you can use `Grandjs.use` function as the following:
+to set global middleware you can use `Server.use` function as the following:
 
 ```javascript
-Grandjs.setConfig({});
+// javascript
+const {Server} = require("grandjs/lib");
+// typescript
+
+import {Server} from "grandjs/src";
+Server.setConfig({});
 
 // add global middleware here
-Grandjs.use();
-Grandjs.initServer();
+Server.use();
+Server.initServer();
 ```
-`Grandjs.use` function takes one argument which should be a function, this function has regular three arguments as the following:
+`Server.use` function takes one argument which should be a function, this function has regular three arguments as the following:
 ```javascript
-Grandjs.use((req, res, next) => {
+Server.use((req, res, next) => {
     // continue
     return next();
 });
@@ -308,18 +359,24 @@ To continue to the next global middleware or to start executing the matched rout
 
 * Grandjs Routing system is built upon object-oriented programming, so Router is a class inside Grandjs you extend it and add routes to it as you wanna
 
-**to work with router class you need to extend it or instatiate it directly and every class implies a group of routes have a specific basename**
+**to work with router class you need to extend it or instatiate it directly and every class implies a group of routes have a specific base url**
 
 
 #### extend Router class
 
 ```javascript
-class HomeRouter extends Grandjs.Router{
+// javascript
+const {Server, Router} = require("grandjs/lib");
+// typescript
+
+import {Server, Router} from "grandjs/src";
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
     }
 }
 ```
+
 As any extended class, you should call the super inside the constructor and pass the options parameter
 
 | parameter   |     type   | 
@@ -332,13 +389,14 @@ Router class has a property called "getRouters" this is an array and you push in
 **Example**
 
 ```javascript
-class HomeRouter extends Grandjs.Router{
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
         this.getRouters = []
     }
 }
 ```
+
 **you can add routers which related to this class as methods inside the class and every method you use it as a router it should return an object has the following properties**
 
 |Property   |  type |  description |
@@ -354,12 +412,17 @@ class HomeRouter extends Grandjs.Router{
 **Example**
 
 ```javascript
-class HomeRouter extends Grandjs.Router{
+// javascript
+const {Server} = require("grandjs/lib");
+// typescript
+
+import {Server} from "grandjs/src";
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
 
         //push the homePage method route into getRouters array
-        this.getRouters = [this.homePage()];
+        this.getRouters.push(this.homePage());
     }
     homePage() {
         return {
@@ -367,14 +430,14 @@ class HomeRouter extends Grandjs.Router{
             url: "/",
             // define the method of the router
             method: "GET",
-            handler: () => {
+            handler: (req, res) => {
                 // handle the request and do the functionalities
             }
         }
     }
 }
 ```
-<!-- <hr style="border:.5px solid black;height:0"> -->
+
 
 ### Define post routers
 
@@ -386,7 +449,7 @@ class HomeRouter extends Grandjs.Router{
         super(options);
 
         //push the homePage method route into getRouters array
-        this.postRouters  = [this.homePagePost()];
+        this.postRouters.push(this.homePagePost());
     }
     homePagePost() {
         return {
@@ -394,7 +457,7 @@ class HomeRouter extends Grandjs.Router{
             url: "/",
             // define the method of the router
             method: "POST",
-            handler: () => {
+            handler: (req, res) => {
                 // handle the request and do the functionalities
             }
         }
@@ -407,7 +470,12 @@ class HomeRouter extends Grandjs.Router{
 **Example**
 
 ```javascript
-class HomeRouter extends Grandjs.Router{
+// javascript
+const {Server, Router} = require("grandjs/lib");
+// typescript
+
+import {Server, Router} from "grandjs/src";
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
 
@@ -427,7 +495,7 @@ class HomeRouter extends Grandjs.Router{
     }
 }
 // instantiate the class
-const homeRoters = new HomeRouter({});
+const homeRoters = new HomeRouter({base: "/"});
 ```
 
 when you instantiate the class you should define the options parameter as an object includes two properties
@@ -435,9 +503,9 @@ when you instantiate the class you should define the options parameter as an obj
 | property   |     type   |descriptions |
 |----------|:-------------:|-----: |
 | base |  string (required) | implies the base URL you want to add routers to it. so if you defined it as "/admin" all routers inside this class would be added to /admin|
-| staticFolder  | string(optional)  | the name of the folder you want to serve assets and static files from it. The default value of it is the global staticFolder that you specified in setConfig function
-
-| bindStaticFolder  | string(optional)  | the internal path that you want to redirect your assets route to it without showing it in the url
+| staticFolder  | object(optional)  | the name of the folder you want to serve assets and static files from it. The default value of it is the global staticFolder that you specified in setConfig function
+| staticFolder.path  | string(optional)  |the path to read files from|
+|staticFolder.url|string|the url that will resolve the static and assets content|
 
 **Example**
 
@@ -448,8 +516,9 @@ const homeRoters = new HomeRouter({
 ```
 ####  Note
 you can also specify the basename of the router class inside the class constructor as the following:
+
 ```javascript
-class HomeRouters extends Grand.Router{
+class HomeRouters extends Router{
     constructor() {
         this.base = "/admin"
     }
@@ -460,13 +529,20 @@ if you follow this pattern so you don't need to add base property when you insta
 
 
 ### Build Router
+
 after instantiating the router, to make it works you need to call `build` method to start building and constructing the router
+
 ```javascript
+
 const homeRoters = new HomeRouter({
     base: "/"
 });
+// this builds the router to be ready for runtime execution
 homeRouters.build();
 ```
+**Note**
+
+Building routers should be before `Server.initServer` method
 <!-- <hr style="border:.5px solid black;height:0"> -->
 ### Access on request and response objects
 
@@ -477,7 +553,7 @@ to handle the routers and check requests and responses you need to access them, 
 **Example**
 
 ```javascript
-class HomeRouter extends Grandjs.Router{
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
 
@@ -528,9 +604,10 @@ const homeRoters = new HomeRouter({
     base: "/",
     //specify the container folder fo static file for all routes inside this class
     // front path
-    staticFolder: "homePublic",
-    // internal path
-    bindStaticFolder: process.env.assetsPath
+    staticFolder: {
+        path: path.join(process.cwd(), "/assets"),
+        url: "/assets"
+    },
 });
 ```
 <!-- <hr style="border:.5px solid black;height:0"> -->
@@ -538,6 +615,7 @@ const homeRoters = new HomeRouter({
 #### Router add route
 
 This function enables you to add routers to the class from outside it
+
 ```javascript
 homeRoters.addRoute(obj);
 ```
@@ -553,7 +631,12 @@ this function takes one (required) parameter as an object has the following prop
 **Example**
 
 ```javascript
-const adminRoute = new Grandjs.Router({
+// javascript
+const {Server, Router} = require("grandjs/lib");
+// typescript
+
+import {Server, Router} from "grandjs/src";
+const adminRoute = new Router({
     baes: "/admin"
 })
 // add main route to admin base
@@ -618,7 +701,7 @@ class HomeRouter extends Grandjs.Router{
 **Example**
 
 ```javascript
-const homeRouter = new Grandjs.Router({
+const homeRouter = new Router({
     baes: "/"
 })
 // add main route to admin base
@@ -641,16 +724,18 @@ homeRouter.errorPage = (req, res) => {
     res.end("error page");
 }
 ```
-*not that if you didn't define error page for the router class it automatically call error page which you specified in setConfig function
+
+**not** that if you didn't define error page for the router class it automatically call error page which you specified in setConfig function
 
 ### Global middleWares
 
 Global middleware is a way to apply middlewares on a class which includes a group of routers
 
 globalMiddleWares is an array inside the class you can define it inside the constructor and put inside it functions that you want to run when the client requests the base name of that class
+
 **Example**
 ```javascript
-class HomeRouter extends Grandjs.Router{
+class HomeRouter extends Router{
     constructor(options) {
         super(options);
         // you can add one middleWare or more and it would be applied according to the arrangment
@@ -685,7 +770,9 @@ class HomeRouter extends Grandjs.Router{
     }
 }
 ```
+
 **not that the middlWares array can include many middleWare functions and the middleWares are applied according to the indexing inside the array**
+
 Every middleWare has three parameters
 
 | parameter  | type  | description  |
@@ -697,6 +784,7 @@ Every middleWare has three parameters
 ### Router URL define params
 
 you can add params to the URL of the router to make dynamic routes like the following:
+
 ```javascript
 url: "/posts/:postId"
 ```
@@ -705,7 +793,7 @@ to access the parameters inside the URL using [request.params property](#request
 **Example**
 
 ```javascript
-const homePage = new Grandjs.Router({
+const homePage = new Router({
     baes: "/"
 })
 home.addRoute({
@@ -733,6 +821,7 @@ and the object contains all information about the request which is coming
 | req.params  |  object | returns the query parameters if it exists as key and value  |
 | req.validation  | object  | returns an object contains some helper functions to validate the email and string  |
 | req.data  | object  | returns an object contains the posted data if the method is "post"  |
+| req.body  | object  | returns an object contains the posted data if the method is "post"  |
 |  req.headers | object  | returns the headers of the coming request  |
 | req.flash  | object  |  this object enables you to set messages to send it to handlebars to show to the user |
 
@@ -743,7 +832,7 @@ if there are no params so it returns an empty object
 **Example**
 
 ```javascript
-const homePage = new Grandjs.Router({
+const homePage = new Router({
     baes: "/"
 })
 home.addRoute({
@@ -758,6 +847,8 @@ home.addRoute({
         console.log(req.href) //output /posts/tech?postId=2
         console.log(req.method) //output "get"
         console.log(req.url) 
+        console.log(req.body);
+        console.log(req.data);
         /* output 
         Url {
         protocol: null,
@@ -781,7 +872,7 @@ home.addRoute({
 
 #### Handle post request
 
-Grandjs handles all types of post requests and submitted data and returns them as an object called ``req.data`` this object contains all the submitted data and you can access on it inside the handler function if the method of the router is post
+Grandjs handles all types of post requests and submitted data and returns them as an object called ``req.data`` and another property `req.body` this object contains all the submitted data and you can access on it inside the handler function if the method of the router is post
 
 **Example**
 
@@ -791,14 +882,11 @@ postAdminPage() {
         method: "post",
         url: "/admin/addinfo",
         handler: (req, res) => {
-            console.log(req.data) //output {} contains all submitted info
+            console.log(req.data || req.data) //output {} contains all submitted info
         }
     }
 }
 ```
-
-
-
 
 
 #### Request Uploaded Files
@@ -839,6 +927,15 @@ each object has the following properties:
       byteCount: 27975 // bytes count
 
 ```
+**Note**
+
+For Request Body parsing you have two options
+
+1- use native Grandjs request parser which will also parse request with formdata
+
+2- use `body-parser` package for parsing json requests and use `express-fileupload` for parsing `multipart/form-data` request body
+
+
 #### Response Object
 
 this is an object you can access on it inside the handler of the route
@@ -846,7 +943,7 @@ This object contains all methods that you need to send a response or content to 
 
 #### ``res.render`` function
 
-This function you use it to render HTML content using handlebars template engine
+This function you use it to render HTML content using JSX Stateless Components
 
 ```javascript
 res.render()
@@ -855,31 +952,54 @@ takes one parameter as an object, this object should contain the following prope
 
 | property  |  type | description |
 |---|---|---|
-|  container |  string (required) | this property you specify the container folder which includes all handlebars files  |
-| layout  | string (required)  | should be the path of the layout file |
-| body  | string (optional)  | should be the path of the body file  |
-|  partials | Array (optional)  | every item inside this array should be a string refers to the path of the partial file that you want to append to the layout  |
-| data  | object (optional)  | object contains the data you want to render inside the handlbars files  
+|  Component |  Function | A functional Component written in JSX Syntax to be rendered as an HTML|
+| data  | object (optional)  | object contains the data you want to render inside the rendered component
 
 **Example**
 
+Create App.jsx File
+```jsx
+// import View here (mandatory)
+// javascript
+const {View} = require("grandjs/lib");
+
+// typescript
+import {View} from "grandjs/src";
+const App = (props) => {
+    return (
+        <div>
+            Hello world
+            <h2>{props.message}</h2>
+        </div>
+    )
+}
+// use native exporting method either for typescript or javascript
+module.exports = App
+```
+
 ```javascript
+// javascript
+const {Server, Router, View} = require("grandjs/lib");
+
+// typescript
+import {Server, Router, View} from "grandjs/src";
+
+// load jsx file
+const App = View.importJsx("./App.jsx");
     homePageRouter() {
         return {
             url: "/",
             method: "get",
             handler: () => {
-                // render content using handlebars template engine
-                this.res.render({
-                    container: "views",
-                    layout: "/layouts/layout.hbs",
-                    body: "/pages/home.hbs"
-                })
+                // render jsx component
+                this.res.render(App, {message: "Hello Grandjs"})
             }
         }
     }
 ```
+
 #### ``res.write`` function
+
 this function is like the native api of node.js, it allows you to send strings to the client
 
 ```javascript
@@ -887,6 +1007,7 @@ res.write("hello world");
 //end the response
 res.end("");
 ```
+
 #### ``res.end`` function
 this function is like the native api of node.js, it allows you to send strings to the client
 
@@ -916,10 +1037,13 @@ res.sendFile("/views/pages/home.html").catch((err) => {
 ```
 
 #### ``res.json`` function
+
 this function sends json data, it accepts one parameter this parameter should be an object and Grandjs stringify this object automatically
+
 ```javascript
 res.json({user: "tarek", email: "test@gmail.com", id: 1});
 ```
+
 #### ``res.redirect`` function
 This function is used to make redirect to another link
 It accepts one parameter
@@ -931,9 +1055,12 @@ It accepts one parameter
 ```javascript
 res.redirect("/anotherurl");
 ```
+
 ### ``res.status`` function
 this function sets the status of the response with http status code, it accepts one parameter which is the status code of the response
+
 ```javascript
+
 res.status(200).json({user: "tarek", email: "test@gmail.com", id: 1});
 ```
 
@@ -954,7 +1081,7 @@ Every middleware should have three parameters
 
 ```javascript
 //middle ware
-function writeWithMiddleware(req, res, next) {    
+function writeWithMiddleware(req, res, next) {
     // has three parameters
     /*
     1- req: the request object
@@ -979,6 +1106,7 @@ homePage() {
     }
 }
 ```
+
 **note that the middlWares array can include many middleWare functions and the middleWares are applied according to the indexing inside the array**
 
 #### Use Router class inside another router class
@@ -986,6 +1114,7 @@ you can build a router class and append another router class to its parent, This
 suggest you have parent router class has basename `/admin`
 and you want to group some of routes to manage products for example so the default way you can create another class with basename `/admin/products`
 so we came up with the solution to use router classes inside another routing classes which give you the flexibility to use child routes inside parent route as the following:
+
 ```javascript
 // admin product routes
 class ProductRoutes extends Router{
@@ -1026,11 +1155,31 @@ class AdminRoutes extends Router{
 ```
 
 ### Validation
+
 Grandjs includes awesome validation system to validate inputs and remove strip tags and check the correct email
 **you can access on validation using on of two ways**
-1- Grandjs.helpers.validation
-2- as a property inside request object inside handlers
+1- importing the module
+
+**Example**
+
+```javascript
+//javascript
+const {validation} = require("grandjs/lib");
+
+// typescript
+import {validation} from "grandjs/src";
+```
+
+2- as a property inside the request object
+
+```javascript
+const handler = (req, res) => {
+    console.log(req.validation);
+}
+```
+
 #### ``validation.striphtmltags`` function
+
 this function removes weird characters from the string to insure that there is no harmful characters inside the string
 ```javascript
 let str = "h1hello worldh1"
@@ -1082,7 +1231,9 @@ it accepts two parameters
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
+
 ```javascript
+
 Grandjs.helpers.validation.notEmpty("", (notEmpty) => {
     if(notEmpty) {
         console.log(notEmpty) //output true if it is not empty
@@ -1091,8 +1242,11 @@ Grandjs.helpers.validation.notEmpty("", (notEmpty) => {
     }
 });
 ```
+
 2- without callback
+
 ```javascript
+
 let notEmpty = Grandjs.helpers.validation.notEmpty("");
 console.log(email) // returns true if it isn't empty, if it is empty,  returns false
 ```
@@ -1112,6 +1266,7 @@ it accepts three parameters
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
+
 ```javascript
 Grandjs.helpers.validation.checkContainsNumber("Grandjs32test1", 3, (containsNumbers) => {
     if(containsNumbers) {
@@ -1121,7 +1276,9 @@ Grandjs.helpers.validation.checkContainsNumber("Grandjs32test1", 3, (containsNum
     }
 });
 ```
+
 2- without callback
+
 ```javascript
 let containsNumbers = 
 Grandjs.helpers.validation.checkContainsNumber("Grandjs32test1", 3);
@@ -1143,6 +1300,7 @@ it accepts two parameters
 This function you can call it async with a callback function or sync without callback
 
 1- with callback function
+
 ```javascript
 let test = 1222;
 Grandjs.helpers.validation.checkIsNumber(test, (number) => {
@@ -1159,16 +1317,22 @@ let test = 1222;
 let number = Grandjs.helpers.validation.checkIsNumber(test);
 console.log(number) // returns true if it is number, returns false if not
 ```
-<!-- <hr style="border:.5px solid black;height:0"> -->
+
+
 ### Cryption
 Grandjs gives you functionalities to crypt important info and cipher them and decrypt them
 encryption functions are inside helpers inside grandjs library
 This helper uses the ``ENCRYPTION_KEY`` that you specify in ``setConfig`` function.
+
 **not that the length of ``ENCRYPTION_KEY`` should be 32 character**
+
 #### enCrypt
 ```javascript
+
 Grandjs.helpers.enCrypt(text);
+
 ```
+
 This function takes one parameter which refers to the string you wanna encrypt or cipher it
 
 |parameter   | type  | description  |
@@ -1176,15 +1340,20 @@ This function takes one parameter which refers to the string you wanna encrypt o
 | text  | string (required)  | implies the text that you wanna cipher it |
 
 This function rreturns the string after cipher it
+
 ```javascript
+const {Cipher} = require("grandjs/lib");
 // encrypt password
-let encryptedPassword = Grandjs.helpers.enCrypt("passowrd");
+let encryptedPassword = Cipher.enCrypt("passowrd");
 ```
-<!-- <hr style="border:.5px solid black;height:0"> -->
+
+
 #### deCrypt
 
 ```javascript
-Grandjs.helpers.deCrypt(text);
+
+const {Cipher} = require("grandjs/lib");
+Cipher.deCrypt(text);
 ```
 This function takes one parameter which refers to the string you wanna decrypt or decipher it
 
@@ -1193,6 +1362,7 @@ This function takes one parameter which refers to the string you wanna decrypt o
 | text  | string (required)  | implies the text that you wanna decipher it |
 
 This function rreturns the string after decipher it
+
 ```javascript
 // encrypt password
 let decryptedPassword = Grandjs.helpers.deCrypt("passowrd");
@@ -1201,220 +1371,37 @@ let decryptedPassword = Grandjs.helpers.deCrypt("passowrd");
 
 
 ### Session
-Grandjs represents to you a session module which you can use it in login processes and setting cookies for logged in users
 
-* you need to enable session in Grandjs configuration inside ``Grandjs.setConfig`` function as the following:
-```javascript
-Grandjs.setConfig({
-    // enable session module
-    session: true
-})
-```
-2- now you need to set the max age of cookies for global sessions inside ``Grandjs.setConfig`` function as the following:
-```javascript
-Grandjs.setConfig({
-    //enable session
-    session: true
-    //set cookies for one month and 30 minutes, after that it would be removed
-    setCookie: {
-        expires: {
-            days: 30, // refers to one month
-            minutes: 30 //refers to 30 minutes
-        }
-    }
-})
-```
-``setCooki`` is an object, you specify inside it an object called ``expires`` this object has two properties
-
-|property   | type  | description  |
-|---|---|---|
-|days   | number (optional)  | refers to the number of days that you want to set the cookie until it  |
-|minutes   | number  | refers to the number of minutes that you want to set the cookie until it  |
-
-**Not that session is a global variable you can access on it from anywhere inside the project**
-
-<!-- <hr style="border:.5px solid black;height:0"> -->
-#### ``session.set`` function
-This is a function you call it when you want to set a session, this function takes three parameters
-
-| parameter  | type  | description  |
-|---|---|---|
-|sessionName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
-|obj   | object (required)  | this is the info that you want to store in the session  |
-|sessionOptions  | object (optional)  | represents specific cookie configuration for this session only  |
-
-**Example on session inside handler function**
-
-* set it without a custom cookie
-```javascript
-postRouter () {
-    return {
-        url: "/user",
-        method: "post",
-        handler: () => {
-            let userdata = this.req.data;
-            // set it without custom cookie
-            session.set("userdata", userdata);
-        }
-    }
-}
-```
-* set it with a custom cookie
-
-| property  | type  | description  |
-|---|---|---|
-|expires   | object  | the epires days and minutes of cookies  |
-|  path | string (default: /)  | represents the path that you want to make the user logged in, it is set to / as default  |
-```javascript
-postRouter () {
-    return {
-        url: "/user",
-        method: "post",
-        handler: () => {
-            let userdata = this.req.data;
-            // set it without custom cookie
-            session.set("userdata", userdata, {
-                expires: {
-                    days: 1 // set the cookie for one day only
-                },
-                path: "/" // if you want set the cookie for a specific path
-            });
-        }
-    }
-}
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-#### `session.getSession` function
-This function gets the session of the user based on the name of the session that you specified in ``session.set`` function
-
-if the session is exist this function returns an object contains data that you have stored, and if no session with that name it will return an undefined
-```javascript
-let info = session.getSession("userdata");
-console.log(info) //output: object || undefined
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-#### ``session.updateSession`` function
-This function is very similar to ``session.set`` function and it takes the same parameters but this function you use it to updating an already exist session
-```javascript
-    // update exit session
-    session.set("userdata", {name: "tarek", password: "blablabla"});
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-
-#### ``session.breakSession`` function
-This function breaks the session and stops it, so you use it when the user logs out
-
-This function takes one parameter, that parameter is the name of the session that you want to break
-```javascript
-// break the session
-session.breakSession("userdata");
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-### Auth module
-This module is a built in module in Grandjs, it is used to make authentication inside the system to allow user login and logout securely.
-This module depends on the session
-
-* Auth module is a global module you can access on it from any file inside the project
-* This module represents to some functionalities for logging in process
-
-#### ``auth.login`` function
-This function is used to log in the user when he signs up or in.
-* This function takes the same parameters of ``session.set`` function and ``auth.login`` depends on it
-
-
-This function takes three parameters
-
-| parameter  | type  | description  |
-|---|---|---|
-|loginName   | string(required)  | this parameter specified the name of the session for example if the session for login so you can set it as "userInfo"  |
-|obj   | object (required)  | this is the info that you want to store in the session  |
-|sessionOptions  | object (optional)  | represents specific cookie configuration for this session only  |
-```javascript
-// login the user
-auth.login("userdata", {username: "tarek", email:"test@gmail.com"});
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-
-#### ``auth.checkAuth`` function
-This function is used to check if the user is logged in or not
-* If the user is logged in returns: ``true``
-* if the user isn't logged in returns: ``false``
-```javascript
-let logged = auth.checkAuth();
-// output: true | false
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-#### ``auth.Auth`` function
-This function is optional to use, the of it is if you are doing a heavy checks before require ``auth.login`` function so Grandjs represents to you this function which enables you to make some processing and returns a callback function after that has ``done`` parameter, it's value is: ``true`` or ``false``
-```javascript
-auth.Auth((done, cb) => {
-    // make some logic here
-    let some = 1+2;
-    if(some === 3) {
-        // set the done parameter
-        done = true;
-        return cb(done);
-    } else {
-        done = false;
-        return cb(done);
-    }
-    //  
-}, (done) => {
-    console.log(done) // outputs true
-    if(done == true) {
-        // login the user
-        auth.login("userdata", {});
-    }
-})
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
-#### ``auth.logout`` function
-This function depends on ``session.breakSession`` function, it logouts the user and destroys the session
-
-```javascript
-
-// logout the user
-auth.logout();
-```
-<!-- <hr style="border:.5px solid black;height:0"> -->
+This Module is deprecated, you can use [Express session](https://www.npmjs.com/package/express-session) and [Cookie-parser](https://www.npmjs.com/package/cookie-parser) instead!
 
 ### Flash Messages
-Flash is an object inside ``request`` object, it allows you to set messages to send them to the handlebars to show alert messages or success or any message you want to show from backend to frontend
 
-
-flash is accessable inside any router handler
+This Module is deprecated, you can use [express flash messages](https://www.npmjs.com/package/express-flash) instead!
 
 **Example**
 
 ```javascript
-// post router
-router.addRoute({
-    url: "/login",
-    method: "post",
-    handler: () => {
-        // set error message
-        req.flash.errorMessage = "user not found"
-    }
-})
-// get router
-router.addRoute({
-    url: "/login",
-    method: "get",
-    handler: () => {
-        this.res.render({
-            layouts: "./views/layouts/main.hbs",
-            body: "login.hbs",
-            data: {
-                errorMessage: this.req.flash.errorMessage
-            }
-        })
-    }
-})
+// javascript
+const {Server} = require("grandjs/lib");
+// typescript
+import {Server} = from "grandjs/src";
+
+const flash = require('express-flash'),
+const session = require('express-session')
+const cookieParser = require("cookie-parser");
+Server.use(cookieParser('keyboard cat'));
+Server.use(session({ cookie: { maxAge: 60000 }}));
+Server.use(flash());
 ```
 ## Add MimeTypes
+
+
+
 if you want to serve more static files with another mimetype not exist in our built in mimetypes, so you can use the following function
+
 ```javascript
-Grandjs.addMimeTypes(extention, mimeType);
+
+Server.addMimeTypes(extention, mimeType);
 ```
 
 This function takes two parameters
@@ -1427,20 +1414,21 @@ This function takes two parameters
 **Exmple**
 
 ```javascript
-Granjs.addMimeTypes(".pdf", "application/pdf");
+Server.addMimeTypes(".pdf", "application/pdf");
 ```
 
 
 ### Grandjs File Upload
 
-<font color='red'>Experimental Feature</font>
 
 
 Grandjs includes a small helpers for working with files and images specifically, you can use it  via calling it from grandjs:
-```javascript
-const Grandjs = require("grandjs");
 
-const FileUpload = Grandjs.FileUpload;
+```javascript
+// javascript
+const {FileUpload} = require("grandjs/lib");
+// typescript
+import {FileUpload} from "grandjs/src"
 ```
 
 file upload has property called `uploadPath` which is the destination to save files in, you can change it anytime by calling `setUploadPath` method as the following:
@@ -1474,9 +1462,9 @@ this function returns promise
 Grandjs is extendable to use with socket io for realtime applications, here is an example on using grandjs with socket io
 
 ```javascript
-const Grandjs = require("grandjs");
+const {Server} = require("grandjs");
 const socketIo = require("socket.io");
-Grandjs.setConfig({
+Server.setConfig({
     //define the port
     port: process.env.PORT || 3000,
     // http is optional you can specify http or https, if you don't specify Grandjs automatically require HTTP module
@@ -1486,24 +1474,8 @@ Grandjs.setConfig({
         key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
         cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
     }
-    // define the static files container folder
-    staticFolder: "public",
-        // internal path
-    bindStaticFolder: process.env.assetsPath,
-    //enable the session
-    session: true,
     //set the encryption key, Grandjs uses encription key to cypher info
     ENCRYPTION_KEY: "ncryptiontestforencryptionproces",
-    // set the max age of cookies when you set the session of logged in users
-    setCookie: {
-        expires: {
-            days: 20,
-            minutes: 30
-        }
-    },
-
-    //set it true to see the console info while development process
-    logger: true,
 
     //set error page for global error pages
     errorPage(req, res) {
@@ -1512,16 +1484,133 @@ Grandjs.setConfig({
 });
 
 // init Grandjs
-Grandjs.initServer();
+Server.initServer();
 
 
-const io = socketIo(Grandjs.server);
+const io = socketIo(Server.Server);
 io.on("connect", () => {
     console.log("connected successfully")
 })
 ```
 
 now once you run the application you can connect on socket via port `3000`
+
+
+# JSX
+## Writing JSX in Grandjs
+### About
+Grandjs Depends on JSX for rendering dynamic/static HTML markups, it converts the jsx syntax to html string by native parser, also the rendered JSX markup is a stateless
+
+Grandjs loads JSX components and files on runtime fastly without a need to bable or any transpilers, Grandjs uses `import-jsx` package for requiring jsx files
+
+## Why ?
+
+Actually there is many different template engines can be used, all these template engines are efficient and good to work with, but you will learn a new syntax of each template engine, also you will suffer from the hassle of searching helpers for this template engine to add new features like conditions, mathematical operations inside the html markup, however we have JSX!
+Most of developers now know JSX and know how can they render it, "thanks React!", so We see using JSX is good, efficient and fast in rendering and Friendly syntax that allow you to write the whole Application in just javascript, with getting the benefits if Javascript methods, helpers, functions inside the HTML markup
+### How ?
+
+Grandjs exports an object called `View`, this object includes some builtin methods and configuration for parsing, and caching jsx syntax and converting it to html strings and then send this HTML markup to the browser
+
+**Note**
+JSX syntax shouldn't be written in the entry point file, you should create a folder called `views` for example and put all JSX code there by dividing into functional components and requiring the component you wherever you want
+**Example**
+
+Project Structure
+### Directory Structure  
+<pre>
+ ┬  
+ ├ views
+    ┬
+    ├ App.jsx
+    ├ Home.jsx
+ ├ index.js
+</pre>
+
+in App.jsx
+
+```jsx
+// jsx
+// importing {View} is mandatory
+const {View} = require("grandjs/lib");
+// typescript
+import {View} from "grandjs/src";
+const App = (props) => {
+    return (
+        <div>
+            <h1>hello App Component</h1>
+        </div>
+    )
+}
+module.exports = App;
+```
+in Home.jsx file
+```jsx
+const {View} = require("grandjs/lib");
+// typescript
+import {View} from "grandjs/src";
+const App = View.importJsx("./App.jsx");
+const Home = (props) => {
+    return (
+        <div>
+            <h1>This is home page</h1>
+            <App/>
+        </div>
+    )
+}
+module.exports = Home;
+```
+
+**Note**
+
+
+1- Any Component you write you have to import `{View}` inside the file that you write the component in, to make grandjs recognize and compile that file
+
+2- The component should be a functional Component as the following:
+```jsx
+const App = (props) => {
+    return (
+        <div>
+            <h1>hello App Component</h1>
+        </div>
+    )
+}
+```
+3- You have to export the component as a nodejs module in commonjs syntax like the following:
+
+```jsx
+module.exports = App;
+```
+
+4- Importing JSX Component Should be using `View.importJsx` function which will recognize that this file is jsx syntax
+
+```javascript
+const Home = View.importJsx("./views/Home.jsx");
+```
+
+
+```javascript
+// importing {View} is mandatory
+const {Server, View, Router} = require("grandjs/lib");
+// typescript
+import {Server, View, Router} from "grandjs/src";
+// import Home Page
+const Home = View.importJsx("./views/Home.jsx");
+const router = new Router({base: "/"})
+
+router.addRoute({
+    url: "/",
+    method: "GET",
+    handler: (req, res) => {
+        return res.status(200).render(Home, {})
+    }
+})
+router.build();
+Server.setConfig({port: 3000});
+Server.initServer();
+```
+
+
+
 
 
 ## Built With

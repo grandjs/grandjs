@@ -33,11 +33,13 @@ export interface RequestInterface{
     body: OptionalObject,
     files: OptionalObject,
     Server: ServerInterface
+    validation: ValidationInterface
 }
 export interface ResponseInterface{
     redirect(url:string):this
     status(status:number, message?:string):this
     json(object:object):this
+    sendFile(file:string):this
 }
 export interface MiddleWareInterface{
     (req:Request, res:Response, next:Function):any
@@ -58,6 +60,7 @@ export interface RouteInterface{
     params?:any
     setCors?(corsObect:CorsInterface):any
     handle?(router:Router, req: Request, res:Response):any
+    assetsPath?: boolean;
 }
 export interface CorsInterface{
     origin?:string,
@@ -147,6 +150,16 @@ export interface ServerInterface{
     addMimeTypes(extention:string, mimeType:string):this
 }
 
+export interface ValidationInterface{
+    strip_html_tags: (str: string) => string | false;
+    checkEmail: (string: string, cb: Function) => any;
+    notEmptyString: (string: string, cb: Function) => any;
+    checkContainsNumber: (string: string, count: number, cb: Function) => any;
+    isObject: (obj: OptionalObject) => false | OptionalObject;
+    notEmpty: (obj: OptionalObject) => false | OptionalObject;
+    isString: (str: string) => string | false;
+    checkIsNumber: (element: string, cb: Function) => any;
+}
 export interface HelpersInterface {
 
 }

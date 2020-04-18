@@ -25,6 +25,7 @@ class Route implements RouteInterface{
   parsedUrl?:string
   routePattern?:any
   params?:any
+  assetsPath?: boolean = false;
   // parseUrl?():any
   constructor(options:RouteInterface, base:string) {
     this.url = options.url;
@@ -33,6 +34,7 @@ class Route implements RouteInterface{
     this.middleWares = options.middleWares || [];
     this.cors = options.cors || {};
     this.base = base;
+    this.assetsPath = options.assetsPath || false;
     this.parseUrl();
   }
   // method to parse url

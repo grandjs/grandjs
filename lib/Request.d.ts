@@ -29,6 +29,16 @@ declare class Request extends http.IncomingMessage implements RequestInterface {
     method: string;
     statusCode: number;
     Server: BaseServer;
+    validation: {
+        strip_html_tags: (str: string) => string | false;
+        checkEmail: (string: string, cb: Function) => any;
+        notEmptyString: (string: string, cb: Function) => any;
+        checkContainsNumber: (string: string, count: number, cb: Function) => any;
+        isObject: (obj: import("./interfaces").OptionalObject) => false | import("./interfaces").OptionalObject;
+        notEmpty: (obj: import("./interfaces").OptionalObject) => false | import("./interfaces").OptionalObject;
+        isString: (str: string) => string | false;
+        checkIsNumber: (element: string, cb: Function) => any;
+    };
     constructor(socket: Socket, request: Request, Server: BaseServer);
     protected parseUrl(): void;
     accepts(): any;

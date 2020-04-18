@@ -19,6 +19,7 @@ declare class Response extends http.ServerResponse implements ResponseInterface 
     redirect(url: string): this;
     status(status: number, message?: string): this;
     json(obj: object): this;
+    sendFile(file: string): this;
     render(Component: any, data: OptionalObject): void;
 }
 export default Response;

@@ -13,14 +13,17 @@ import handlebars from "handlebars";
 import { Duplex } from 'stream';
 import Request from "./Request";
 import Response from "./Response";
+import { OptionalObject } from "./interfaces/index";
 declare const helpers: {
     hash: (string: string) => false | Buffer;
-    enCrypt: (text: string) => string;
-    deCrypt: (text: string) => string;
+    Cipher: {
+        enCrypt: (text: string) => string;
+        deCrypt: (text: string) => string;
+    };
     parseCookies: (request: Request) => any;
     render: (options: any) => void;
     json: (res: Response, data: object) => void;
-    sendFile: (req: Request, res: Response, file: any, cb: Function) => void;
+    sendFile: (req: Request, res: Response, file: any) => void;
     bufferToStream: (buffer: any) => Duplex;
     warnings: {
         router: {
@@ -35,5 +38,15 @@ declare const helpers: {
     newObject: () => {};
     compileTrust: (val: any) => any;
     setCharset(type: string, charset: any): string;
+    validation: {
+        strip_html_tags: (str: string) => string | false;
+        checkEmail: (string: string, cb: Function) => any;
+        notEmptyString: (string: string, cb: Function) => any;
+        checkContainsNumber: (string: string, count: number, cb: Function) => any;
+        isObject: (obj: OptionalObject) => false | OptionalObject;
+        notEmpty: (obj: OptionalObject) => false | OptionalObject;
+        isString: (str: string) => string | false;
+        checkIsNumber: (element: string, cb: Function) => any;
+    };
 };
 export default helpers;

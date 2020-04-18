@@ -44,6 +44,10 @@ class Response extends http.ServerResponse implements ResponseInterface {
         this.end(json);
         return this;
     }
+    sendFile(file:string):this {
+        helpers.sendFile(this.req, this, file);
+        return this;
+    }
     render(Component:any, data:OptionalObject) {
         return View.render(this, Component, data);
     }

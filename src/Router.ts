@@ -19,6 +19,7 @@ import config from './config';
 import util from "util";
 import fs from "fs";
 import Route from "./Route";
+import UrlPattern from 'url-pattern';
 class Router implements RouterInterface {
   id: string
   options: any;
@@ -60,9 +61,12 @@ class Router implements RouterInterface {
     Server.routers.set(this.base, this);
     this.errorPage = this.errorPage || Server.errorPage;
     this.staticFolder = this.staticFolder || Server.serverOptions.staticFolder;
+    // console.log(this.staticFolder)
     // this.globalMiddleWares.push(this.serverAssetsMiddleWare.bind(this))
     this.serverAssetsMiddleWare();
     this.bootstrapRoutes();
+    // console.log(this.getRouters)
+    // console.log(this.getRouters)
     return this;
   }
   public init(): this {
@@ -75,10 +79,12 @@ class Router implements RouterInterface {
     let pathToSkip:string = req.pathname;
     if(path.extname(pathToSkip)) {
       pathToSkip = req.pathname.replace(/\.[^.]*$/, "");
+      console.log(pathToSkip);
     }
     let matchedRoute:Route;
     switch(method) {
       case "get":
+        // console.log(method)
         matchedRoute = this.getRouters.find(route => route.routePattern.match(pathToSkip))
         break;
       case "post":
@@ -192,17 +198,20 @@ class Router implements RouterInterface {
       url,
       middleWares
     }
+    let parsedRoute = new Route(setOptions, this.base)
+    let corsObject = Object.assign({}, route.cors, this.cors);
+    parsedRoute.setCors(corsObject);
     switch (method) {
       case "get":
-        this.getRouters.push(new Route(setOptions, this.base))
+        this.getRouters.push(parsedRoute)
       case "post":
-        this.postRouters.push(new Route(setOptions, this.base))
+        this.postRouters.push(parsedRoute)
       case "put":
-        this.putRouters.push(new Route(setOptions, this.base))
+        this.putRouters.push(parsedRoute)
       case "patch":
-        this.patchRouters.push(new Route(setOptions, this.base))
+        this.patchRouters.push(parsedRoute)
       case "delete":
-        this.deleteRouters.push(new Route(setOptions, this.base))
+        this.deleteRouters.push(parsedRoute)
     }
     return this;
   }
@@ -249,6 +258,17 @@ class Router implements RouterInterface {
   async serveAssets(req: Request, res: Response, next: Function) {
     try {
       let staticFolder = this.staticFolder;
+      // console.log(staticFolder);
+      // let url = `${this.base}/${staticFolder.url}/*`.replace(/(https?:\/\/)|(\/)+/g, "$1$2")
+      // .replace(/^(.+?)\/*?$/, "$1")
+      // .replace(/\s+/gi, "");
+      // let urlPattern = new UrlPattern(url);
+      // console.log(urlPattern, url)
+      // if(req.method !== "get") {
+      //   // continue
+      //   return next();
+      // }
+      // // console.log(staticFolder);
       if (staticFolder) {
         var sourceFolder = path.resolve("/", staticFolder.path);
         // sourceFolder = sourceFolder.split(path.sep).join("/");
@@ -288,10 +308,12 @@ class Router implements RouterInterface {
   serverAssetsMiddleWare() {
     // check if the static folder is exist
     if (this.staticFolder) {
+      // this.globalMiddleWares.push(this.serveAssets.bind(this));
       let route =  {
         url: `/${this.staticFolder.url}/*`,
         method: "GET",
         handler: this.serveAssets.bind(this),
+        assetsPath: true
       }
       this.getRouters.unshift(route)
     }

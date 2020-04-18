@@ -16,6 +16,7 @@ import {BaseServer} from "./Server";
 import accepts from 'accepts'
 import parseRange from 'range-parser'
 import typeis from "type-is";
+import helpers from './helpers';
 
 class Request extends http.IncomingMessage implements RequestInterface {
   path: string
@@ -31,6 +32,7 @@ class Request extends http.IncomingMessage implements RequestInterface {
   method: string
   statusCode: number
   Server: BaseServer
+  validation = helpers.validation
   constructor (socket: Socket, request: Request, Server:BaseServer) {
     // Object.assign(this, request);
     super(socket)

@@ -22,6 +22,7 @@ declare class Route implements RouteInterface {
     parsedUrl?: string;
     routePattern?: any;
     params?: any;
+    assetsPath?: boolean;
     constructor(options: RouteInterface, base: string);
     parseUrl?(): any;
     setCors?(corsObject: CorsInterface): void;

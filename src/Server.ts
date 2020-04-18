@@ -63,18 +63,13 @@ class BaseServer implements ServerInterface {
         Array.from(this.routers.keys()).map((item) => {
             let routerRegex = new RouteParser(`${item}*`)
             let regexResult = routerRegex.match(req.pathname);
-            if (regexResult && typeof regexResult._ === "string" && !regexResult._.includes(item)) {
+            if (regexResult && typeof regexResult._ === "string" && ((regexResult._.startsWith("/") || regexResult._.length === 0) || item === "/")) {
                 let split = req.pathname.replace(regexResult._, "");
                 let splittedPath = regexResult._.split("/");
                 let foundRouter: Router = this.routers.get(item);
                 if (foundRouter) {
                     if (splittedPath.length > 1) {
                         requests.push(foundRouter);
-                        // } else if(splittedPath.length === 1) {
-                        //     let trimmed = `${splittedPath[0]}`.replace(/\s+/gi, "");
-                        //     if(trimmed.length === 0) {
-                        //         requests.push(foundRouter);
-                        //     }
                     } else if (split === item || routerRegex.match(split)) {
                         requests.push(foundRouter);
                     }
@@ -113,6 +108,8 @@ class BaseServer implements ServerInterface {
         this.serverOptions.http = this.serverOptions.http || http;
         this.serverOptions.port = this.serverOptions.port || 3000;
         this.serverOptions.staticFolder = this.serverOptions.staticFolder || { path: path.join(process.cwd(), "/public"), url: "/public" };
+        this.serverOptions.ENCRYPTION_KEY = this.serverOptions.ENCRYPTION_KEY || "ncryptiontestforencryptionproces"
+        process.env.ENCRYPTION_KEY = this.serverOptions.ENCRYPTION_KEY;
         this.serverOptions.nativeParsing = this.serverOptions.nativeParsing || false;
         this.settings = Object.assign(this.settings, this.serverOptions);
         this.errorPage = this.serverOptions.errorPage || this.errorPage;
