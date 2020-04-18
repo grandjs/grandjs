@@ -12,7 +12,6 @@
 // Dependencies
 import fs from "fs";
 import path from "path";
-import handlebars from "handlebars";
 import crypto from "crypto";
 import confg from "./config";
 import { Duplex } from 'stream';
@@ -67,36 +66,36 @@ const helpers = {
     });
     return list;
   },
-  render: function (options: any) {
-    let data = options.data ? options.data : {};
-    let layout = options.layout;
-    let container = options.container || "views"
-    let body: any = options.body ? fs.readFileSync(`${container}/${options.body}`, "utf8") : "<body></body>";
-    body = handlebars.compile(body, { strict: false });
-    body = body(data);
-    data.body = body;
-    let req = options.req;
-    let res = options.res;
-    let partials = options.partials ? options.partials : [];
-    if (partials.length > 0) {
-      partials.forEach(function (partial: any) {
-        let partialName = path.basename(partial).split(".")[0];
-        var partialFile = fs.readFileSync(`${container}/${partial}`, "utf8");
-        handlebars.registerPartial(partialName, partialFile);
-      })
-    }
-    // try {
-    var htmlFile: any = fs.readFileSync(`${container}/${layout}`, "utf8");
-    if (htmlFile) {
-      htmlFile = handlebars.compile(htmlFile, { strict: false });
-      htmlFile = htmlFile(data);
-      res.end(htmlFile);
-    }
-    // } catch (e) {
-    res.writeHead(200);
-    res.end("");
-    // }
-  },
+  // render: function (options: any) {
+  //   let data = options.data ? options.data : {};
+  //   let layout = options.layout;
+  //   let container = options.container || "views"
+  //   let body: any = options.body ? fs.readFileSync(`${container}/${options.body}`, "utf8") : "<body></body>";
+  //   body = handlebars.compile(body, { strict: false });
+  //   body = body(data);
+  //   data.body = body;
+  //   let req = options.req;
+  //   let res = options.res;
+  //   let partials = options.partials ? options.partials : [];
+  //   if (partials.length > 0) {
+  //     partials.forEach(function (partial: any) {
+  //       let partialName = path.basename(partial).split(".")[0];
+  //       var partialFile = fs.readFileSync(`${container}/${partial}`, "utf8");
+  //       handlebars.registerPartial(partialName, partialFile);
+  //     })
+  //   }
+  //   // try {
+  //   var htmlFile: any = fs.readFileSync(`${container}/${layout}`, "utf8");
+  //   if (htmlFile) {
+  //     htmlFile = handlebars.compile(htmlFile, { strict: false });
+  //     htmlFile = htmlFile(data);
+  //     res.end(htmlFile);
+  //   }
+  //   // } catch (e) {
+  //   res.writeHead(200);
+  //   res.end("");
+  //   // }
+  // },
   json: function (res: Response, data: object) {
     let result = JSON.stringify(data);
     res.end(result);
@@ -128,8 +127,7 @@ const helpers = {
       text: "Grandjs Routers not will be working with just instantiating the router, you need to call `build()` method after instantiating the router to make it works"
     }
   },
-  handlebars: handlebars,
-  compileETag: function (val: any) {
+   compileETag: function (val: any) {
     var fn;
 
     if (typeof val === 'function') {
