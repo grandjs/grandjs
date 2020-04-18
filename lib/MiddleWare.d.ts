@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: MiddleWare Wrapper
+ * ==============================================================================
+ */
 import Request from './Request';
 import Response from './Response';
 import Router from "./Router";

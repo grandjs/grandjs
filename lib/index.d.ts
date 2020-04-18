@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Main File
+ * ==============================================================================
+ */
 import { Server } from "./Server";
 import Router from "./Router";
 import { View } from "./View";

@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Application Router
+ * ==============================================================================
+ */
 import { RouterInterface, CorsInterface, MiddleWareInterface, StaticFolderInterface, ServerConfigurations } from './interfaces/index';
 import Request from "./Request";
 import Response from "./Response";

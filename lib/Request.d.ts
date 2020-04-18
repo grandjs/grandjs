@@ -1,4 +1,14 @@
 /// <reference types="node" />
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: View HTTP Request Object
+ * ==============================================================================
+ */
 import { RequestInterface } from './interfaces/index';
 import http from 'http';
 import { Socket } from 'net';

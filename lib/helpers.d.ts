@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Package Helpers
+ * ==============================================================================
+ */
 /// <reference types="node" />
 import handlebars from "handlebars";
 import { Duplex } from 'stream';

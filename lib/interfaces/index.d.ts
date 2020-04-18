@@ -1,4 +1,14 @@
 /// <reference types="node" />
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Package Interfaces
+ * ==============================================================================
+ */
 import http from "http";
 import Request from "../Request";
 import Response from "../Response";
@@ -123,7 +133,7 @@ export interface ServerInterface {
     routers: Map<string, RouterInterface>;
     errorPage(req: Request, res: Response): any;
     log(req: Request, res: Response): any;
-    initServer(): any;
+    initServer(cb: Function): any;
     chooseHandler(req: Request, res: Response): any;
     setConfig(options: ServerConfigurations): this;
     locals?: Map<string, any>;
@@ -133,6 +143,7 @@ export interface ServerInterface {
     parent: any;
     mountPath: string;
     RequestParser: RequestParser;
+    addMimeTypes(extention: string, mimeType: string): this;
 }
 export interface HelpersInterface {
 }

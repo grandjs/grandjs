@@ -1,4 +1,14 @@
 /// <reference types="node" />
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Application Router
+ * ==============================================================================
+ */
 import http from "http";
 import { ServerInterface, MiddleWareInterface, ServerConfigurations, RouterInterface, OptionalObject } from './interfaces/index';
 import Request from "./Request";
@@ -22,8 +32,9 @@ declare class BaseServer implements ServerInterface {
     log(req: Request, res: Response): void;
     chooseHandler(req: Request, res: Response): any;
     setConfig(options: ServerConfigurations): this;
-    initServer(): this;
+    initServer(cb?: Function): this;
     path(): string;
+    addMimeTypes(extention: string, mimeType: string): this;
 }
 declare const Server: BaseServer;
 export { Server, BaseServer };

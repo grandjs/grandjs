@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: HTTP Request Route Object
+ * ==============================================================================
+ */
 import { RouteInterface, HandlerInterface, MiddleWareInterface, CorsInterface } from "./interfaces/index";
 import Request from "./Request";
 import Response from "./Response";
