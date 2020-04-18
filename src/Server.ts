@@ -110,14 +110,22 @@ class BaseServer implements ServerInterface {
     }
     // initializer
     initServer() {
-        this.Server = this.serverOptions.http.createServer((req: Request, res: Response) => {
+        let args = [];
+        let callBack = (req: Request, res: Response) => {
             // instantiate new request
             let request = new Request(req.socket, req, this);
             this.RequestParser = new RequestParser(req, res);
             // instantiate new response
             let BindResponse = new Response(request, res);
             this.chooseHandler(request, res);
-        })
+        }
+        if(this.serverOptions.httpsMode) {
+            args[0] = this.serverOptions.httpsMode;
+            args[1] = callBack;
+        } else {
+            args[0] = callBack;
+        }
+        this.Server = this.serverOptions.http.createServer(...args)
         this.Server.listen(this.serverOptions.port);
         return this;
     }
