@@ -62,10 +62,17 @@ class ViewClass {
       return css
     }
     parser(node:NodeInterface, data:OptionalObject) {
+      let str = "";
+      if(Array.isArray(node)) {
+        Array.from(node).map((child) => {
+          let elem = this.parseChildren(child, data);
+          str+=`${elem}`
+        })
+        return str;
+      } else if (typeof node === "object" && node.type) {
         let type = node.type;
         let props = node.props;
-        let children = node.children;
-        let str = "";
+        let children = node.children || [];
         let attrs = this.parseAttributes(props);
         str+=`<${type} ${attrs.attrs}>`;
         let parsedChildren = children.map((child) => {
@@ -81,6 +88,10 @@ class ViewClass {
         });
         str+=`</${type}>`
         return str;
+      } else if (typeof node === "string") {
+        str+=`${node}`
+        return str;
+      }
       }
       parseChildren(child:NodeInterface, data:OptionalObject) {
         if(typeof child === "string") {
@@ -88,7 +99,7 @@ class ViewClass {
         } else if(child.type && typeof child.type === "function") {
           let component = child.type;
           let node = component(child.props);
-            return node;
+            return this.parser(node, child.props);
         } else {
           let result = this.parser(child, data)
           return result;
@@ -134,7 +145,8 @@ class ViewClass {
     importJsx(path:string) {
         let views = this.settings.get("views");
         path = path.replace(views, "")
-        path = `.${Path.join("/", views, path)}`
+        path = Path.join("/", views, path);
+        path = `${Path.join(process.cwd(), path)}`
         let foundFile = this.cache.get(path);
         if(!foundFile) {
             const importedFile =  importJsx(path, {pragma: "View.createElement" || "this.createElement"})

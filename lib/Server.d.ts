@@ -8,9 +8,9 @@ declare class BaseServer implements ServerInterface {
     Server: http.Server;
     serverOptions?: ServerConfigurations;
     routers: Map<string, RouterInterface>;
-    locals: any;
-    settings: object;
-    engines: object;
+    locals: Map<string, any>;
+    settings: Map<string, any>;
+    engines: Map<string, any>;
     cache: OptionalObject;
     mountPath: string;
     parent: any;
@@ -23,15 +23,7 @@ declare class BaseServer implements ServerInterface {
     chooseHandler(req: Request, res: Response): any;
     setConfig(options: ServerConfigurations): this;
     initServer(): this;
-    engine(ext: any[], fn: Function): this;
-    set(setting: any, val?: any): any;
-    get(setting: any): any;
     path(): string;
-    enabled(setting: any): boolean;
-    disabled(setting: any): boolean;
-    enable(setting: any): any;
-    disable(setting: any): any;
-    logerror(err: any): void;
 }
 declare const Server: BaseServer;
 export { Server, BaseServer };

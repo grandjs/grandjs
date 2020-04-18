@@ -126,9 +126,9 @@ export interface ServerInterface {
     initServer(): any;
     chooseHandler(req: Request, res: Response): any;
     setConfig(options: ServerConfigurations): this;
-    locals?: any;
-    settings: object;
-    engines: object;
+    locals?: Map<string, any>;
+    settings: Map<string, any>;
+    engines: Map<string, any>;
     cache: object;
     parent: any;
     mountPath: string;

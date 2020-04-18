@@ -10,7 +10,7 @@ declare class ViewClass {
     CamelCaseDeclarationToHyphen(property: string, value: string): string;
     convertObjectToCss(style: OptionalObject): string;
     parser(node: NodeInterface, data: OptionalObject): string;
-    parseChildren(child: NodeInterface, data: OptionalObject): any;
+    parseChildren(child: NodeInterface, data: OptionalObject): string;
     parseAttributes(props: OptionalObject): {
         attributes: OptionalObject;
         attrs: string;

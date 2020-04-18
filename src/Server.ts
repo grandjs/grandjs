@@ -21,9 +21,9 @@ class BaseServer implements ServerInterface {
     Server: http.Server
     serverOptions?: ServerConfigurations
     routers: Map<string, RouterInterface>
-    locals: any;
-    settings: object;
-    engines: object
+    locals: Map<string, any>;
+    settings: Map<string, any>;
+    engines: Map<string, any>
     cache: OptionalObject
     mountPath: string;
     parent: any
@@ -32,9 +32,9 @@ class BaseServer implements ServerInterface {
     constructor() {
         this.routers = new Map();
         this.serverOptions = {};
-        this.locals = Object.create({});
-        this.settings = {};
-        this.engines = {};
+        this.locals = new Map();
+        this.settings = new Map();
+        this.engines = new Map();
         this.cache = {};
         this.middleWares = [];
     }
@@ -121,84 +121,10 @@ class BaseServer implements ServerInterface {
         this.Server.listen(this.serverOptions.port);
         return this;
     }
-    engine(ext: any[], fn: Function) {
-        if (typeof fn !== 'function') {
-            throw new Error('callback function required');
-        }
-        // get file extension
-        var extension: any = ext[0] !== '.'
-            ? '.' + ext
-            : ext;
-        // [extension] = fn;
-        Object.defineProperty(this.engines, extension, {
-            value: fn,
-            enumerable: true,
-            writable: true,
-            configurable: true,
-        })
-        this.engines
-        return this;
-    };
-    set(setting: any, val?: any) {
-        if (arguments.length === 1) {
-            // app.get(setting)
-            if(Object.getOwnPropertyDescriptor(this.settings, setting)) {
-                return Object.getOwnPropertyDescriptor(this.settings, setting).value
-            }
-        }
-        // set value
-        Object.defineProperty(this.settings, setting, {
-            value: val,
-            enumerable: true,
-            writable: true,
-            configurable: true,
-        })
-        // trigger matched settings
-        switch (setting) {
-            case 'etag':
-                this.set('etag fn', helpers.compileETag(val));
-                break;
-            case 'query parser':
-                this.set('query parser fn', helpers.compileQueryParser(val));
-                break;
-            case 'trust proxy':
-                this.set('trust proxy fn', helpers.compileTrust(val));
-                // trust proxy inherit back-compat
-                Object.defineProperty(this.settings, trustProxyDefaultSymbol, {
-                    configurable: true,
-                    value: false
-                });
-                break;
-        }
-        return this;
-    };
-    get(setting: any) {
-        if(Object.getOwnPropertyDescriptor(this.settings, setting)) {
-            return Object.getOwnPropertyDescriptor(this.settings, setting).value
-        } else {
-            return;
-        }
-    }
     path() {
         return this.parent
             ? this.parent.path() + this.mountPath
             : '';
-    };
-    enabled(setting: any) {
-        return Boolean(this.set(setting));
-    };
-    disabled(setting: any) {
-        return !this.set(setting);
-    };
-    enable(setting: any) {
-        return this.set(setting, true);
-    };
-    disable(setting: any) {
-        return this.set(setting, false);
-    };
-    logerror(err: any) {
-        /* istanbul ignore next */
-        if (this.get('env') !== 'test') console.error(err.stack || err.toString());
     }
 }
 const Server = new BaseServer()
