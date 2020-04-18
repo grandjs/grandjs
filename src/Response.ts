@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: HTTP Response Object
+ * ==============================================================================
+ */
 import http from "http";
 import { ResponseInterface, OptionalObject } from './interfaces/index';
 import helpers from './helpers';

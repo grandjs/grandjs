@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Application Router
+ * ==============================================================================
+ */
 import http from "http";
 import fs from "fs";
 import querystring from "querystring";
@@ -109,7 +119,7 @@ class BaseServer implements ServerInterface {
         return this;
     }
     // initializer
-    initServer() {
+    initServer(cb?:Function) {
         let args = [];
         let callBack = (req: Request, res: Response) => {
             // instantiate new request
@@ -126,13 +136,26 @@ class BaseServer implements ServerInterface {
             args[0] = callBack;
         }
         this.Server = this.serverOptions.http.createServer(...args)
-        this.Server.listen(this.serverOptions.port);
+        this.Server.listen(this.serverOptions.port, () => {
+            if(cb) {
+                return cb();
+            }
+        });
         return this;
     }
     path() {
         return this.parent
             ? this.parent.path() + this.mountPath
             : '';
+    }
+    addMimeTypes(extention:string, mimeType:string) {
+        try {
+            config.extenstions.push(extention);
+            config.mimeTypes[extention] = mimeType;
+            return this;
+        } catch (e) {
+            throw e;
+        }
     }
 }
 const Server = new BaseServer()

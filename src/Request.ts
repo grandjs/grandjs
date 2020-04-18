@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: View HTTP Request Object
+ * ==============================================================================
+ */
 import { RequestInterface, ServerInterface } from './interfaces/index';
 import http from 'http'
 import { Socket } from 'net'

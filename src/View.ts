@@ -1,3 +1,13 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: View JSX Template Parser
+ * ==============================================================================
+ */
 const importJsx = require("import-jsx");
 import { OptionalObject, NodeInterface } from './interfaces/index';
 import helpers from "./helpers";

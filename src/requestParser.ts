@@ -1,7 +1,12 @@
 /**
- * ============================================
- * @GrandJs file role: Request Body Parser
- * ============================================
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Native Request Parser
+ * ==============================================================================
  */
 // dependencies
 import multiparty from "multiparty";
