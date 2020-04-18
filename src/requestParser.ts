@@ -4,16 +4,24 @@
  * ============================================
  */
 // dependencies
-const multiparty = require("multiparty");
-const MiddeWares = require("./middlewares");
-const Path = require("path");
-const helpers = require("./helpers");
-const config = require("./config");
+import multiparty from "multiparty";
+import MiddeWare from "./MiddleWare";
+import Path from "path";
+import helpers from "./helpers";
+import config from "./config";
+import Request from "./Request";
+import Response from "./Response"
+import Route from "./Route";
+import {OptionalObject} from "./interfaces/index";
+import querystring from "querystring";
 config.reverseMimeTypes();
 
 //  define request parser class
 class RequestParser {
-    constructor(req, res) {
+  req:Request;
+  res:Response
+  supportedTypes: {[key:string]:Function}
+    constructor(req:Request, res:Response) {
             this.req = req;
             this.res = res;
             // define array of supported types
@@ -26,7 +34,7 @@ class RequestParser {
             };
         }
         // method to handle the coming request data
-    handler(matchedURL, req, res) {
+    handler(matchedRoute:Route, req:Request, res:Response) {
             // check on the request type
             let headers = req.headers;
             headers["content-type"] = headers["content-type"] || "any";
@@ -36,19 +44,21 @@ class RequestParser {
                 let requestParser = this.supportedTypes[contentType];
                 // check if the content type matches one of supported request type
                 if (requestParser) {
-                    return requestParser.bind(this)(matchedURL, req, res);
+                    return requestParser.bind(this)(matchedRoute, req, res);
                 } else {
                     req.data = {};
                     req.files = {};
+                    req.body = {};
                 }
             } else {
                 req.data = {};
                 req.files = {};
-                return MiddeWares.next(matchedURL, req, res);
+                req.body = {};
+                return MiddeWare.next(matchedRoute, req, res);
             }
         }
         // method to parse form url encode
-    parseFormUrlEncode(matchedURL, req, res) {
+    parseFormUrlEncode(matchedRoute:Route, req:Request, res:Response) {
             let headers = req.headers;
             let comingData = "";
             let data = {};
@@ -62,25 +72,28 @@ class RequestParser {
                         data = querystring.parse(comingData);
                     }
                     req.data = data;
+                    req.body = data;
                 } catch (err) {
                     req.data = data;
+                    req.body = data;
                 }
                 req.files = files;
-                return MiddeWares.next(matchedURL, req, res);
+                return MiddeWare.next(matchedRoute, req, res);
             });
         }
         // method to parse formdata request
-    parseFormData(matchedURL, req, res) {
+    parseFormData(matchedRoute:Route, req:Request, res:Response) {
             let form = new multiparty.Form();
-            let data = {};
-            let files = {};
+            let data:OptionalObject = {};
+            let files:OptionalObject = {};
             form.on("error", (err) => {
                 req.data = {};
                 req.files = {};
+                req.body = {};
                 return res.end();
             })
             form.on("part", part => {
-                let contentBuffer = [];
+                let contentBuffer:any[] = [];
                 let totalBytesInBuffer = 0;
                 part.on("data", chunk => {
                     contentBuffer.push(chunk);
@@ -135,16 +148,17 @@ class RequestParser {
             form.on("close", () => {
                 req.files = files;
                 req.data = data;
-                return MiddeWares.next(matchedURL, req, res);
+                req.body = data;
+                return MiddeWare.next(matchedRoute, req, res);
             })
             form.parse(req);
         }
         // method to parse text data
-    parseText(matchedURL, req, res) {
+    parseText(matchedRoute:Route, req:Request, res:Response) {
             let headers = req.headers;
             let comingData = "";
-            let data = {};
-            let files = {};
+            let data:OptionalObject = {};
+            let files:OptionalObject = {};
             req.on("data", function(data) {
                 comingData += data;
             });
@@ -154,19 +168,21 @@ class RequestParser {
                         data = JSON.parse(comingData);
                     }
                     req.data = data;
+                    req.body = data;
                 } catch (err) {
                     req.data = data;
+                    req.body = data;
                 }
                 req.files = files;
-                return MiddeWares.next(matchedURL, req, res);
+                return MiddeWare.next(matchedRoute, req, res);
             });
         }
         // method to parse json
-    parseJson(matchedURL, req, res) {
+    parseJson(matchedRoute:Route, req:Request, res:Response) {
         let headers = req.headers;
         let comingData = "";
-        let data = {};
-        let files = {};
+        let data:OptionalObject = {};
+        let files:OptionalObject = {};
         req.on("data", function(data) {
             comingData += data;
         });
@@ -176,14 +192,16 @@ class RequestParser {
                     data = JSON.parse(comingData);
                 }
                 req.data = data;
+                req.body = data;
             } catch (err) {
                 req.data = data;
+                req.body = data;
             }
             req.files = files;
-            return MiddeWares.next(matchedURL, req, res);
+            return MiddeWare.next(matchedRoute, req, res);
         });
     }
 }
 
 //  export request parser
-module.exports = RequestParser;
+export default RequestParser;

@@ -1,4 +1,4 @@
-module.exports = {
+const config:{[key:string]:any} = {
     extenstions: [".aac", ".abw", ".arc", "avi", ".azw", ".bin", ".bmp", ".bz", ".bz2", ".csh", ".csv", ".doc", ".docx", ".eot", ".epub", ".gif", ".htm", ".html", ".ico", ".ics", ".jar", ".jsonld", ".mid", ".midi", ".mjs", ".css", ".js", ".png", ".jpeg", ".jpg", ".json", ".mp3", ".mp4", ".flv", ".m3u8", ".ts", ".3gp", ".mov", ".avi", ".wmv", ".ogg", ".ogv", ".opus", ".svg", ".svgz", ".woff", ".ttf", ".eot", ".otf", ".woff2", ".pdf", ".pptx", ".rar", ".rtf", ".sh", ".swf", ".tar", ".tif", ".ttf", ".txt", ".vsd", ".wav", ".weba", ".webm", ".webp", ".xhtml", ".xls", ".xlsx", ".xml", ".xul", ".zip", ".3gp", ".3g2", ".7z"],
     mimeTypes: {
         ".aac": "audio/aac",
@@ -14,7 +14,6 @@ module.exports = {
         ".csv": "text/csv",
         ".doc": "application/msword",
         ".docx": "application/vnd.openxmlformats-",
-        ".eot": "application/vnd.ms-fontobject",
         ".epub": "application/epub+zip",
         ".gif": "image/gif",
         ".htm": "text/html",
@@ -37,7 +36,6 @@ module.exports = {
         ".flv": "video/x-flv",
         ".m3u8": "application/x-mpegURL",
         ".ts": "video/MP2T",
-        ".3gp": "video/3gpp",
         ".mov": "video/quicktime",
         ".avi": "video/x-msvideo",
         ".wmv": "video/x-ms-wmv",
@@ -47,7 +45,6 @@ module.exports = {
         ".svg": "image/svg+xml",
         ".svgz": "image/svg+xml",
         ".woff": "application/x-font-woff",
-        ".ttf": "font/ttf",
         ".eot": "font/eot",
         ".otf": "font/otf",
         ".woff2": "font/woff2",
@@ -77,7 +74,7 @@ module.exports = {
         ".7z": "application/x-7z-compressed"
     },
     reverseMimeTypes: function () {
-        let reversedMimeTypes = {};
+        let reversedMimeTypes:{[key:string]: any} = {};
         Object.keys(this.mimeTypes).map((key) => {
             let value = this.mimeTypes[key];
             return reversedMimeTypes[value] = key;
@@ -85,3 +82,5 @@ module.exports = {
         this.reversedMimeTypes = reversedMimeTypes;
     }
 }
+
+export default config;
