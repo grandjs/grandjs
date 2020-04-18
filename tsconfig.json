@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+    "declaration": true,
+    "outDir": "lib",
+    "module": "CommonJS",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "target": "ES6",
+    "resolveJsonModule": true,
+    "strict": false,
+    "moduleResolution": "Node",
+    "emitDecoratorMetadata": true,
+    "jsx": "react"
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

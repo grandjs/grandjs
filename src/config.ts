@@ -1,0 +1,96 @@
+/**
+ * @package @Grandjs
+ * @author Tarek Salem
+ * MIT License
+ */
+/**
+ * ==============================================================================
+ * File Role: Files MimeTypes Configuration
+ * ==============================================================================
+ */
+const config:{[key:string]:any} = {
+    extenstions: [".aac", ".abw", ".arc", "avi", ".azw", ".bin", ".bmp", ".bz", ".bz2", ".csh", ".csv", ".doc", ".docx", ".eot", ".epub", ".gif", ".htm", ".html", ".ico", ".ics", ".jar", ".jsonld", ".mid", ".midi", ".mjs", ".css", ".js", ".png", ".jpeg", ".jpg", ".json", ".mp3", ".mp4", ".flv", ".m3u8", ".ts", ".3gp", ".mov", ".avi", ".wmv", ".ogg", ".ogv", ".opus", ".svg", ".svgz", ".woff", ".ttf", ".eot", ".otf", ".woff2", ".pdf", ".pptx", ".rar", ".rtf", ".sh", ".swf", ".tar", ".tif", ".ttf", ".txt", ".vsd", ".wav", ".weba", ".webm", ".webp", ".xhtml", ".xls", ".xlsx", ".xml", ".xul", ".zip", ".3gp", ".3g2", ".7z"],
+    mimeTypes: {
+        ".aac": "audio/aac",
+        ".abw": "application/x-abiword",
+        ".arc": "application/x-freearc",
+        "avi": "video/x-msvideo",
+        ".azw": "application/vnd.amazon.ebook",
+        ".bin": "application/octet-stream",
+        ".bmp": "image/bmp",
+        ".bz": "application/x-bzip",
+        ".bz2": "application/x-bzip2",
+        ".csh": "application/x-csh",
+        ".csv": "text/csv",
+        ".doc": "application/msword",
+        ".docx": "application/vnd.openxmlformats-",
+        ".epub": "application/epub+zip",
+        ".gif": "image/gif",
+        ".htm": "text/html",
+        ".html": "text/html",
+        ".ico": "image/vnd.microsoft.icon",
+        ".ics": "text/calendar",
+        ".jar": "application/java-archive",
+        ".jsonld": "application/ld+json",
+        ".mid": "audio/midi audio/x-midi",
+        ".midi": "audio/midi audio/x-midi",
+        ".mjs": "text/javascript",
+        ".css": "text/css",
+        ".js": "text/javascript",
+        ".png": "image/png",
+        ".jpeg": "image/jpeg",
+        ".jpg": "image/jpeg",
+        ".json": "application/json",
+        ".mp3": "audio/mpeg",
+        ".mp4": "video/mp4",
+        ".flv": "video/x-flv",
+        ".m3u8": "application/x-mpegURL",
+        ".ts": "video/MP2T",
+        ".mov": "video/quicktime",
+        ".avi": "video/x-msvideo",
+        ".wmv": "video/x-ms-wmv",
+        ".ogg": "audio/ogg",
+        ".ogv": "video/ogg",
+        ".opus": "audio/ogg",
+        ".svg": "image/svg+xml",
+        ".svgz": "image/svg+xml",
+        ".woff": "application/x-font-woff",
+        ".eot": "font/eot",
+        ".otf": "font/otf",
+        ".woff2": "font/woff2",
+        ".pdf": "application/pdf",
+        ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        ".rar": "application/x-rar-compressed",
+        ".rtf": "application/rtf",
+        ".sh": "application/x-sh",
+        ".swf": "application/x-shockwave-flash",
+        ".tar": "application/x-tar",
+        ".tif": "image/tiff",
+        ".ttf": "font/ttf",
+        ".txt": "text/plain",
+        ".vsd": "application/vnd.visio",
+        ".wav": "audio/wav",
+        ".weba": "audio/webm",
+        ".webm": "video/webmvideo/webm",
+        ".webp": "image/webp",
+        ".xhtml": "application/xhtml+xml",
+        ".xls": "application/vnd.ms-excel",
+        ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ".xml": "application/xml" || "text/xml",
+        ".xul": "application/vnd.mozilla.xul+xml",
+        ".zip": "application/zip",
+        ".3gp": "video/3gpp" || "audio/3gpp2",
+        ".3g2": "video/3gpp" || "audio/3gpp2",
+        ".7z": "application/x-7z-compressed"
+    },
+    reverseMimeTypes: function () {
+        let reversedMimeTypes:{[key:string]: any} = {};
+        Object.keys(this.mimeTypes).map((key) => {
+            let value = this.mimeTypes[key];
+            return reversedMimeTypes[value] = key;
+        })
+        this.reversedMimeTypes = reversedMimeTypes;
+    }
+}
+
+export default config;

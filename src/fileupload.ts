@@ -4,23 +4,25 @@ file role: uploader file class
 ================================================
 */
 // dependencies
-const fs = require("fs");
+import fs  from "fs";
 
-const path = require("path");
+import path  from "path";
+import { OptionalObject } from './interfaces/index';
 // define uploader file class
-class FileUploader {
+class FileUpload {
+    uploadPath:string
     constructor() {
             this.uploadPath = "";
         }
-        setUploadPath(uploadPath) {
+        setUploadPath(uploadPath:string) {
             this.uploadPath = uploadPath;
         }
         // method to check folder name
-    makeDirectory(folder) {
+    makeDirectory(folder:string) {
             // return promise
             return new Promise((resolve, reject) => {
                 folder = path.join(process.cwd(), folder);
-                fs.exists(folder, (exist) => {
+                fs.exists(folder, (exist:boolean) => {
                     if (exist) {
                         return resolve();
                     } else {
@@ -37,7 +39,7 @@ class FileUploader {
             })
         }
         // method to delete uploaded file
-    deleteFile(filename, folder) {
+    deleteFile(filename:string, folder:string) {
             let filePath = path.join(process.cwd(), folder, filename);
             return new Promise((resolve, reject) => {
                 fs.unlink(filePath, (err) => {
@@ -50,18 +52,18 @@ class FileUploader {
             })
         }
         // method to parse and save image base64
-    saveImageBase64(data, uploadPath = this.uploadPath) {
+    saveImageBase64(data:any, uploadPath = this.uploadPath) {
         let cuttedPath = uploadPath;
         uploadPath = path.join(process.cwd(), uploadPath);
         return new Promise(async(resolve, reject) => {
             if (data) {
                 let matches = data.match(/data:([A-Za-z-+\/]+);base64,(.+)$/);
-                let image = {};
+                let image:OptionalObject = {};
                 if (typeof matches !== null && matches.length !== 3) {
                     return reject({ message: "failed to read the image" });
                 }
                 image.type = matches[1];
-                let mimeTypes = {
+                let mimeTypes:OptionalObject = {
                     "image/png": ".png",
                     "image/jpeg": ".jpeg",
                     "image/jpg": ".jpg",
@@ -97,4 +99,4 @@ class FileUploader {
 }
 
 // export file uploader class
-module.exports = new FileUploader();
+export default FileUpload;
