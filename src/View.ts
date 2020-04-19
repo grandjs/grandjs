@@ -153,7 +153,7 @@ class ViewClass {
           return res.end(result);
     }
     importJsx(path:string) {
-        let views = this.settings.get("views");
+        let views = this.settings.get("views") || "";
         path = path.replace(views, "")
         path = Path.join("/", views, path);
         path = `${Path.join(process.cwd(), path)}`
