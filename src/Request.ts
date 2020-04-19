@@ -41,7 +41,6 @@ class Request extends http.IncomingMessage implements RequestInterface {
     this.data = this.data || {};
     this.files = this.files || {};
     this.Server = Server;
-    // console.log(this.Server)
     this.parseUrl()
   }
   protected parseUrl () {
