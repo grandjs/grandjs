@@ -103,6 +103,8 @@ export interface RouterInterface {
     chooseRoute(req: Request, res:Response):any
     requestParser:RequestParser
     serverOptions?: ServerConfigurations
+    child: boolean;
+    assignChildRouterRoutes(childRouter:Router):this
 }
 export interface ServerConfigurations{
     http?: any;

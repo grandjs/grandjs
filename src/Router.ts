@@ -38,6 +38,7 @@ class Router implements RouterInterface {
   res?: Response
   requestParser: RequestParser
   serverOptions?: ServerConfigurations
+  child:boolean = false;
   constructor(options?: { base?: string, staticFolder?: StaticFolderInterface }) {
     this.options = options || {};
     this.setBase();
@@ -58,7 +59,9 @@ class Router implements RouterInterface {
   }
   public build(): this {
     this.id = Math.random().toString(36).substr(2, 9)
-    Server.routers.set(this.base, this);
+    if(!this.child) {
+      Server.routers.set(this.base, this);
+    }
     this.errorPage = this.errorPage || Server.errorPage;
     this.staticFolder = this.staticFolder || Server.serverOptions.staticFolder;
     this.serverAssetsMiddleWare();
@@ -162,11 +165,37 @@ class Router implements RouterInterface {
     newRouter.req = this.req;
     newRouter.res = this.res;
     newRouter.base = newRouter.base || this.base;
+    if(newRouter.base === "/" || newRouter.base === this.base) {
+      newRouter.child = true;
+    }
     newRouter.base = path.join(this.base, newRouter.base).split(path.sep).join("/")
     newRouter.cors = Object.assign({}, this.cors, newRouter.cors);
     newRouter.globalMiddleWares = newRouter.globalMiddleWares || [];
-    newRouter.globalMiddleWares.unshift(...this.globalMiddleWares);
-    newRouter.build();
+    if(newRouter.child) {
+      this.assignChildRouterRoutes(newRouter);
+      // this.getRouters.push(...newRouter.getRouters);
+      // this.getRouters.push(...newRouter.getRouters);
+      // this.getRouters.push(...newRouter.getRouters);
+      // this.getRouters.push(...newRouter.getRouters);
+    } else {
+      newRouter.globalMiddleWares.unshift(...this.globalMiddleWares);
+      newRouter.build();
+    }
+    return this;
+  }
+  // method to assign child router routes to parent
+  assignChildRouterRoutes(childRouter:Router) {
+    let allRoutes = [...childRouter.getRouters, ...childRouter.postRouters, ...childRouter.patchRouters, ...childRouter.putRouters, ...childRouter.deleteRouters]
+    allRoutes.map((route) => {
+      route.middleWares = route.middleWares || [];
+      this.addRoute({
+        url: route.url,
+        method: route.method,
+        handler: route.handler,
+        middleWares: [...childRouter.globalMiddleWares, ...route.middleWares],
+        cors: Object.assign({}, route.cors || {}, childRouter.cors)
+      })
+    })
     return this;
   }
   addRoute(route: Route): this {

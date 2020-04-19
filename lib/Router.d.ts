@@ -31,6 +31,7 @@ declare class Router implements RouterInterface {
     res?: Response;
     requestParser: RequestParser;
     serverOptions?: ServerConfigurations;
+    child: boolean;
     constructor(options?: {
         base?: string;
         staticFolder?: StaticFolderInterface;
@@ -41,6 +42,7 @@ declare class Router implements RouterInterface {
     chooseRoute(req: Request, res: Response): any;
     bootstrapRoutes(): void;
     useRouter(RouterClass: any): this;
+    assignChildRouterRoutes(childRouter: Router): this;
     addRoute(route: Route): this;
     setBase(): void;
     pushGlobalMiddleWares(routers: Route[], globalMiddleWares: MiddleWareInterface[], classCors: CorsInterface): void;
