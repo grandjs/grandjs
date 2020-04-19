@@ -1,4 +1,4 @@
-declare class FileUpload {
+declare class FileUploadClass {
     uploadPath: string;
     constructor();
     setUploadPath(uploadPath: string): void;
@@ -6,4 +6,5 @@ declare class FileUpload {
     deleteFile(filename: string, folder: string): Promise<unknown>;
     saveImageBase64(data: any, uploadPath?: string): Promise<unknown>;
 }
+declare const FileUpload: FileUploadClass;
 export default FileUpload;

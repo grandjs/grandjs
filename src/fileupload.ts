@@ -9,7 +9,7 @@ import fs  from "fs";
 import path  from "path";
 import { OptionalObject } from './interfaces/index';
 // define uploader file class
-class FileUpload {
+class FileUploadClass {
     uploadPath:string
     constructor() {
             this.uploadPath = "";
@@ -97,6 +97,6 @@ class FileUpload {
         })
     }
 }
-
+const FileUpload = new FileUploadClass();
 // export file uploader class
 export default FileUpload;
