@@ -107,7 +107,8 @@ class BaseServer implements ServerInterface {
         this.serverOptions = options || {};
         this.serverOptions.http = this.serverOptions.http || http;
         this.serverOptions.port = this.serverOptions.port || 3000;
-        this.serverOptions.staticFolder = this.serverOptions.staticFolder || { path: path.join(process.cwd(), "/public"), url: "/public" };
+        this.serverOptions.staticFolder = this.serverOptions.staticFolder
+        //  || { path: path.join(process.cwd(), "/public"), url: "/public" };
         this.serverOptions.ENCRYPTION_KEY = this.serverOptions.ENCRYPTION_KEY || "ncryptiontestforencryptionproces"
         process.env.ENCRYPTION_KEY = this.serverOptions.ENCRYPTION_KEY;
         this.serverOptions.nativeParsing = this.serverOptions.nativeParsing || false;
