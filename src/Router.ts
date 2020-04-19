@@ -61,12 +61,8 @@ class Router implements RouterInterface {
     Server.routers.set(this.base, this);
     this.errorPage = this.errorPage || Server.errorPage;
     this.staticFolder = this.staticFolder || Server.serverOptions.staticFolder;
-    // console.log(this.staticFolder)
-    // this.globalMiddleWares.push(this.serverAssetsMiddleWare.bind(this))
     this.serverAssetsMiddleWare();
     this.bootstrapRoutes();
-    // console.log(this.getRouters)
-    // console.log(this.getRouters)
     return this;
   }
   public init(): this {
@@ -79,12 +75,10 @@ class Router implements RouterInterface {
     let pathToSkip:string = req.pathname;
     if(path.extname(pathToSkip)) {
       pathToSkip = req.pathname.replace(/\.[^.]*$/, "");
-      console.log(pathToSkip);
     }
     let matchedRoute:Route;
     switch(method) {
       case "get":
-        // console.log(method)
         matchedRoute = this.getRouters.find(route => route.routePattern.match(pathToSkip))
         break;
       case "post":
@@ -118,7 +112,6 @@ class Router implements RouterInterface {
   bootstrapRoutes() {
     this.getRouters = Array.from(this.getRouters).map((route:any) => {
       if(route instanceof Route) {
-        // console.log(route);
         return route;
       } else {
         let parsedRoute = new Route(route, this.base);
@@ -174,17 +167,6 @@ class Router implements RouterInterface {
     newRouter.globalMiddleWares = newRouter.globalMiddleWares || [];
     newRouter.globalMiddleWares.unshift(...this.globalMiddleWares);
     newRouter.build();
-    // console.log(newRouter.getRouters);
-    // this.pushGlobalMiddleWares(newRouter.getRouters, newRouter.globalMiddleWares, newRouter.cors);
-    // this.pushGlobalMiddleWares(newRouter.postRouters, newRouter.globalMiddleWares, newRouter.cors);
-    // this.pushGlobalMiddleWares(newRouter.putRouters, newRouter.globalMiddleWares, newRouter.cors);
-    // this.pushGlobalMiddleWares(newRouter.patchRouters, newRouter.globalMiddleWares, newRouter.cors);
-    // this.pushGlobalMiddleWares(newRouter.deleteRouters, newRouter.globalMiddleWares, newRouter.cors);
-    // this.getRouters.push(...newRouter.getRouters)
-    // this.postRouters.push(...newRouter.postRouters)
-    // this.putRouters.push(...newRouter.putRouters)
-    // this.patchRouters.push(...newRouter.patchRouters)
-    // this.deleteRouters.push(...newRouter.deleteRouters)
     return this;
   }
   addRoute(route: Route): this {
@@ -258,17 +240,6 @@ class Router implements RouterInterface {
   async serveAssets(req: Request, res: Response, next: Function) {
     try {
       let staticFolder = this.staticFolder;
-      // console.log(staticFolder);
-      // let url = `${this.base}/${staticFolder.url}/*`.replace(/(https?:\/\/)|(\/)+/g, "$1$2")
-      // .replace(/^(.+?)\/*?$/, "$1")
-      // .replace(/\s+/gi, "");
-      // let urlPattern = new UrlPattern(url);
-      // console.log(urlPattern, url)
-      // if(req.method !== "get") {
-      //   // continue
-      //   return next();
-      // }
-      // // console.log(staticFolder);
       if (staticFolder) {
         var sourceFolder = path.resolve("/", staticFolder.path);
         // sourceFolder = sourceFolder.split(path.sep).join("/");
