@@ -1,4 +1,7 @@
 language: node_js
-script: npm i -g typescript && npm run build
+before_install:
+  - npm i -g npm@latest
+  - npm i -g typescript
+script: npm run build
 notifications:
   email: tareksalem19982018@gmail.com
