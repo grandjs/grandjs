@@ -71,7 +71,7 @@ class ViewClass {
       }
       return css
     }
-    parser(node:NodeInterface, data:OptionalObject) {
+    parser(node:NodeInterface, data:OptionalObject):any {
       let str = "";
       if(Array.isArray(node)) {
         Array.from(node).map((child) => {
@@ -79,14 +79,15 @@ class ViewClass {
           str+=`${elem}`
         })
         return str;
-      } else if (typeof node === "object" && node.type) {
+      } else if (typeof node === "object" && typeof node.type === "string") {
         let type = node.type;
         let props = node.props;
         let children = node.children || [];
         let attrs = this.parseAttributes(props);
         str+=`<${type} ${attrs.attrs}>`;
         let parsedChildren = children.map((child) => {
-          let parsedChild  = this.parseChildren(child, data)
+          // console.log(child);
+          let parsedChild  = this.parseChildren(child, {...data, ...props, children})
           if(parsedChild) {
             if(typeof parsedChild === "string") {
               str+=`${parsedChild}`
@@ -101,14 +102,18 @@ class ViewClass {
       } else if (typeof node === "string") {
         str+=`${node}`
         return str;
+      } else if(typeof node === "object" && typeof node.type === "function") {
+        let component = node.type({...node.props, children: node.children});
+        let result = this.parser(component, node.props);
+        return result;
       }
       }
       parseChildren(child:NodeInterface, data:OptionalObject) {
         if(typeof child === "string") {
           return child;
-        } else if(child.type && typeof child.type === "function") {
+        } else if(child && child.type && typeof child.type === "function") {
           let component = child.type;
-          let node = component(child.props);
+          let node = component({...child.props, children: child.children || []});
             return this.parser(node, child.props);
         } else {
           let result = this.parser(child, data)
