@@ -117,6 +117,7 @@ class Router implements RouterInterface {
       if(route instanceof Route) {
         return route;
       } else {
+        route.handler = route.handler.bind(this);
         let parsedRoute = new Route(route, this.base);
         let corsObject = Object.assign({}, route.cors, this.cors);
         parsedRoute.setCors(corsObject);
@@ -127,6 +128,7 @@ class Router implements RouterInterface {
       if(route instanceof Route) {
         return route;
       }
+      route.handler = route.handler.bind(this);
       let parsedRoute = new Route(route, this.base);
       let corsObject = Object.assign({}, route.cors, this.cors);
       parsedRoute.setCors(corsObject);
@@ -136,6 +138,7 @@ class Router implements RouterInterface {
       if(route instanceof Route) {
         return route;
       }
+      route.handler = route.handler.bind(this);
       let parsedRoute = new Route(route, this.base);
       let corsObject = Object.assign({}, route.cors, this.cors);
       parsedRoute.setCors(corsObject);
@@ -145,6 +148,7 @@ class Router implements RouterInterface {
       if(route instanceof Route) {
         return route;
       }
+      route.handler = route.handler.bind(this);
       let parsedRoute = new Route(route, this.base);
       let corsObject = Object.assign({}, route.cors, this.cors);
       parsedRoute.setCors(corsObject);
@@ -154,6 +158,7 @@ class Router implements RouterInterface {
       if(route instanceof Route) {
         return route;
       }
+      route.handler = route.handler.bind(this);
       let parsedRoute = new Route(route, this.base);
       let corsObject = Object.assign({}, route.cors, this.cors);
       parsedRoute.setCors(corsObject);
@@ -164,19 +169,12 @@ class Router implements RouterInterface {
     let newRouter = <Router>new RouterClass();
     newRouter.req = this.req;
     newRouter.res = this.res;
-    newRouter.base = newRouter.base || this.base;
-    if(newRouter.base === "/" || newRouter.base === this.base) {
-      newRouter.child = true;
-    }
-    newRouter.base = path.join(this.base, newRouter.base).split(path.sep).join("/")
+    newRouter.base = newRouter.base || "/";
+    newRouter.child = true;
     newRouter.cors = Object.assign({}, this.cors, newRouter.cors);
     newRouter.globalMiddleWares = newRouter.globalMiddleWares || [];
     if(newRouter.child) {
       this.assignChildRouterRoutes(newRouter);
-      // this.getRouters.push(...newRouter.getRouters);
-      // this.getRouters.push(...newRouter.getRouters);
-      // this.getRouters.push(...newRouter.getRouters);
-      // this.getRouters.push(...newRouter.getRouters);
     } else {
       newRouter.globalMiddleWares.unshift(...this.globalMiddleWares);
       newRouter.build();
@@ -187,14 +185,28 @@ class Router implements RouterInterface {
   assignChildRouterRoutes(childRouter:Router) {
     let allRoutes = [...childRouter.getRouters, ...childRouter.postRouters, ...childRouter.patchRouters, ...childRouter.putRouters, ...childRouter.deleteRouters]
     allRoutes.map((route) => {
+      route.url = path.join(childRouter.base, route.url);
+      route.url = route.url.split(path.sep).join("/");
       route.middleWares = route.middleWares || [];
-      this.addRoute({
-        url: route.url,
-        method: route.method,
-        handler: route.handler,
-        middleWares: [...childRouter.globalMiddleWares, ...route.middleWares],
-        cors: Object.assign({}, route.cors || {}, childRouter.cors)
-      })
+      route.cors = Object.assign({}, childRouter.cors, route.cors || {});
+      switch(route.method.toLowerCase()) {
+        case "get":
+          this.getRouters.push(route);
+          break;
+        case "post":
+          this.postRouters.push(route);
+          break;
+        case "put":
+          this.putRouters.push(route);
+          break;
+        case "patch":
+          break;
+          this.patchRouters.push(route);
+          break;
+        case "delete":
+          this.deleteRouters.push(route);
+          break;
+      }
     })
     return this;
   }
@@ -215,14 +227,19 @@ class Router implements RouterInterface {
     switch (method) {
       case "get":
         this.getRouters.push(parsedRoute)
+        break;
       case "post":
         this.postRouters.push(parsedRoute)
+        break;
       case "put":
         this.putRouters.push(parsedRoute)
+        break;
       case "patch":
         this.patchRouters.push(parsedRoute)
+        break;
       case "delete":
         this.deleteRouters.push(parsedRoute)
+        break;
     }
     return this;
   }
@@ -270,20 +287,19 @@ class Router implements RouterInterface {
     try {
       let staticFolder = this.staticFolder;
       if (staticFolder) {
-        var sourceFolder = path.resolve("/", staticFolder.path);
-        // sourceFolder = sourceFolder.split(path.sep).join("/");
-        var mimeTypes: any = config.mimeTypes
-        var dirName = path.join("", `${sourceFolder}`);
+        let sourceFolder = path.resolve("/", staticFolder.path);
+        let pathname = req.pathname.split(staticFolder.url)[1];
+        let mimeTypes: any = config.mimeTypes
+        let dirName = path.join("", `${sourceFolder}`);
         let fileSource;
-        fileSource = path.join(process.cwd(), req.pathname);
+        fileSource = path.join(process.cwd(), staticFolder.path, pathname);
         fileSource = fileSource.split(path.sep).join("/");
-        // var existFile = fs.existsSync(fileSource);
         let promisifiedState = util.promisify(fs.lstat);
         let fileState = (await promisifiedState(fileSource));
         if (fileState.isFile()) {
-          var fileStream = fs.createReadStream(fileSource);
-          let extName: any = path.extname(req.pathname);
-          var headers = {
+          let fileStream = fs.createReadStream(fileSource);
+          let extName: any = path.extname(pathname);
+          let headers = {
             "Content-Type": mimeTypes[extName] || 'application/octet-stream',
             // 'Cache-Control': `public, max-age=${cacheControl || 'no-cache'}`,
             'Content-Length': fileState.size
