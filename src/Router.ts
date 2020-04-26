@@ -292,7 +292,7 @@ class Router implements RouterInterface {
         let mimeTypes: any = config.mimeTypes
         let dirName = path.join("", `${sourceFolder}`);
         let fileSource;
-        fileSource = path.join(process.cwd(), staticFolder.path, pathname);
+        fileSource = path.join(staticFolder.path, pathname);
         fileSource = fileSource.split(path.sep).join("/");
         let promisifiedState = util.promisify(fs.lstat);
         let fileState = (await promisifiedState(fileSource));
