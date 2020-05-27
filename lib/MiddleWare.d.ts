@@ -15,6 +15,7 @@ import Route from "./Route";
 import { MiddleWareInterface } from './interfaces/index';
 declare class MiddleWare {
     next(matchedRoute: Route, req: Request, res: Response): any;
+    private nextFunction;
     handleRoutersMiddleWares(req: Request, res: Response, allMiddleWares: MiddleWareInterface[], matchedRouter: Router, Server: any): any;
 }
 declare const _default: MiddleWare;

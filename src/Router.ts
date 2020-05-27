@@ -21,6 +21,7 @@ import fs from "fs";
 import Route from "./Route";
 import UrlPattern from 'url-pattern';
 class Router implements RouterInterface {
+  [key:string]:any
   id: string
   options: any;
   staticFolder: StaticFolderInterface;

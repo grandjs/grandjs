@@ -29,6 +29,7 @@ You want to build a solid web application but you don't want to use express and 
 * built in cors Handler
 Built in request body parser
 Usable for Typescript Apps
+
 ```javascript
 //require HTTP module
 const http = require("http");
@@ -92,6 +93,7 @@ Grandjs.initServer();
         - [``res.redirect`` function](#resredirect-function)
       - [middleWares](#middlewares)
       - [Use Router class inside another router class](#Use-Router-class-inside-another-router-class)
+      - [TypeScript Decorators](#typescript-decorators)
     - [Validation](#validation)
       - [``validation.strip_html_tags`` function](#validationstriphtmltags-function)
       - [``validation.checkEmail`` function](#validationcheckemail-function)
@@ -379,7 +381,7 @@ class HomeRouter extends Router{
 
 As any extended class, you should call the super inside the constructor and pass the options parameter
 
-| parameter   |     type   | 
+| parameter   |     type   |
 |----------|:-------------:|
 | options |  Object |
 
@@ -846,10 +848,10 @@ home.addRoute({
         console.log(req.path) //output /posts/tech?postId=2
         console.log(req.href) //output /posts/tech?postId=2
         console.log(req.method) //output "get"
-        console.log(req.url) 
+        console.log(req.url)
         console.log(req.body);
         console.log(req.data);
-        /* output 
+        /* output
         Url {
         protocol: null,
         slashes: null,
@@ -1154,6 +1156,44 @@ class AdminRoutes extends Router{
 }
 ```
 
+## TypeScript Decorators
+If you are using typescript wit Grandjs, you can use decorators to decorate your route methods!
+Currently grandjs supports the following decorators
+
+- `GET` (for get methods)
+- `POST` (for post methods)
+- `PATCH` (for patch methods)
+- `PUT` (for put methods)
+- `DELETE` (for delete methods)
+- `MiddleWare` (for methods that act as middleWares)
+
+**Example**
+```typescript
+import {Router, Request, Response} from "grandjs/src"
+import {GET, POST, PATCH, PUT, DELETE, MiddleWare} from "grandjs/src/decorators";
+
+class UserRouter extends Router{
+  // get user page
+  @GET({url: "/user"})
+  getUserPage(req: Request, res: Response) {
+    return res.status(200).json({status: 200, message: "hello world"});
+  }
+  // middleware
+  @MiddleWare
+  userMiddleWare(req: Request, res: Response, next: Function) {
+    // check the user
+    if(req.user) {
+      // continue
+      return next();
+    } else {
+      return res.status(401).json({status: 401, message: "user is not authorized"});
+    }
+  }
+}
+```
+**Note**
+the decorator function injects the method into the proper array of methods, so if you use `@GET` decorator it will be injected in `getRouters` array, the same thing for other routes, if you use `@MiddleWare` decorator, it will inject the method in `globalMiddleWares` array
+
 ### Validation
 
 Grandjs includes awesome validation system to validate inputs and remove strip tags and check the correct email
@@ -1280,7 +1320,7 @@ Grandjs.helpers.validation.checkContainsNumber("Grandjs32test1", 3, (containsNum
 2- without callback
 
 ```javascript
-let containsNumbers = 
+let containsNumbers =
 Grandjs.helpers.validation.checkContainsNumber("Grandjs32test1", 3);
 console.log(containsNumbers) // returns true if it contains 3 numbers, returns false if not
 ```
@@ -1628,7 +1668,7 @@ Server.initServer();
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-* url-pattern 
+* url-pattern
 * Handlebars template engine
 * Hat tip to anyone whose code was used
 * Inspiration

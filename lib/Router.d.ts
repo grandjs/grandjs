@@ -14,6 +14,7 @@ import Response from "./Response";
 import RequestParser from "./requestParser";
 import Route from "./Route";
 declare class Router implements RouterInterface {
+    [key: string]: any;
     id: string;
     options: any;
     staticFolder: StaticFolderInterface;

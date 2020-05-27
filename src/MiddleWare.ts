@@ -20,19 +20,22 @@ class MiddleWare {
   next(matchedRoute: Route, req: Request, res: Response) {
     let middleWares: MiddleWareInterface[] = matchedRoute.middleWares;
     if (middleWares && middleWares.length > 0) {
-      function next() {
-          nexted++;
-          if (middleWares.length <= nexted) {
-            return matchedRoute.handler(req, res);
-          } else {
-            return middleWares[nexted](req, res, next);
-          }
-      }
+      
       var nexted = 0;
-      return middleWares[0](req, res, next);
+      return middleWares[0](req, res, this.nextFunction(nexted, middleWares, matchedRoute, req, res));
     } else {
       return matchedRoute.handler(req, res);
     }
+  }
+  private nextFunction(nexted:number, middleWares:MiddleWareInterface[], matchedRoute:Route, req:Request, res:Response) {
+    return function next() {
+      nexted++;
+      if (middleWares.length <= nexted) {
+        return matchedRoute.handler(req, res);
+      } else {
+        return middleWares[nexted](req, res, next);
+      }
+  }
   }
   // method to handle routers middlewares
   handleRoutersMiddleWares(req: Request, res: Response, allMiddleWares: MiddleWareInterface[], matchedRouter: Router, Server: any) {

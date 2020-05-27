@@ -73,6 +73,7 @@ export interface StaticFolderInterface {
     url: string;
 }
 export interface RouterInterface {
+    [key: string]: any;
     id: string;
     base: string;
     getRouters: Route[];
