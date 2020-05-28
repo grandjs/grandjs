@@ -11,7 +11,10 @@
     "strict": false,
     "moduleResolution": "Node",
     "emitDecoratorMetadata": true,
-    "jsx": "react"
+    "rootDir": "src",
+    "rootDirs": ["src", "lib"],
+    "jsx": "react",
+    "baseUrl": "src",
     },
     "include": [
         "src"

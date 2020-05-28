@@ -15,9 +15,9 @@ import Request from "./Request";
 import Response from "./Response";
 import helpers from './helpers';
 import FileUpload from './fileupload';
-
+import {GET, POST, PUT, PATCH, DELETE, MiddleWare} from "./decorators";
 
 const validation = helpers.validation;
 const Cipher = helpers.Cipher;
-export {Server, Router, View, Request, Response, validation, Cipher, FileUpload};
+export {Server, Router, View, Request, Response, validation, Cipher, FileUpload, GET, POST, PUT, PATCH, DELETE, MiddleWare};
 

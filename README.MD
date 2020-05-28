@@ -143,12 +143,12 @@ to start with Grandjs just install it and call it in your file as the following
 **Javascript**
 ```javascript
 //require Grandjs framework in javascript
-const {Server, Router, Request, Response} = require("grandjs/lib");
+const {Server, Router, Request, Response} = require("grandjs");
 ```
 
 **Typescript**
 ```typescript
-import {Server, Router, Request, Response} from "grandjs/src"
+import {Server, Router, Request, Response} from "grandjs"
 ```
 
 if you want to require HTTP or HTTPS module to pass it to Grand js you can, in all cases, Grandjs behind the seen requires HTTP module as a default.
@@ -164,10 +164,10 @@ Grandjs.setConfig({});
 ```javascript
 
 //javascript
-const {Server, Router} = require("grandjs/lib");
+const {Server, Router} = require("grandjs");
 
 //typescript
-import {Server, Router} from "grandjs/src";
+import {Server, Router} from "grandjs";
 
 // define Grandjs configuration
 Server.setConfig({
@@ -227,10 +227,10 @@ Grandjs allows you to set cors configuration on multiple level of routes as the 
 
 ```javascript
 // javascript
-const {Server} = require("grandjs/lib");
+const {Server} = require("grandjs");
 // typescript
 
-import {Server} from "grandjs/src";
+import {Server} from "grandjs";
 
 Server.setConfig({
     cors : {
@@ -247,10 +247,10 @@ Server.setConfig({
 
 ```javascript
 // javascript
-const {Server, Router} = require("grandjs/lib");
+const {Server, Router} = require("grandjs");
 // typescript
 
-import {Server, Router} from "grandjs/src";
+import {Server, Router} from "grandjs";
 class HomeRouter extends Router{
     constructor(options) {
         super(options);
@@ -268,10 +268,10 @@ class HomeRouter extends Router{
 
 ```javascript
 // javascript
-const {Server, Router} = require("grandjs/lib");
+const {Server, Router} = require("grandjs");
 // typescript
 
-import {Server, Router} from "grandjs/src";
+import {Server, Router} from "grandjs";
 class HomeRouter extends Router{
     constructor(options) {
         super(options);
@@ -302,10 +302,10 @@ After initializing grandjs, maybe you want to use the created server or access o
 
 ```javascript
 // javascript
-const {Server} = require("grandjs/lib");
+const {Server} = require("grandjs");
 // typescript
 
-import {Server} from "grandjs/src";
+import {Server} from "grandjs";
 
 
 Server.Server
@@ -329,10 +329,10 @@ to set global middleware you can use `Server.use` function as the following:
 
 ```javascript
 // javascript
-const {Server} = require("grandjs/lib");
+const {Server} = require("grandjs");
 // typescript
 
-import {Server} from "grandjs/src";
+import {Server} from "grandjs";
 Server.setConfig({});
 
 // add global middleware here
@@ -368,10 +368,10 @@ To continue to the next global middleware or to start executing the matched rout
 
 ```javascript
 // javascript
-const {Server, Router} = require("grandjs/lib");
+const {Server, Router} = require("grandjs");
 // typescript
 
-import {Server, Router} from "grandjs/src";
+import {Server, Router} from "grandjs";
 class HomeRouter extends Router{
     constructor(options) {
         super(options);
@@ -415,10 +415,10 @@ class HomeRouter extends Router{
 
 ```javascript
 // javascript
-const {Server} = require("grandjs/lib");
+const {Server} = require("grandjs");
 // typescript
 
-import {Server} from "grandjs/src";
+import {Server} from "grandjs";
 class HomeRouter extends Router{
     constructor(options) {
         super(options);
@@ -473,10 +473,10 @@ class HomeRouter extends Grandjs.Router{
 
 ```javascript
 // javascript
-const {Server, Router} = require("grandjs/lib");
+const {Server, Router} = require("grandjs");
 // typescript
 
-import {Server, Router} from "grandjs/src";
+import {Server, Router} from "grandjs";
 class HomeRouter extends Router{
     constructor(options) {
         super(options);
@@ -634,10 +634,10 @@ this function takes one (required) parameter as an object has the following prop
 
 ```javascript
 // javascript
-const {Server, Router} = require("grandjs/lib");
+const {Server, Router} = require("grandjs");
 // typescript
 
-import {Server, Router} from "grandjs/src";
+import {Server, Router} from "grandjs";
 const adminRoute = new Router({
     baes: "/admin"
 })
@@ -963,10 +963,10 @@ Create App.jsx File
 ```jsx
 // import View here (mandatory)
 // javascript
-const {View} = require("grandjs/lib");
+const {View} = require("grandjs");
 
 // typescript
-import {View} from "grandjs/src";
+import {View} from "grandjs";
 const App = (props) => {
     return (
         <div>
@@ -981,10 +981,10 @@ module.exports = App
 
 ```javascript
 // javascript
-const {Server, Router, View} = require("grandjs/lib");
+const {Server, Router, View} = require("grandjs");
 
 // typescript
-import {Server, Router, View} from "grandjs/src";
+import {Server, Router, View} from "grandjs";
 
 // load jsx file
 const App = View.importJsx("./App.jsx");
@@ -1169,8 +1169,8 @@ Currently grandjs supports the following decorators
 
 **Example**
 ```typescript
-import {Router, Request, Response} from "grandjs/src"
-import {GET, POST, PATCH, PUT, DELETE, MiddleWare} from "grandjs/src/decorators";
+import {Router, Request, Response} from "grandjs"
+import {GET, POST, PATCH, PUT, DELETE, MiddleWare} from "grandjs";
 
 class UserRouter extends Router{
   // get user page
@@ -1204,10 +1204,10 @@ Grandjs includes awesome validation system to validate inputs and remove strip t
 
 ```javascript
 //javascript
-const {validation} = require("grandjs/lib");
+const {validation} = require("grandjs");
 
 // typescript
-import {validation} from "grandjs/src";
+import {validation} from "grandjs";
 ```
 
 2- as a property inside the request object
@@ -1382,7 +1382,7 @@ This function takes one parameter which refers to the string you wanna encrypt o
 This function rreturns the string after cipher it
 
 ```javascript
-const {Cipher} = require("grandjs/lib");
+const {Cipher} = require("grandjs");
 // encrypt password
 let encryptedPassword = Cipher.enCrypt("passowrd");
 ```
@@ -1392,7 +1392,7 @@ let encryptedPassword = Cipher.enCrypt("passowrd");
 
 ```javascript
 
-const {Cipher} = require("grandjs/lib");
+const {Cipher} = require("grandjs");
 Cipher.deCrypt(text);
 ```
 This function takes one parameter which refers to the string you wanna decrypt or decipher it
@@ -1422,9 +1422,9 @@ This Module is deprecated, you can use [express flash messages](https://www.npmj
 
 ```javascript
 // javascript
-const {Server} = require("grandjs/lib");
+const {Server} = require("grandjs");
 // typescript
-import {Server} = from "grandjs/src";
+import {Server} = from "grandjs";
 
 const flash = require('express-flash'),
 const session = require('express-session')
@@ -1466,9 +1466,9 @@ Grandjs includes a small helpers for working with files and images specifically,
 
 ```javascript
 // javascript
-const {FileUpload} = require("grandjs/lib");
+const {FileUpload} = require("grandjs");
 // typescript
-import {FileUpload} from "grandjs/src"
+import {FileUpload} from "grandjs"
 ```
 
 file upload has property called `uploadPath` which is the destination to save files in, you can change it anytime by calling `setUploadPath` method as the following:
@@ -1571,9 +1571,9 @@ in App.jsx
 ```jsx
 // jsx
 // importing {View} is mandatory
-const {View} = require("grandjs/lib");
+const {View} = require("grandjs");
 // typescript
-import {View} from "grandjs/src";
+import {View} from "grandjs";
 const App = (props) => {
     return (
         <div>
@@ -1585,9 +1585,9 @@ module.exports = App;
 ```
 in Home.jsx file
 ```jsx
-const {View} = require("grandjs/lib");
+const {View} = require("grandjs");
 // typescript
-import {View} from "grandjs/src";
+import {View} from "grandjs";
 const App = View.importJsx("./App.jsx");
 const Home = (props) => {
     return (
@@ -1630,9 +1630,9 @@ const Home = View.importJsx("./views/Home.jsx");
 
 ```javascript
 // importing {View} is mandatory
-const {Server, View, Router} = require("grandjs/lib");
+const {Server, View, Router} = require("grandjs");
 // typescript
-import {Server, View, Router} from "grandjs/src";
+import {Server, View, Router} from "grandjs";
 // import Home Page
 const Home = View.importJsx("./views/Home.jsx");
 const router = new Router({base: "/"})
