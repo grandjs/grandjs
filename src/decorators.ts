@@ -22,6 +22,7 @@ const decorator = (options:{url:string,middleWares?:MiddleWareInterface[], cors?
         if(typeof options === "object") {
             options.middleWares = options.middleWares || [];
             let route = {url: options.url, middleWares: options.middleWares, method: methodType, handler: method};
+            target[routersType] = target[routersType] || [];
             target[routersType].push(route);
         } else {
             let route = method();
