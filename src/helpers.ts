@@ -27,15 +27,15 @@ import { OptionalObject, NodeInterface } from "./interfaces/index";
 
 // define helpers object
 const helpers = {
-  hash: function (string: string) {
-    if (typeof string === "string" && string.length > 0) {
-      let hash = crypto.createHmac("sha256", "hashPassowrd").update(string).digest();
-      return hash;
-    } else {
-      return false;
-    }
-  },
   Cipher: {
+    hash: function (string: string) {
+      if (typeof string === "string" && string.length > 0) {
+        let hash = crypto.createHmac("sha256", "hashPassowrd").update(string).digest();
+        return hash;
+      } else {
+        return false;
+      }
+    },
     enCrypt: function (text: string) {
       var IV_LENGTH = 16; // For AES, this is always 16
       var ENCRYPTION_KEY = process.env.ENCRYPTION_KEY

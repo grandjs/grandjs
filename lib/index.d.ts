@@ -1,3 +1,4 @@
+/// <reference types="node" />
 /**
  * @package @Grandjs
  * @author Tarek Salem
@@ -26,6 +27,7 @@ declare const validation: {
     checkIsNumber: (element: string, cb: Function) => any;
 };
 declare const Cipher: {
+    hash: (string: string) => false | Buffer;
     enCrypt: (text: string) => string;
     deCrypt: (text: string) => string;
 };

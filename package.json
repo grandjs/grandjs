@@ -1,6 +1,6 @@
 {
     "name": "grandjs",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
