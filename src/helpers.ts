@@ -28,12 +28,12 @@ import { OptionalObject, NodeInterface } from "./interfaces/index";
 // define helpers object
 const helpers = {
   Cipher: {
-    hash: function (string: string) {
+    hash: function (string: string):string {
       if (typeof string === "string" && string.length > 0) {
-        let hash = crypto.createHmac("sha256", "hashPassowrd").update(string).digest();
+        let hash = crypto.createHmac("sha256", "hashPassowrd").update(string).digest().toString();
         return hash;
       } else {
-        return false;
+        return "";
       }
     },
     enCrypt: function (text: string) {

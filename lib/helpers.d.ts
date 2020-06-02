@@ -15,7 +15,7 @@ import Response from "./Response";
 import { OptionalObject } from "./interfaces/index";
 declare const helpers: {
     Cipher: {
-        hash: (string: string) => false | Buffer;
+        hash: (string: string) => string;
         enCrypt: (text: string) => string;
         deCrypt: (text: string) => string;
     };
