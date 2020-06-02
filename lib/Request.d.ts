@@ -9,7 +9,7 @@
  * File Role: View HTTP Request Object
  * ==============================================================================
  */
-import { RequestInterface } from './interfaces/index';
+import { RequestInterface, OptionalObject } from './interfaces/index';
 import http from 'http';
 import { Socket } from 'net';
 import Url from 'url';
@@ -23,8 +23,8 @@ declare class Request extends http.IncomingMessage implements RequestInterface {
     parsedUrl: Url.Url;
     params: {};
     query: {};
-    data: {};
-    body: {};
+    data: OptionalObject;
+    body: OptionalObject;
     files: {};
     method: string;
     statusCode: number;
@@ -34,8 +34,8 @@ declare class Request extends http.IncomingMessage implements RequestInterface {
         checkEmail: (string: string, cb: Function) => any;
         notEmptyString: (string: string, cb: Function) => any;
         checkContainsNumber: (string: string, count: number, cb: Function) => any;
-        isObject: (obj: import("./interfaces").OptionalObject) => false | import("./interfaces").OptionalObject;
-        notEmpty: (obj: import("./interfaces").OptionalObject) => false | import("./interfaces").OptionalObject;
+        isObject: (obj: OptionalObject) => false | OptionalObject;
+        notEmpty: (obj: OptionalObject) => false | OptionalObject;
         isString: (str: string) => string | false;
         checkIsNumber: (element: string, cb: Function) => any;
     };
