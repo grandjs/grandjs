@@ -26,6 +26,7 @@ const decorator = (options:{url:string,middleWares?:MiddleWareInterface[], cors?
         } else {
             let route = method();
             route.route = methodType;
+            target[routersType] = target[routersType] || [];
             target[routersType].push(route);
         }
     }
