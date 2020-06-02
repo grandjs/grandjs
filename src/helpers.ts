@@ -30,7 +30,7 @@ const helpers = {
   Cipher: {
     hash: function (string: string):string {
       if (typeof string === "string" && string.length > 0) {
-        let hash = crypto.createHmac("sha256", "hashPassowrd").update(string).digest().toString();
+        let hash = crypto.createHmac("sha256", "hashPassowrd").update(string).digest().toString("hex");
         return hash;
       } else {
         return "";

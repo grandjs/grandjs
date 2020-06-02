@@ -1,10 +1,13 @@
 {
     "name": "grandjs",
-    "version": "2.1.8",
+    "version": "2.1.9",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
-    "directories": {"src": "./src", "lib": "./lib"},
+    "directories": {
+        "src": "./src",
+        "lib": "./lib"
+    },
     "scripts": {
         "test": "mocha",
         "build": "tsc"
