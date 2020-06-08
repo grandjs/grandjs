@@ -34,12 +34,14 @@ export interface RequestInterface{
     files: OptionalObject,
     Server: ServerInterface
     validation: ValidationInterface
+    [key:string]:any
 }
 export interface ResponseInterface{
     redirect(url:string):this
     status(status:number, message?:string):this
     json(object:object):this
     sendFile(file:string):this
+    [key:string]:any
 }
 export interface MiddleWareInterface{
     (req:Request, res:Response, next:Function):any

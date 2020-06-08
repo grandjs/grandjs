@@ -18,6 +18,7 @@ import {View} from "./View";
 class Response extends http.ServerResponse implements ResponseInterface {
     req:Request;
     res:Response
+    [key:string]:any
     constructor(req:Request, res: Response) {
         super(req);
         this.req = req;

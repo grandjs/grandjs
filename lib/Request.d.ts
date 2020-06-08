@@ -16,6 +16,7 @@ import Url from 'url';
 import { BaseServer } from "./Server";
 import parseRange from 'range-parser';
 declare class Request extends http.IncomingMessage implements RequestInterface {
+    [key: string]: any;
     path: string;
     url: string;
     pathname: string;

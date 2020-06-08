@@ -19,6 +19,7 @@ import typeis from "type-is";
 import helpers from './helpers';
 
 class Request extends http.IncomingMessage implements RequestInterface {
+  [key:string]:any
   path: string
   url: string
   pathname: string
@@ -31,7 +32,7 @@ class Request extends http.IncomingMessage implements RequestInterface {
   files: {}
   method: string
   statusCode: number
-  Server: BaseServer
+  Server: BaseServer  
   validation = helpers.validation
   constructor (socket: Socket, request: Request, Server:BaseServer) {
     // Object.assign(this, request);
@@ -62,6 +63,7 @@ class Request extends http.IncomingMessage implements RequestInterface {
     this.params = {}
     this.path = url.path
     this.parsedUrl = url
+    this.ee = "";
   }
   // accepts
   accepts () {

@@ -15,6 +15,7 @@ import Request from "./Request";
 declare class Response extends http.ServerResponse implements ResponseInterface {
     req: Request;
     res: Response;
+    [key: string]: any;
     constructor(req: Request, res: Response);
     redirect(url: string): this;
     status(status: number, message?: string): this;

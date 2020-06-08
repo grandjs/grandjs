@@ -1649,6 +1649,16 @@ Server.setConfig({port: 3000});
 Server.initServer();
 ```
 
+### View Render Component To HTML
+
+Also View class exposes to you a method called `renderToHtml` which is can be used to render the component into raw html string, this can be useful if you want to send your components as mail templates!
+
+```javascript
+const {View} = require("grandjs");
+const Home = View.importJsx("./views/Home.jsx");
+
+const template = View.renderToHtml(Home, {});
+```
 
 
 
