@@ -157,6 +157,11 @@ class ViewClass {
           res.writeHead(res.statusCode, { "content-type": "text/html"});
           return res.end(result);
     }
+    renderToHtml(Component:Function, data:OptionalObject) {
+      let component = Component(data);
+      let result = this.parser(component, data);
+      return result;
+    }
     importJsx(path:string) {
         let views = this.settings.get("views") || "";
         path = path.replace(views, "")
