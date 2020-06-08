@@ -16,6 +16,7 @@ declare class ViewClass {
         attrs: string;
     };
     render(res: Response, Component: Function, data: OptionalObject): void;
+    renderToHtml(Component: Function, data: OptionalObject): any;
     importJsx(path: string): any;
 }
 declare const View: ViewClass;
