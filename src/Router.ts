@@ -346,7 +346,7 @@ class Router implements RouterInterface {
             url: `/${options.url}${options.absolute ? "/*": ""}`,
             method: "GET",
             middleWares: middleWares,
-            handler: helpers.serveAssets.bind({staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage}),
+            handler: helpers.serveAssets.bind({staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage || Server.errorPage}),
             assetsPath: true
         }
         this.statics.push(new Route(route, this.base));
