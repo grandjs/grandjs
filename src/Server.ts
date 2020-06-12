@@ -18,7 +18,7 @@ import multiparty from "multiparty";
 import cors from "cors";
 // import {compile} from  "util";
 import config from "./config";
-import { ServerInterface, MiddleWareInterface, CorsInterface, RequestInterface, ResponseInterface, ServerConfigurations, RouteInterface, RouterInterface, OptionalObject } from './interfaces/index';
+import { ServerInterface, MiddleWareInterface, AssetsHandlerInterface, CorsInterface, RequestInterface, ResponseInterface, ServerConfigurations, RouteInterface, RouterInterface, OptionalObject } from './interfaces/index';
 import Request from "./Request";
 import Response from "./Response";
 import setprototypeof from "setprototypeof";
@@ -26,6 +26,7 @@ import helpers from './helpers';
 import Router from "./Router";
 import MiddleWare from "./MiddleWare";
 import RequestParser from "./requestParser";
+import Route from "./Route";
 let trustProxyDefaultSymbol = '@@symbol:trust_proxy_default';
 class BaseServer implements ServerInterface {
     Server: http.Server
@@ -38,6 +39,7 @@ class BaseServer implements ServerInterface {
     mountPath: string;
     parent: any
     middleWares: MiddleWareInterface[]
+    statics: Route[]
     RequestParser: RequestParser
     constructor() {
         this.routers = new Map();
@@ -47,6 +49,7 @@ class BaseServer implements ServerInterface {
         this.engines = new Map();
         this.cache = {};
         this.middleWares = [];
+        this.statics = [];
     }
     errorPage(req: Request, res: Response): any {
         return res.status(404).end("not found route");
@@ -60,47 +63,48 @@ class BaseServer implements ServerInterface {
     }
     chooseHandler(req: Request, res: Response) {
         let requests: Router[] = []
-        Array.from(this.routers.keys()).map((item) => {
-            let routerRegex = new RouteParser(`${item}*`)
-            let regexResult = routerRegex.match(req.pathname);
-            if (regexResult && typeof regexResult._ === "string" && ((regexResult._.startsWith("/") || regexResult._.length === 0) || item === "/")) {
-                let split = req.pathname.replace(regexResult._, "");
-                let splittedPath = regexResult._.split("/");
-                let foundRouter: Router = this.routers.get(item);
-                if (foundRouter) {
-                    if (splittedPath.length > 1) {
-                        requests.push(foundRouter);
-                    } else if (split === item || routerRegex.match(split)) {
-                        requests.push(foundRouter);
+            Array.from(this.routers.keys()).map((item) => {
+                let routerRegex = new RouteParser(`${item}*`)
+                let regexResult = routerRegex.match(req.pathname);
+                if (regexResult && typeof regexResult._ === "string" && ((regexResult._.startsWith("/") || regexResult._.length === 0) || item === "/")) {
+                    let split = req.pathname.replace(regexResult._, "");
+                    let splittedPath = regexResult._.split("/");
+                    let foundRouter: Router = this.routers.get(item);
+                    if (foundRouter) {
+                        if (splittedPath.length > 1) {
+                            requests.push(foundRouter);
+                        } else if (split === item || routerRegex.match(split)) {
+                            requests.push(foundRouter);
+                        }
                     }
                 }
-            }
-        })
-        requests.sort((a, b) => {
-            if (a.base.length > b.base.length) {
-                return 1;
+            })
+            requests.sort((a, b) => {
+                if (a.base.length > b.base.length) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            })
+            let matchedRouter = requests[requests.length > 1 ? requests.length - 1 : 0];;
+            if (matchedRouter) {
+                matchedRouter.requestParser = this.RequestParser;
+                matchedRouter.req = req;
+                matchedRouter.res = res;
+                matchedRouter.serverOptions = Object.assign(matchedRouter.serverOptions, this.serverOptions);
+                let allMiddleWares: MiddleWareInterface[] = [matchedRouter.corsMiddleWare.bind(matchedRouter), ...this.middleWares, ...matchedRouter.globalMiddleWares];
+                if (allMiddleWares.length > 0) {
+                    // call middleware handler
+                    return MiddleWare.handleRoutersMiddleWares(req, res, allMiddleWares, matchedRouter, this)
+                } else {
+                    // initialize router
+                    matchedRouter.init();
+                }
             } else {
-                return -1;
+                res.status(404);
+                this.errorPage(req, res);
             }
-        })
-        let matchedRouter = requests[requests.length > 1 ? requests.length - 1 : 0];;
-        if (matchedRouter) {
-            matchedRouter.requestParser = this.RequestParser;
-            matchedRouter.req = req;
-            matchedRouter.res = res;
-            matchedRouter.serverOptions = Object.assign(matchedRouter.serverOptions, this.serverOptions);
-            let allMiddleWares: MiddleWareInterface[] = [matchedRouter.corsMiddleWare.bind(matchedRouter), ...this.middleWares, ...matchedRouter.globalMiddleWares];
-            if (allMiddleWares.length > 0) {
-                // call middleware handler
-                return MiddleWare.handleRoutersMiddleWares(req, res, allMiddleWares, matchedRouter, this)
-            } else {
-                // initialize router
-                matchedRouter.init();
-            }
-        } else {
-            res.status(404);
-            this.errorPage(req, res);
-        }
+        // }
 
     }
     setConfig(options: ServerConfigurations) {
@@ -125,7 +129,23 @@ class BaseServer implements ServerInterface {
             this.RequestParser = new RequestParser(req, res);
             // instantiate new response
             let BindResponse = new Response(request, res);
-            this.chooseHandler(request, res);
+            let foundStaticRoute = this.statics.find(route => {
+                let regexResult = route.routePattern.match(request.pathname)
+                if(regexResult) {
+                    return route;
+                }
+            })
+            let pathToSkip:string = request.pathname;
+            if(path.extname(pathToSkip)) {
+                pathToSkip = request.pathname.replace(/\.[^.]*$/, "");
+            }
+            if(foundStaticRoute && path.extname(request.pathname)) {
+                return foundStaticRoute.handle({req: request, res:res});
+            } else if(!foundStaticRoute) {
+                this.chooseHandler(request, res);
+            } else {
+                this.chooseHandler(request, res);
+            }
         }
         if(this.serverOptions.httpsMode) {
             args[0] = this.serverOptions.httpsMode;
@@ -154,6 +174,20 @@ class BaseServer implements ServerInterface {
         } catch (e) {
             throw e;
         }
+    }
+    //{staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage, chooseHandler: this.chooseHandler}
+    // static method to serve static files
+    static(options:{url:string, path:string, absolute?:boolean, middleWares?:[]}) {
+        options.absolute = options.absolute || true;
+        let middleWares = options.middleWares || [];
+        let route =  {
+            url: `/${options.url}${options.absolute ? "/*": ""}`,
+            method: "GET",
+            middleWares: middleWares,
+            handler: helpers.serveAssets.bind(Object.assign({}, this, {staticFolder: {url:options.url, path:options.path}, chooseHandler: this.chooseHandler})),
+            assetsPath: true
+        }
+        this.statics.push(new Route(route, "/"));
     }
 }
 const Server = new BaseServer()

@@ -32,6 +32,7 @@ declare class Router implements RouterInterface {
     res?: Response;
     requestParser: RequestParser;
     serverOptions?: ServerConfigurations;
+    statics: Route[];
     child: boolean;
     constructor(options?: {
         base?: string;
@@ -50,6 +51,12 @@ declare class Router implements RouterInterface {
     resolveRoutesWithBase: () => void;
     corsMiddleWare(req: any, res: any, next: any): any;
     serveAssets(req: Request, res: Response, next: Function): Promise<any>;
+    static(options: {
+        url: string;
+        path: string;
+        absolute?: boolean;
+        middleWares?: [];
+    }): void;
     serverAssetsMiddleWare(): void;
 }
 export default Router;

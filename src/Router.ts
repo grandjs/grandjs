@@ -20,6 +20,7 @@ import util from "util";
 import fs from "fs";
 import Route from "./Route";
 import UrlPattern from 'url-pattern';
+import helpers from './helpers';
 class Router implements RouterInterface {
   [key:string]:any
   id: string
@@ -39,6 +40,7 @@ class Router implements RouterInterface {
   res?: Response
   requestParser: RequestParser
   serverOptions?: ServerConfigurations
+  statics: Route[]
   child:boolean = false;
   constructor(options?: { base?: string, staticFolder?: StaticFolderInterface }) {
     this.options = options || {};
@@ -50,6 +52,7 @@ class Router implements RouterInterface {
     this.patchRouters = this.patchRouters || [];
     this.globalMiddleWares = this.globalMiddleWares || [];
     this.serverOptions = this.serverOptions || {};
+    this.statics = this.statics || [];
     // this.cors = this.cors || {
     // }
     this.staticFolder = this.options.staticFolder || this.staticFolder;
@@ -77,39 +80,53 @@ class Router implements RouterInterface {
   chooseRoute(req: Request, res:Response) {
     let method = req.method;
     let pathToSkip:string = req.pathname;
-    if(path.extname(pathToSkip)) {
-      pathToSkip = req.pathname.replace(/\.[^.]*$/, "");
-    }
-    let matchedRoute:Route;
-    switch(method) {
-      case "get":
-        matchedRoute = this.getRouters.find(route => route.routePattern.match(pathToSkip))
-        break;
-      case "post":
-        matchedRoute = this.postRouters.find(route => route.routePattern.match(pathToSkip))
-        break;
-      case "delete":
-        matchedRoute = this.deleteRouters.find(route => route.routePattern.match(pathToSkip))
-        break;
-      case "put":
-        matchedRoute = this.putRouters.find(route => route.routePattern.match(pathToSkip))
-        break;
-      case "patch":
-        matchedRoute = this.patchRouters.find(route => route.routePattern.match(pathToSkip))
-        break;
-      default:
-        res.status(404);
-        return this.errorPage(req, res);
-    }
-    if(matchedRoute) {
-      let params = matchedRoute.routePattern.match(pathToSkip);
-      req.params = params;
-      // call handle function
-      return matchedRoute.handle(this, req, res);
+    // if(path.extname(pathToSkip)) {
+    //   pathToSkip = req.pathname.replace(/\.[^.]*$/, "");
+    // }
+    // console.log(pathToSkip, req.pathname)
+    let foundStaticRoute = this.statics.find(route => {
+      let regexResult = route.routePattern.match(pathToSkip)
+      if(regexResult) {
+          return route;
+      }
+    })
+    // check if found staticsroute is exist
+    if(foundStaticRoute) {
+      return foundStaticRoute.handle({Router: this, req, res})
     } else {
-      res.status(404);
-      // return error page
-      return this.errorPage(req, res);
+      let matchedRoute:Route;
+      switch(method) {
+        case "get":
+          matchedRoute = this.statics.find(route => route.routePattern.match(pathToSkip))
+        case "get":
+          matchedRoute = this.getRouters.find(route => route.routePattern.match(pathToSkip))
+          break;
+        case "post":
+          matchedRoute = this.postRouters.find(route => route.routePattern.match(pathToSkip))
+          break;
+        case "delete":
+          matchedRoute = this.deleteRouters.find(route => route.routePattern.match(pathToSkip))
+          break;
+        case "put":
+          matchedRoute = this.putRouters.find(route => route.routePattern.match(pathToSkip))
+          break;
+        case "patch":
+          matchedRoute = this.patchRouters.find(route => route.routePattern.match(pathToSkip))
+          break;
+        default:
+          res.status(404);
+          return this.errorPage(req, res);
+      }
+      if(matchedRoute) {
+        let params = matchedRoute.routePattern.match(pathToSkip);
+        req.params = params;
+        // call handle function
+        return matchedRoute.handle({Router:this, req:req, res:res});
+      } else {
+        res.status(404);
+        // return error page
+        return this.errorPage(req, res);
+      }
     }
   }
   // method to handle routers when build
@@ -321,6 +338,19 @@ class Router implements RouterInterface {
     }
 
   }
+  // static method to serve static files
+    static(options:{url:string, path:string, absolute?:boolean, middleWares?:[]}) {
+        options.absolute = options.absolute || true;
+        let middleWares = options.middleWares || [];
+        let route =  {
+            url: `/${options.url}${options.absolute ? "/*": ""}`,
+            method: "GET",
+            middleWares: middleWares,
+            handler: helpers.serveAssets.bind({staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage}),
+            assetsPath: true
+        }
+        this.statics.push(new Route(route, this.base));
+    }
   // method to serve assets
   serverAssetsMiddleWare() {
     // check if the static folder is exist

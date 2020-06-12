@@ -26,6 +26,10 @@ declare class Route implements RouteInterface {
     constructor(options: RouteInterface, base: string);
     parseUrl?(): any;
     setCors?(corsObject: CorsInterface): void;
-    handle?(Router: Router, req: Request, res: Response): any;
+    handle?(options: {
+        Router?: Router;
+        req: Request;
+        res: Response;
+    }): any;
 }
 export default Route;

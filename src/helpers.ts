@@ -22,6 +22,7 @@ import qs from "qs";
 import proxyaddr from "proxy-addr";
 import contentType from "content-type";
 import { OptionalObject, NodeInterface } from "./interfaces/index";
+import util from "util";
 // end dependencies
 
 
@@ -327,8 +328,57 @@ const helpers = {
         }
       }
     }
-  }
+  },
+  async serveAssets(req: Request, res: Response, next: Function) {
+    try {
+      let staticFolder = this.staticFolder;
+      if (staticFolder) {
+        let sourceFolder = path.resolve("/", staticFolder.path);
+        let pathname = req.pathname.split(staticFolder.url)[1];
+        let mimeTypes: any = confg.mimeTypes
+        let dirName = path.join("", `${sourceFolder}`);
+        let fileSource;
+        fileSource = path.join(staticFolder.path, pathname);
+        fileSource = fileSource.split(path.sep).join("/");
+        let promisifiedState = util.promisify(fs.lstat);
+        let fileState = (await promisifiedState(fileSource));
+        if (fileState.isFile()) {
+          let fileStream = fs.createReadStream(fileSource);
+          let extName: any = path.extname(pathname);
+          let headers = {
+            "Content-Type": mimeTypes[extName] || 'application/octet-stream',
+            // 'Cache-Control': `public, max-age=${cacheControl || 'no-cache'}`,
+            'Content-Length': fileState.size
+          };
+          res.writeHead(200, headers);
+          return fileStream.pipe(res);
+        } else {
+  
+          if(this.chooseHandler) {
+            return this.chooseHandler.bind(this)(req, res);
+          } else {
+            res.statusCode = 404;
+            return this.errorPage(req, res);
+          }
+        }
+      } else {
+        if(this.chooseHandler) {
+          return this.chooseHandler.bind(this)(req, res);
+        } else {
+          res.statusCode = 404;
+          return this.errorPage(req, res);
+        }
+      }
+    } catch (err) {
+      if(this.chooseHandler) {
+        return this.chooseHandler.bind(this)(req, res);
+      } else {
+        res.statusCode = 404;
+        return this.errorPage(req, res);
+      }
+    }
 
+  }
 };
 
 

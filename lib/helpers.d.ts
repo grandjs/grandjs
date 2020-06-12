@@ -45,5 +45,6 @@ declare const helpers: {
         isString: (str: string) => string | false;
         checkIsNumber: (element: string, cb: Function) => any;
     };
+    serveAssets(req: Request, res: Response, next: Function): Promise<any>;
 };
 export default helpers;

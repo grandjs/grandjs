@@ -61,7 +61,11 @@ export interface RouteInterface {
     routePattern?: any;
     params?: any;
     setCors?(corsObect: CorsInterface): any;
-    handle?(router: Router, req: Request, res: Response): any;
+    handle?(options: {
+        router?: Router;
+        req: Request;
+        res: Response;
+    }): any;
     assetsPath?: boolean;
 }
 export interface CorsInterface {
@@ -107,6 +111,13 @@ export interface RouterInterface {
     requestParser: RequestParser;
     serverOptions?: ServerConfigurations;
     child: boolean;
+    statics: Route[];
+    static(options: {
+        url: string;
+        path: string;
+        absolute?: boolean;
+        middleWares: [];
+    }): any;
     assignChildRouterRoutes(childRouter: Router): this;
 }
 export interface ServerConfigurations {
@@ -133,6 +144,12 @@ export interface ServerConfigurations {
     Server?: http.Server;
     nativeParsing?: boolean;
 }
+export interface AssetsHandlerInterface {
+    url: string;
+    method: string;
+    handler: HandlerInterface;
+    assetsPath: boolean;
+}
 export interface ServerInterface {
     use(func: MiddleWareInterface): this;
     middleWares: MiddleWareInterface[];
@@ -151,6 +168,7 @@ export interface ServerInterface {
     parent: any;
     mountPath: string;
     RequestParser: RequestParser;
+    statics: RouteInterface[];
     addMimeTypes(extention: string, mimeType: string): this;
 }
 export interface ValidationInterface {

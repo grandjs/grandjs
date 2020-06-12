@@ -14,6 +14,7 @@ import { ServerInterface, MiddleWareInterface, ServerConfigurations, RouterInter
 import Request from "./Request";
 import Response from "./Response";
 import RequestParser from "./requestParser";
+import Route from "./Route";
 declare class BaseServer implements ServerInterface {
     Server: http.Server;
     serverOptions?: ServerConfigurations;
@@ -25,6 +26,7 @@ declare class BaseServer implements ServerInterface {
     mountPath: string;
     parent: any;
     middleWares: MiddleWareInterface[];
+    statics: Route[];
     RequestParser: RequestParser;
     constructor();
     errorPage(req: Request, res: Response): any;
@@ -35,6 +37,12 @@ declare class BaseServer implements ServerInterface {
     initServer(cb?: Function): this;
     path(): string;
     addMimeTypes(extention: string, mimeType: string): this;
+    static(options: {
+        url: string;
+        path: string;
+        absolute?: boolean;
+        middleWares?: [];
+    }): void;
 }
 declare const Server: BaseServer;
 export { Server, BaseServer };

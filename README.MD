@@ -72,11 +72,13 @@ Grandjs.initServer();
   - [Installing](#installing)
   - [Getting Started](#getting-started)
     - [Server configuration](#server-configuration)
+    - [Server Static](#server-static)
     - [Cors]($cors)
     -[Accessing Grandjs Server](#accessing-grandjs-server)
     - [Grandjs MiddleWares](#grandjs-middlewares)
     - [Router](#router)
       - [extend Router class](#extend-router-class)
+      - [Router Static](#router-static)
       - [define get routers](#define-get-routers)
       - [define post routers](#define-post-routers)
       - [Access on request and response objects](#access-on-request-and-response-objects)
@@ -212,7 +214,29 @@ until now Grandjs doesn't work so you need to call "init function" to initialize
 Server.initServer();
 ```
 
+### Server Static
+Grandjs Exposes a function that allows you to specify static and assets directories easily with one function!
 
+This function is called `Server.static`, this function takes one parameter as an object with the following properties
+
+|property|type|required|description|
+|-|-|-|-|
+|url|string|true|the exposed url that will be resolved when it requested|
+|path|string|true|the internal path that will be resolved to read the files from it|
+|middlewares|Array<function>|true|A set of middlewares that you can apply before reading the files or resolve the directory|
+
+**Example**
+
+```typescript
+class MainRouter extends Router{}
+const mainRouter = new MainRouter({base: "/"});
+
+mainRouter.static({
+    url: "/assets",
+    path: path.join(process.cwd(), "/my-internal-assets")
+})
+
+```
 
 ### Cors
 Grandjs uses Cors Module which is used in express, you can use the default settings of it as you use in expressjs
@@ -408,7 +432,31 @@ class HomeRouter extends Router{
 | handler  |  function (required) | the function you want to run when the request URL matches the router url  |
 | middleWares  | array (optional)  |  if you want to run a function or more to check about something before running the final handler of the router |
 
-<!-- <hr style="border:.5px solid black;height:0"> -->
+
+### Router Static
+Grandjs Exposes a function that allows you to specify static and assets directories easily with one function!
+
+This function is called `Router.static`, this function takes one parameter as an object with the following properties
+
+|property|type|required|description|
+|-|-|-|-|
+|url|string|true|the exposed url that will be resolved when it requested|
+|path|string|true|the internal path that will be resolved to read the files from it|
+|middlewares|Array<function>|false|A set of middlewares that you can apply before reading the files or resolve the directory|
+
+**Example**
+
+```typescript
+class MainRouter extends Router{}
+const mainRouter = new MainRouter({base: "/"});
+
+mainRouter.static({
+    url: "/assets",
+    path: path.join(process.cwd(), "/my-internal-assets")
+})
+
+```
+
 ### Define get routers
 
 **Example**
