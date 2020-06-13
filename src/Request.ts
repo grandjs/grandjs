@@ -25,11 +25,11 @@ class Request extends http.IncomingMessage implements RequestInterface {
   pathname: string
   href: string
   parsedUrl: Url.Url
-  params: {}
-  query: {}
+  params: OptionalObject
+  query: OptionalObject
   data: OptionalObject
   body: OptionalObject
-  files: {}
+  files: OptionalObject
   method: string
   statusCode: number
   Server: BaseServer  
