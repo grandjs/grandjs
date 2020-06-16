@@ -1696,6 +1696,31 @@ router.build();
 Server.setConfig({port: 3000});
 Server.initServer();
 ```
+### View Define Styles
+
+Grandjs exposes to you a method called `View.createStyle` which is a method in `View` class that you can use to create a style as an object and use this style with defined classes inside your component as you can do in react
+
+**Example**
+
+```javascript
+const {View} = require("grandjs")
+
+const Styles = View.createStyle({
+    title: {
+        backgroundColor: "red"
+    }
+    title2: {
+        color: "green"
+    }
+})
+
+const App = () => {
+    const classes = Styles();
+    return (
+        <h1 className={classes.title}></h1>
+    )
+}
+```
 
 ### View Render Component To HTML
 
