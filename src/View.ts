@@ -22,6 +22,10 @@ class ViewClass {
         this.cache = new Map();
     }
     createElement(type:any, props:OptionalObject, ...children:any[]) {
+      if(type === "style" && typeof props.src === "string") {
+        children.push(props.src);
+        delete props.src;
+      }
         let node:NodeInterface = {
           type,
           props: {
@@ -83,7 +87,7 @@ class ViewClass {
         let type = node.type;
         let props = node.props;
         let children = node.children || [];
-        let attrs = this.parseAttributes(props);
+        let attrs = this.parseAttributes(props, node);
         str+=`<${type} ${attrs.attrs}>`;
         let parsedChildren = children.map((child) => {
           // console.log(child);
@@ -120,7 +124,7 @@ class ViewClass {
           return result;
         }
       }
-       parseAttributes (props:OptionalObject) {
+       parseAttributes (props:OptionalObject, node:NodeInterface) {
         let attributes:OptionalObject = {};
         if(typeof props === "object") {
           Object.keys(props).map((key) => {
@@ -140,7 +144,10 @@ class ViewClass {
                     let values = val.join(" ");
                     val = values;
                 }
-            }
+            } 
+            // else if(node.type === "style") {
+              
+            // }
              else if(typeof val == "object" || Array.isArray(val)) {
               val = JSON.stringify(val);
             }
@@ -175,12 +182,33 @@ class ViewClass {
         } else {
             return foundFile;
         }
-
+    }
+    // create style methpd
+    createStyle(object:{[key:string]:any}) {
+      return () => {
+        let styleString = ``;
+        let keys:OptionalObject = {}
+        Object.keys(object).map((key:string) => {
+          let value = object[key];
+          let style = this.convertObjectToCss(value);
+          let name = `${key}-${Math.random().toString().substr(4, 4)}`
+          keys[key] = name;
+          styleString+= `
+            .${name} {
+              ${style}
+            }
+          `
+        })
+        return {...keys, style:styleString};
+      }
     }
 }
 
 
 const View = new ViewClass();
+
 export {View};
 
 module.exports = {View};
+
+

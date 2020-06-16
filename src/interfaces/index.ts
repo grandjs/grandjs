@@ -184,5 +184,6 @@ export interface NodeInterface {
   nodeValue?:any,
   props:OptionalObject,
   children:any[]
+  componentStyle?:string
 
 }

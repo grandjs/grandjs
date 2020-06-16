@@ -11,13 +11,18 @@ declare class ViewClass {
     convertObjectToCss(style: OptionalObject): string;
     parser(node: NodeInterface, data: OptionalObject): any;
     parseChildren(child: NodeInterface, data: OptionalObject): any;
-    parseAttributes(props: OptionalObject): {
+    parseAttributes(props: OptionalObject, node: NodeInterface): {
         attributes: OptionalObject;
         attrs: string;
     };
     render(res: Response, Component: Function, data: OptionalObject): void;
     renderToHtml(Component: Function, data: OptionalObject): any;
     importJsx(path: string): any;
+    createStyle(object: {
+        [key: string]: any;
+    }): () => {
+        style: string;
+    };
 }
 declare const View: ViewClass;
 export { View };
