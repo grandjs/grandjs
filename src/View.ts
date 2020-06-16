@@ -22,7 +22,7 @@ class ViewClass {
         this.cache = new Map();
     }
     createElement(type:any, props:OptionalObject, ...children:any[]) {
-      if(type === "style" && typeof props.src === "string") {
+      if(type === "style" && typeof props?.src === "string") {
         children.push(props.src);
         delete props.src;
       }
