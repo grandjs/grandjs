@@ -83,7 +83,7 @@ class ViewClass {
           str+=`${elem}`
         })
         return str;
-      } else if (typeof node === "object" && typeof node.type === "string") {
+      } else if (node && typeof node === "object" && typeof node.type === "string") {
         let type = node.type;
         let props = node.props;
         let children = node.children || [];
@@ -106,7 +106,7 @@ class ViewClass {
       } else if (typeof node === "string") {
         str+=`${node}`
         return str;
-      } else if(typeof node === "object" && typeof node.type === "function") {
+      } else if(node && typeof node === "object" && typeof node.type === "function") {
         let component = node.type({...node.props, children: node.children});
         let result = this.parser(component, node.props);
         return result;
@@ -183,6 +183,17 @@ class ViewClass {
             return foundFile;
         }
     }
+    // method to parse sub style
+    parseSubStyle(selectorName:string, subKey:string, style:OptionalObject) {
+      let parsedStyle = this.convertObjectToCss(style);
+      subKey = subKey.trim();
+      subKey = subKey.replace("&", `.${selectorName}`);
+      return `
+        ${subKey} {
+          ${parsedStyle}
+        }
+      `
+    }
     // create style methpd
     createStyle(object:{[key:string]:any}) {
       return () => {
@@ -190,8 +201,21 @@ class ViewClass {
         let keys:OptionalObject = {}
         Object.keys(object).map((key:string) => {
           let value = object[key];
+          let subStyles:OptionalObject = {}
+          Object.keys(value).map((key) => {
+            if(typeof value[key] === "object") {
+              subStyles[key] = value[key];
+              delete value[key]
+            }
+          })
           let style = this.convertObjectToCss(value);
           let name = `${key}-${Math.random().toString().substr(4, 4)}`
+          if(Object.keys(subStyles).length > 0) {
+            Object.keys(subStyles).map(subStyleKey => {
+              let subStyle = this.parseSubStyle(name, subStyleKey, subStyles[subStyleKey])
+              styleString+= subStyle;
+            })
+          }
           keys[key] = name;
           styleString+= `
             .${name} {

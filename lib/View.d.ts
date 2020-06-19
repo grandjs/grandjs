@@ -18,6 +18,7 @@ declare class ViewClass {
     render(res: Response, Component: Function, data: OptionalObject): void;
     renderToHtml(Component: Function, data: OptionalObject): any;
     importJsx(path: string): any;
+    parseSubStyle(selectorName: string, subKey: string, style: OptionalObject): string;
     createStyle(object: {
         [key: string]: any;
     }): () => {
