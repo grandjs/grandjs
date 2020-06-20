@@ -1,5 +1,7 @@
 <p align="center"><img width="200" height="200" src="https://i.ibb.co/t4MDdkq/grandjs.png" alt="Grandjs logo"></p>
+
 # Grandjs
+
 A backend framework for solid web apps based on node.js
 
 You want to build a solid web application but you don't want to use express and a lot of packages you need to build a basic website, Grandjs is one framework includes all main functionalities you need to build amazing, solid and secured web application without need for a ton of packages and libraries.
@@ -11,6 +13,10 @@ You want to build a solid web application but you don't want to use express and 
 ![npm](https://img.shields.io/npm/v/grandjs.svg)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/tareksalem/grandjs.svg)
 ![npm](https://img.shields.io/npm/dt/grandjs.svg?color=green&style=popout)
+
+## Documentation
+you can find the full documentation for Grandjs ecosystem [here](https://grandjs.netlify.app/)
+
 ## Prerequisites
 
 1- you need to install node.js on your system
