@@ -1,4 +1,4 @@
-import { OptionalObject, NodeInterface } from './interfaces/index';
+import { OptionalObject, NodeInterface } from "./interfaces/index";
 import Response from "./Response";
 declare class ViewClass {
     cache: Map<string, any>;

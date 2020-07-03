@@ -26,31 +26,51 @@ class Response extends http.ServerResponse implements ResponseInterface {
     }
     // redirect method
     redirect(url:string) {
-        this.writeHead(302, {
-            Location: url
-        });
-        this.end();
-        return this;
+        try {
+            this.writeHead(302, {
+                Location: url
+            });
+            this.end();
+            return this;
+        } catch(err) {
+            return this;
+        }
     }
     // set status
     status(status:number, message?:string) {
-        this.statusCode = status;
-        this.statusMessage = message || "not found";
-        return this;
+        try {
+            this.statusCode = status;
+            this.statusMessage = message || "not found";
+            return this;
+        } catch(err) {
+            return this;
+        }
     }
     // json method
     json(obj:object) {
-        this.writeHead(this.statusCode, { "content-type": "application/json"});
-        let json = JSON.stringify(obj);
-        this.end(json);
-        return this;
+        try {
+            this.writeHead(this.statusCode, { "content-type": "application/json"});
+            let json = JSON.stringify(obj);
+            this.end(json);
+            return this;
+        } catch(err) {
+            return this;
+        }
     }
     sendFile(file:string):this {
-        helpers.sendFile(this.req, this, file);
-        return this;
+        try {
+            helpers.sendFile(this.req, this, file);
+            return this;
+        } catch(err) {
+            return this;
+        }
     }
     render(Component:any, data:OptionalObject) {
-        return View.render(this, Component, data);
+        try {
+            return View.render(this, Component, data);
+        } catch(err) {
+            return this;
+        }
     }
 }
 
