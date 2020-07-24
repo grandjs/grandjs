@@ -1,4 +1,4 @@
-enum HttpStatusCode {
+export enum HttpStatusCode {
     OK = 200,
     BAD_REQUEST = 400,
     NOT_FOUND = 404,
@@ -7,11 +7,12 @@ enum HttpStatusCode {
     REDIRECT = 301,
     NOT_AUTHORIZED = 401
 }
-enum APiType{
+
+export enum APiType{
     error = "ERROR",
     success = "SUCCESS"
 }
-interface APiResponseInterface {
+export interface APiResponseInterface {
     type:APiType,
     textCode:string,
     message?:string | {[key:string]:any}
@@ -21,14 +22,14 @@ interface APiResponseInterface {
     defaultMessage?:string
     getResponse():any
 }
-interface SucessInfo{
+export interface SucessInfo{
     textCode:string
     message?:string | {[key:string]:any}
     data?:any
     defaultMessage?:string
     status?: number
 }
-interface ErrorInfo{
+export interface ErrorInfo{
     textCode:string
     message?:string | {[key:string]:any}
     data?:any
@@ -36,7 +37,8 @@ interface ErrorInfo{
     status?:HttpStatusCode
     defaultMessage?:string
 }
-abstract class APiResponse implements APiResponseInterface{
+
+export abstract class APiResponse implements APiResponseInterface{
     readonly type:APiType
     readonly textCode:string
     message?:string
@@ -58,7 +60,7 @@ abstract class APiResponse implements APiResponseInterface{
         }
     }
     // get response
-    abstract getResponse():{status:HttpStatusCode, message?:string, textCode:string, [key:string]:any}
+    abstract getResponse():{status:HttpStatusCode, message?:string, textCode:string, data?:any, [key:string]:any}
     setMessage(message:string) {
         this.message = message;
     }
@@ -71,7 +73,7 @@ abstract class APiResponse implements APiResponseInterface{
 }
 
 
-class APiSuccess extends APiResponse {
+export class APiSuccess extends APiResponse {
     readonly type: APiType = APiType.success
     readonly textCode: string;
     message?:string
@@ -86,7 +88,9 @@ class APiSuccess extends APiResponse {
         return {
             status: this.status,
             message: this.message,
-            textCode: this.textCode
+            textCode: this.textCode,
+            data: this.data,
+            defaultMessage: this.defaultMessage
         }
     }
     setMessage(message:string) {
@@ -94,7 +98,7 @@ class APiSuccess extends APiResponse {
     }
 }
 
-class APiError extends APiResponse{
+export class APiError extends APiResponse{
     readonly type: APiType = APiType.error
     readonly textCode: string;
      message?:string
@@ -109,7 +113,10 @@ class APiError extends APiResponse{
         return {
             status: this.status,
             message: this.message,
-            textCode: this.textCode
+            textCode: this.textCode,
+            data: this.data,
+            validations: this.validations,
+            defaultMessage: this.defaultMessage
         }
     }
     setMessage(message:string) {
@@ -124,5 +131,21 @@ export interface IResponse {
     validations?:any[]
     data?:any
 }
-
-export {APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType}
+export enum TextCodes{
+    REGISTER_SUCCESS = "REGISTER_SUCCESS",
+    REGISTER_FAILED = "REGISTER_FAILED",
+    REGISTER_VALIDATIONS_ERROR = "REGISTER_VALIDATIONS_ERROR",
+    VERIFIY_SUCCESS = "VERIFIY_SUCCESS",
+    VERIFIY_FAILED = "VERIFIY_FAILED",
+    USER_FOUND = "USER_FOUND",
+    USER_NOT_FOUND = "USER_NOT_FOUND",
+    LOGIN_SUCCESS = "LOGIN_SUCCESS",
+    LOGIN_FAILED = "USER_FOUND",
+    FORGET_PASSWORD_SUCCESS = "FORGET_PASSWORD_SUCCESS",
+    FORGET_PASSWORD_ERROR = "FORGET_PASSWORD_ERROR",
+    PROCESS_SUCCESS = "PROCESS_SUCCESS",
+    PROCESS_FAILED = "PROCESS_FAILED",
+    NOT_FOUND = "NOT_FOUND",
+    NON_AUTHORIZED = "NON_AUTHORIZED",
+    FAILED_TO_AUTHENTICATE = "FAILED_TO_AUTHENTICATE"
+}

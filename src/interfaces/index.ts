@@ -187,3 +187,6 @@ export interface NodeInterface {
   componentStyle?:string
 
 }
+export interface Constructable<T> {
+    new (...args: any): T;
+}

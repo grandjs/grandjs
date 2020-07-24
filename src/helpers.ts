@@ -378,7 +378,18 @@ const helpers = {
       }
     }
 
+  },
+  assignPrototype(target:any, instance:Function) {
+    let instancePrototype = instance.prototype;
+    let targetPrototype = target;
+    let execluded = ["globalMiddleWares", "getRouters", "postRouters", "deleteRouters", "putRouters", "patchRouters", "cors", "req", "request", "res", "response", "child", "base", "errorPage", "useRouter"]
+    Object.keys(instancePrototype).map((key:string) => {
+      if(!targetPrototype[key] && !execluded.includes(key)) {
+        targetPrototype[key] = instancePrototype[key];
+      }
+    })
   }
+  
 };
 
 

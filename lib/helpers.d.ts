@@ -46,5 +46,6 @@ declare const helpers: {
         checkIsNumber: (element: string, cb: Function) => any;
     };
     serveAssets(req: Request, res: Response, next: Function): Promise<any>;
+    assignPrototype(target: any, instance: Function): void;
 };
 export default helpers;

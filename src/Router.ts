@@ -185,6 +185,8 @@ class Router implements RouterInterface {
   }
   useRouter(RouterClass: any): this {
     let newRouter = <Router>new RouterClass();
+    // console.log(RouterClass.prototype);
+    // console.log(newRouter.services);
     newRouter.req = this.req;
     newRouter.res = this.res;
     newRouter.base = newRouter.base || "/";
@@ -193,10 +195,12 @@ class Router implements RouterInterface {
     newRouter.globalMiddleWares = newRouter.globalMiddleWares || [];
     if(newRouter.child) {
       this.assignChildRouterRoutes(newRouter);
+      helpers.assignPrototype(this, RouterClass);
     } else {
       newRouter.globalMiddleWares.unshift(...this.globalMiddleWares);
       newRouter.build();
     }
+    console.log(this.services);
     return this;
   }
   // method to assign child router routes to parent

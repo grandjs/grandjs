@@ -190,3 +190,6 @@ export interface NodeInterface {
     children: any[];
     componentStyle?: string;
 }
+export interface Constructable<T> {
+    new (...args: any): T;
+}
