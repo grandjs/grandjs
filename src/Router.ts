@@ -80,10 +80,6 @@ class Router implements RouterInterface {
   chooseRoute(req: Request, res:Response) {
     let method = req.method;
     let pathToSkip:string = req.pathname;
-    // if(path.extname(pathToSkip)) {
-    //   pathToSkip = req.pathname.replace(/\.[^.]*$/, "");
-    // }
-    // console.log(pathToSkip, req.pathname)
     let foundStaticRoute = this.statics.find(route => {
       let regexResult = route.routePattern.match(pathToSkip)
       if(regexResult) {
@@ -185,8 +181,6 @@ class Router implements RouterInterface {
   }
   useRouter(RouterClass: any): this {
     let newRouter = <Router>new RouterClass();
-    // console.log(RouterClass.prototype);
-    // console.log(newRouter.services);
     newRouter.req = this.req;
     newRouter.res = this.res;
     newRouter.base = newRouter.base || "/";
@@ -200,7 +194,6 @@ class Router implements RouterInterface {
       newRouter.globalMiddleWares.unshift(...this.globalMiddleWares);
       newRouter.build();
     }
-    console.log(this.services);
     return this;
   }
   // method to assign child router routes to parent
@@ -210,6 +203,7 @@ class Router implements RouterInterface {
       route.url = path.join(childRouter.base, route.url);
       route.url = route.url.split(path.sep).join("/");
       route.middleWares = route.middleWares || [];
+      route.middleWares.unshift(...childRouter.globalMiddleWares);
       route.cors = Object.assign({}, childRouter.cors, route.cors || {});
       switch(route.method.toLowerCase()) {
         case "get":
@@ -222,7 +216,6 @@ class Router implements RouterInterface {
           this.putRouters.push(route);
           break;
         case "patch":
-          break;
           this.patchRouters.push(route);
           break;
         case "delete":
