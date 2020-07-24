@@ -15,6 +15,7 @@ import Request from "./Request";
 import Response from "./Response";
 import FileUpload from './fileupload';
 import { GET, POST, PUT, PATCH, DELETE, MiddleWare } from "./decorators";
+import { IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType } from "./common";
 declare const validation: {
     strip_html_tags: (str: string) => string | false;
     checkEmail: (string: string, cb: Function) => any;
@@ -30,4 +31,4 @@ declare const Cipher: {
     enCrypt: (text: string) => string;
     deCrypt: (text: string) => string;
 };
-export { Server, Router, View, Request, Response, validation, Cipher, FileUpload, GET, POST, PUT, PATCH, DELETE, MiddleWare };
+export { Server, Router, View, Request, Response, validation, Cipher, FileUpload, GET, POST, PUT, PATCH, DELETE, MiddleWare, IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType };
