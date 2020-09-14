@@ -34,7 +34,7 @@ class Router implements RouterInterface {
   patchRouters: Route[];
   deleteRouters: Route[];
   globalMiddleWares: MiddleWareInterface[];
-  errorPage?: (req: Request, res: Response) => any;
+  // errorPage?: (req: Request, res: Response) => any;
   cors?: CorsInterface;
   req?: Request;
   res?: Response
