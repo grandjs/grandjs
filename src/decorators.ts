@@ -11,7 +11,8 @@
 
 // Dependencies
 import Router from "./Router";
-import {MiddleWareInterface, CorsInterface} from "./interfaces/index";
+import { MiddleWareInterface, CorsInterface, TempMiddleWares, MiddleWareOptions } from './interfaces/index';
+import { RequestMethod } from './common';
 // GET Decorator
 
 const decorator = (options:{url:string,middleWares?:MiddleWareInterface[], cors?:CorsInterface}, routersType:string, methodType:string) => {
@@ -58,5 +59,13 @@ const MiddleWare = (target:Router, key:string) => {
         target.globalMiddleWares = target.globalMiddleWares || [];
         target.globalMiddleWares.push(method);
 }
-
-export {MiddleWare, GET, PUT, POST, PATCH, DELETE}
+const RouteMiddleWare = (options: MiddleWareOptions) => {
+    return (target: Router, key: string) => {
+        target.tempMiddleWares = target.tempMiddleWares || [];
+        target.tempMiddleWares.push({
+            middleWare: target[key],
+            options: options
+        })
+    }
+}
+export {MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare}

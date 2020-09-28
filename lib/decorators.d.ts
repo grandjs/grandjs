@@ -9,7 +9,7 @@
  * ==============================================================================
  */
 import Router from "./Router";
-import { MiddleWareInterface, CorsInterface } from "./interfaces/index";
+import { MiddleWareInterface, CorsInterface, MiddleWareOptions } from './interfaces/index';
 declare const GET: (options?: {
     url: string;
     middleWares?: MiddleWareInterface[];
@@ -36,4 +36,5 @@ declare const DELETE: (options?: {
     cors?: CorsInterface;
 }) => (target: Router, key: string) => void;
 declare const MiddleWare: (target: Router, key: string) => void;
-export { MiddleWare, GET, PUT, POST, PATCH, DELETE };
+declare const RouteMiddleWare: (options: MiddleWareOptions) => (target: Router, key: string) => void;
+export { MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare };
