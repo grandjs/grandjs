@@ -14,6 +14,8 @@ import helpers from "./helpers";
 import Path from "path";
 import qs from "qs";
 import Response from "./Response";
+import path from 'path';
+import fs from 'fs';
 class ViewClass {
   cache: Map<string, any>;
   settings: Map<string, any>;
@@ -183,16 +185,41 @@ class ViewClass {
     return result;
   }
   importJsx(path: string) {
+    const mainModulePath = process.mainModule.filename;
+    let fileExtName = Path.extname(path);
+    fileExtName = fileExtName.length > 0 ? fileExtName : null;
+    // const fileExtension = fileExtName || this.settings.get('extension') || '.jsx';
+    let parentPath:any = mainModulePath.split(Path.sep)
+    parentPath = parentPath[parentPath.length - 2];
     let views = this.settings.get("views") || "";
-    path = path.replace(views, "");
-    path = Path.join("/", views, path);
-    path = `${Path.join(process.cwd(), path)}`;
-    let foundFile = this.cache.get(path);
+    if (path.includes(views)) {
+      path = path.split(views)[1];
+    }
+    let filePath = `${Path.join(process.cwd(), parentPath, views, path)}`;
+    const filename = Path.basename(filePath);
+    if (!fileExtName) {
+      const files = fs.readdirSync(Path.dirname(filePath));
+      const matchedFile = files.find((dirFilePath) => {
+        const dirFileName = Path.basename(dirFilePath);
+        const dirFileExtension = Path.extname(dirFileName);
+        if ([".jsx", ".tsx"].includes(dirFileExtension)) {
+          const fileNameWithExt = `${filename}${dirFileExtension}`;
+          if (dirFileName === fileNameWithExt) {
+            return true;
+          }
+        }
+      })
+      if (matchedFile) {
+        const matchedFileExtension = Path.extname(matchedFile);
+      filePath = `${filePath}${matchedFileExtension}`;
+      }
+    }
+    let foundFile = this.cache.get(filePath);
     if (!foundFile) {
-      const importedFile = importJsx(path, {
+      const importedFile = importJsx(filePath, {
         pragma: "View.createElement" || "this.createElement",
       });
-      this.cache.set(path, importedFile);
+      this.cache.set(filePath, importedFile);
       return importedFile;
     } else {
       return foundFile;
