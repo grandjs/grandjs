@@ -8,7 +8,7 @@
  * File Role: Application Router
  * ==============================================================================
  */
-import { RouterInterface, CorsInterface, MiddleWareInterface, RequestInterface, ResponseInterface, RouteInterface, StaticFolderInterface, ServerConfigurations} from './interfaces/index';
+import { RouterInterface, CorsInterface, MiddleWareInterface, RequestInterface, ResponseInterface, RouteInterface, StaticFolderInterface, ServerConfigurations, TempMiddleWares } from './interfaces/index';
 import path from "path";
 import cors from "cors";
 import {Server} from "./Server"
@@ -19,8 +19,8 @@ import config from './config';
 import util from "util";
 import fs from "fs";
 import Route from "./Route";
-import UrlPattern from 'url-pattern';
 import helpers from './helpers';
+import { RequestMethod } from './common';
 class Router implements RouterInterface {
   [key:string]:any
   id: string
@@ -41,8 +41,10 @@ class Router implements RouterInterface {
   requestParser: RequestParser
   serverOptions?: ServerConfigurations
   statics: Route[]
-  child:boolean = false;
+  child: boolean = false;
+  tempMiddleWares: TempMiddleWares[]
   constructor(options?: { base?: string, staticFolder?: StaticFolderInterface }) {
+    this.tempMiddleWares = this.tempMiddleWares || [];
     this.options = options || {};
     this.setBase();
     this.getRouters = this.getRouters || [];
@@ -56,6 +58,7 @@ class Router implements RouterInterface {
     // this.cors = this.cors || {
     // }
     this.staticFolder = this.options.staticFolder || this.staticFolder;
+    this.parseTempMiddleWares();
   }
   use(func: MiddleWareInterface): this {
     this.globalMiddleWares.push(func);
@@ -71,6 +74,76 @@ class Router implements RouterInterface {
     this.serverAssetsMiddleWare();
     this.bootstrapRoutes();
     return this;
+  }
+  // parsee temp middleWares
+  parseTempMiddleWares() {
+    this.tempMiddleWares.forEach((obj, i) => {
+      const { options: { method, url } } = obj;
+      let getRouters:Route[] = [];
+      let postRouters:Route[] = [];
+      let putRouters:Route[] = [];
+      let patchRouters:Route[] = [];
+      let deleteRouters:Route[] = [];
+      if (method === RequestMethod.ALL) {
+        if (url === "*") {
+          this.globalMiddleWares.push(obj.middleWare);
+        } else {
+          getRouters = this.getRouters.filter(route => route.url === url ? route : null);
+          postRouters = this.postRouters.filter(route => route.url === url ? route : null);
+          putRouters = this.putRouters.filter(route => route.url === url ? route : null);
+          patchRouters = this.patchRouters.filter(route => route.url === url ? route : null);
+          deleteRouters = this.deleteRouters.filter(route => route.url === url ? route : null);
+        }
+      } else {
+        if (method === RequestMethod.GET) {
+          if (url === "*") {
+            getRouters = this.getRouters;
+          } else {
+            getRouters = this.getRouters.filter(route => route.url === url ? route : null);
+          }
+        } else if (method === RequestMethod.POST) {
+          if (url === "*") {
+            postRouters = this.postRouters;
+          } else {
+            postRouters = this.postRouters.filter(route => route.url === url ? route : null);
+          }
+        } else if (method === RequestMethod.PUT) {
+          if (url === "*") {
+            putRouters = this.putRouters;
+          } else {
+            putRouters = this.putRouters.filter(route => route.url === url ? route : null);
+          }
+        } else if (method === RequestMethod.PATCH) {
+          if (url === "*") {
+            patchRouters = this.patchRouters;
+          } else {
+            patchRouters = this.patchRouters.filter(route => route.url === url ? route : null);
+          }
+        } else if (method === RequestMethod.DELETE) {
+          if (url === "*") {
+            deleteRouters = this.deleteRouters;
+          } else {
+            deleteRouters = this.deleteRouters.filter(route => route.url === url ? route : null);
+          }
+        }
+      }
+      getRouters.forEach((route) => {
+        route.middleWares.push(obj.middleWare);
+      });
+      postRouters.forEach((route) => {
+        route.middleWares.push(obj.middleWare);
+      });
+      patchRouters.forEach((route) => {
+        route.middleWares.push(obj.middleWare);
+      });
+      putRouters.forEach((route) => {
+        route.middleWares.push(obj.middleWare);
+      });
+      deleteRouters.forEach((route) => {
+        route.middleWares.push(obj.middleWare);
+      });
+    })
+    this.tempMiddleWares = [];
   }
   public init(): this {
     this.chooseRoute(this.req, this.res);

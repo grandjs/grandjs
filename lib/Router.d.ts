@@ -8,7 +8,7 @@
  * File Role: Application Router
  * ==============================================================================
  */
-import { RouterInterface, CorsInterface, MiddleWareInterface, StaticFolderInterface, ServerConfigurations } from './interfaces/index';
+import { RouterInterface, CorsInterface, MiddleWareInterface, StaticFolderInterface, ServerConfigurations, TempMiddleWares } from './interfaces/index';
 import Request from "./Request";
 import Response from "./Response";
 import RequestParser from "./requestParser";
@@ -33,12 +33,14 @@ declare class Router implements RouterInterface {
     serverOptions?: ServerConfigurations;
     statics: Route[];
     child: boolean;
+    tempMiddleWares: TempMiddleWares[];
     constructor(options?: {
         base?: string;
         staticFolder?: StaticFolderInterface;
     });
     use(func: MiddleWareInterface): this;
     build(): this;
+    parseTempMiddleWares(): void;
     init(): this;
     chooseRoute(req: Request, res: Response): any;
     bootstrapRoutes(): void;

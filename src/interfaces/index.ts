@@ -16,6 +16,7 @@ import Route from "../Route";
 import Router from "../Router";
 import Url from "url";
 import RequestParser from "../requestParser";
+import { RequestMethod } from '../common';
 export interface OptionalObject {
   [key:string]:any
 }
@@ -70,9 +71,14 @@ export interface CorsInterface{
     preflightContinue?:boolean,
     optionsSuccessStatus?:number
 }
+export interface MiddleWareOptions {method: RequestMethod, url: string}
 export interface StaticFolderInterface{
   path: string,
   url: string
+}
+export interface TempMiddleWares{
+    middleWare: MiddleWareInterface
+    options: MiddleWareOptions
 }
 export interface RouterInterface {
     [key:string]:any
@@ -109,7 +115,9 @@ export interface RouterInterface {
     child: boolean;
     statics: Route[]
     static(options:{url:string, path:string, absolute?:boolean, middleWares:[]}):any
-    assignChildRouterRoutes(childRouter:Router):this
+    assignChildRouterRoutes(childRouter: Router): this
+    tempMiddleWares: TempMiddleWares[]
+    parseTempMiddleWares():any
 }
 export interface ServerConfigurations{
     http?: any;

@@ -7,6 +7,14 @@ export declare enum HttpStatusCode {
     REDIRECT = 301,
     NOT_AUTHORIZED = 401
 }
+export declare enum RequestMethod {
+    GET = "GET",
+    POST = "POST",
+    PATCH = "PATCH",
+    DELETE = "DELETE",
+    PUT = "PUT",
+    ALL = "ALL"
+}
 export declare enum APiType {
     error = "ERROR",
     success = "SUCCESS"
