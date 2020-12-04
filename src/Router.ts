@@ -21,6 +21,8 @@ import fs from "fs";
 import Route from "./Route";
 import helpers from './helpers';
 import { RequestMethod } from './common';
+import RouteParser from "url-pattern";
+
 class Router implements RouterInterface {
   [key:string]:any
   id: string
@@ -55,13 +57,25 @@ class Router implements RouterInterface {
     this.globalMiddleWares = this.globalMiddleWares || [];
     this.serverOptions = this.serverOptions || {};
     this.statics = this.statics || [];
-    // this.cors = this.cors || {
-    // }
     this.staticFolder = this.options.staticFolder || this.staticFolder;
     this.parseTempMiddleWares();
   }
-  use(func: MiddleWareInterface): this {
-    this.globalMiddleWares.push(func);
+  use(path: string, ...middleWares: MiddleWareInterface[]): this {
+    this.globalMiddleWares = this.globalMiddleWares || [];
+    const pattern = new RouteParser(path);
+    const applyMiddleWares = (comingMiddleWares: MiddleWareInterface[]) => {
+      comingMiddleWares.map((func) => {
+        const middleWare = (req: Request, res: Response, next: Function) => {
+          if (pattern.match(req.pathname)) {
+            func(req, res, next);
+          } else {
+            return next();
+          }
+        }
+        this.globalMiddleWares.push(middleWare);
+      })
+    }
+    applyMiddleWares(middleWares);
     return this;
   }
   public build(): this {

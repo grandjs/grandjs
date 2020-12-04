@@ -1,6 +1,6 @@
 {
     "name": "grandjs",
-    "version": "2.2.19",
+    "version": "2.2.20",
     "description": "A backend framework for solid web apps based on node.js",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -10,7 +10,8 @@
     },
     "scripts": {
         "test": "mocha",
-        "build": "tsc"
+        "build": "tsc",
+        "dev": "nodemon"
     },
     "dependencies": {
         "@types/cors": "*",
