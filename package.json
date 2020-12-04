@@ -10,7 +10,8 @@
     },
     "scripts": {
         "test": "mocha",
-        "build": "tsc"
+        "build": "tsc",
+        "dev": "nodemon"
     },
     "dependencies": {
         "@types/cors": "*",

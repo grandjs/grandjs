@@ -68,4 +68,9 @@ const RouteMiddleWare = (options: MiddleWareOptions) => {
         })
     }
 }
-export {MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare}
+const Use = (path: string, ...middleWares: MiddleWareInterface[]) => {
+    return (constructor: Function) => {
+        constructor.prototype?.use?.(path, ...middleWares);
+    }
+};
+export {MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare, Use}
