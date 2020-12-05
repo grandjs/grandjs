@@ -98,7 +98,7 @@ export interface RouterInterface {
     deleteRouters: Route[];
     globalMiddleWares: MiddleWareInterface[];
     cors?: CorsInterface;
-    use(func: MiddleWareInterface): this;
+    use(path: string, func: MiddleWareInterface): this;
     build(): this;
     init(): this;
     errorPage?(req: Request, res: Response): any;

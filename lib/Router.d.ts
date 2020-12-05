@@ -38,7 +38,7 @@ declare class Router implements RouterInterface {
         base?: string;
         staticFolder?: StaticFolderInterface;
     });
-    use(func: MiddleWareInterface): this;
+    use(path: string, ...middleWares: MiddleWareInterface[]): this;
     build(): this;
     parseTempMiddleWares(): void;
     init(): this;

@@ -37,4 +37,5 @@ declare const DELETE: (options?: {
 }) => (target: Router, key: string) => void;
 declare const MiddleWare: (target: Router, key: string) => void;
 declare const RouteMiddleWare: (options: MiddleWareOptions) => (target: Router, key: string) => void;
-export { MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare };
+declare const Use: (path: string, ...middleWares: MiddleWareInterface[]) => (constructor: Function) => void;
+export { MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare, Use };
