@@ -14,7 +14,7 @@ import { View } from "./View";
 import Request from "./Request";
 import Response from "./Response";
 import FileUpload from './fileupload';
-import { GET, POST, PUT, PATCH, DELETE, MiddleWare, RouteMiddleWare } from "./decorators";
+import { GET, POST, PUT, PATCH, DELETE, MiddleWare, RouteMiddleWare, Use } from "./decorators";
 import { IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType, TextCodes, RequestMethod } from "./common";
 import { Constructable, MiddleWareOptions } from "interfaces";
 declare const validation: {
@@ -32,4 +32,4 @@ declare const Cipher: {
     enCrypt: (text: string) => string;
     deCrypt: (text: string) => string;
 };
-export { Server, Router, View, Request, Response, validation, Cipher, FileUpload, GET, POST, PUT, PATCH, DELETE, MiddleWare, RouteMiddleWare, IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType, Constructable, TextCodes, RequestMethod, MiddleWareOptions };
+export { Server, Router, View, Request, Response, validation, Cipher, FileUpload, GET, POST, PUT, PATCH, DELETE, MiddleWare, RouteMiddleWare, IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType, Constructable, TextCodes, RequestMethod, MiddleWareOptions, Use };
