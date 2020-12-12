@@ -45,9 +45,11 @@ class Router implements RouterInterface {
   statics: Route[]
   child: boolean = false;
   tempMiddleWares: TempMiddleWares[]
+  useMiddleWares: {path:string, middleWares:MiddleWareInterface[]}[]
   constructor(options?: { base?: string, staticFolder?: StaticFolderInterface }) {
     this.tempMiddleWares = this.tempMiddleWares || [];
     this.options = options || {};
+    this.useMiddleWares = this.useMiddleWares || [];
     this.setBase();
     this.getRouters = this.getRouters || [];
     this.postRouters = this.postRouters || [];
@@ -58,24 +60,39 @@ class Router implements RouterInterface {
     this.serverOptions = this.serverOptions || {};
     this.statics = this.statics || [];
     this.staticFolder = this.options.staticFolder || this.staticFolder;
+    this.parseUseDecorator();
     this.parseTempMiddleWares();
   }
-  use(path: string, ...middleWares: MiddleWareInterface[]): this {
-    this.globalMiddleWares = this.globalMiddleWares || [];
-    const pattern = new RouteParser(path);
-    const applyMiddleWares = (comingMiddleWares: MiddleWareInterface[]) => {
-      comingMiddleWares.map((func) => {
-        const middleWare = (req: Request, res: Response, next: Function) => {
-          if (pattern.match(req.pathname)) {
-            func(req, res, next);
-          } else {
-            return next();
+  parseUseDecorator() {
+    this.useMiddleWares.map(obj => {
+      this.parseUseMiddleWares(obj.path, ...obj.middleWares);
+    });
+  }
+  private parseUseMiddleWares?(path:string, ...middleWares: MiddleWareInterface[]) {
+          this.globalMiddleWares = this.globalMiddleWares || [];
+      path = `${this.base}/${path}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2");
+      const pattern = new RouteParser(path);
+      const applyMiddleWares = (comingMiddleWares: MiddleWareInterface[]) => {
+        comingMiddleWares.map((func) => {
+          const middleWare = (req: Request, res: Response, next: Function) => {
+            if (pattern.match(req.pathname)) {
+              func(req, res, next);
+            } else {
+              return next();
+            }
           }
-        }
-        this.globalMiddleWares.push(middleWare);
-      })
+          this.globalMiddleWares.push(middleWare);
+        })
+      }
+      applyMiddleWares(middleWares);
+  }
+  use(path: string, ...middleWares: MiddleWareInterface[]): this {
+    this.useMiddleWares = this.useMiddleWares || [];
+    if (this.base) {
+      this.parseUseMiddleWares(path, ...middleWares);
+    } else {
+      this.useMiddleWares.push({ path, middleWares });
     }
-    applyMiddleWares(middleWares);
     return this;
   }
   public build(): this {

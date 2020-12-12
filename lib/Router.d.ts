@@ -34,10 +34,16 @@ declare class Router implements RouterInterface {
     statics: Route[];
     child: boolean;
     tempMiddleWares: TempMiddleWares[];
+    useMiddleWares: {
+        path: string;
+        middleWares: MiddleWareInterface[];
+    }[];
     constructor(options?: {
         base?: string;
         staticFolder?: StaticFolderInterface;
     });
+    parseUseDecorator(): void;
+    private parseUseMiddleWares;
     use(path: string, ...middleWares: MiddleWareInterface[]): this;
     build(): this;
     parseTempMiddleWares(): void;

@@ -130,6 +130,11 @@ export interface RouterInterface {
     assignChildRouterRoutes(childRouter: Router): this;
     tempMiddleWares: TempMiddleWares[];
     parseTempMiddleWares(): any;
+    parseUseDecorator(): any;
+    useMiddleWares: {
+        path: string;
+        middleWares: MiddleWareInterface[];
+    }[];
 }
 export interface ServerConfigurations {
     http?: any;

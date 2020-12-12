@@ -117,7 +117,9 @@ export interface RouterInterface {
     static(options:{url:string, path:string, absolute?:boolean, middleWares:[]}):any
     assignChildRouterRoutes(childRouter: Router): this
     tempMiddleWares: TempMiddleWares[]
-    parseTempMiddleWares():any
+    parseTempMiddleWares(): any
+    parseUseDecorator(): any
+    useMiddleWares: {path:string, middleWares:MiddleWareInterface[]}[]
 }
 export interface ServerConfigurations{
     http?: any;
