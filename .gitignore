@@ -2,3 +2,6 @@ node_modules/
 *.log
 package-lock.json
 nodemon.json
+.vscode
+.github
+.coverage
