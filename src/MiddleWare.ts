@@ -44,13 +44,11 @@ class MiddleWare {
         if (allMiddleWares.length <= nexted) {
           matchedRouter.init();
         } else {
-          // matchedClass.serveFiles(() => {
           return allMiddleWares[nexted](
             req,
             res,
             next
           );
-          // });
         }
     }
     let nexted: number = 0;

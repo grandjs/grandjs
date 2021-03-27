@@ -70,12 +70,16 @@ class Router implements RouterInterface {
   }
   private parseUseMiddleWares?(path:string, ...middleWares: MiddleWareInterface[]) {
           this.globalMiddleWares = this.globalMiddleWares || [];
-      path = `${this.base}/${path}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2");
+    path = `${this.base}/${path}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2").replace(/^(.+?)\/*?$/, "$1")
+    .replace(/\s+/gi, "");
       const pattern = new RouteParser(path);
       const applyMiddleWares = (comingMiddleWares: MiddleWareInterface[]) => {
         comingMiddleWares.map((func) => {
           const middleWare = (req: Request, res: Response, next: Function) => {
+            // console.log('yes checking middleWare');
+            // console.log(pattern, req.pathname);
             if (pattern.match(req.pathname)) {
+              // console.log('matched');
               func(req, res, next);
             } else {
               return next();
