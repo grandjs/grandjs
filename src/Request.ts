@@ -8,7 +8,7 @@
  * File Role: View HTTP Request Object
  * ==============================================================================
  */
-import { RequestInterface, ServerInterface, OptionalObject } from './interfaces/index';
+import { RequestInterface, ServerInterface, OptionalObject } from './interfaces';
 import http from 'http'
 import { Socket } from 'net'
 import Url from 'url'

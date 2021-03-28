@@ -11,7 +11,7 @@
 
 // Dependencies
 import Router from "./Router";
-import { MiddleWareInterface, CorsInterface, TempMiddleWares, MiddleWareOptions } from './interfaces/index';
+import { MiddleWareInterface, CorsInterface, TempMiddleWares, MiddleWareOptions } from './interfaces';
 import { RequestMethod } from './common';
 // GET Decorator
 

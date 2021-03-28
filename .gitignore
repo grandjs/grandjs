@@ -5,3 +5,4 @@ nodemon.json
 .vscode
 .github
 .coverage
+lib

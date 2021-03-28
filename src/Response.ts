@@ -9,7 +9,7 @@
  * ==============================================================================
  */
 import http from "http";
-import { ResponseInterface, OptionalObject } from './interfaces/index';
+import { ResponseInterface, OptionalObject } from './interfaces';
 import helpers from './helpers';
 import Request from "./Request";
 import setprototypeof from "setprototypeof";

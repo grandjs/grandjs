@@ -8,7 +8,7 @@
  * File Role: HTTP Request Route Object
  * ==============================================================================
  */
-import { RouteInterface, RouterInterface, HandlerInterface, MiddleWareInterface, CorsInterface } from "./interfaces/index";
+import { RouteInterface, RouterInterface, HandlerInterface, MiddleWareInterface, CorsInterface } from "./interfaces";
 import RouteParser from "url-pattern";
 import Request from "./Request";
 import Response from "./Response";

@@ -21,7 +21,7 @@ import querystring from "querystring";
 import qs from "qs";
 import proxyaddr from "proxy-addr";
 import contentType from "content-type";
-import { OptionalObject, NodeInterface } from "./interfaces/index";
+import { OptionalObject, NodeInterface } from "./interfaces";
 import util from "util";
 // end dependencies
 

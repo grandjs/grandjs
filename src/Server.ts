@@ -18,7 +18,7 @@ import multiparty from "multiparty";
 import cors from "cors";
 // import {compile} from  "util";
 import config from "./config";
-import { ServerInterface, MiddleWareInterface, AssetsHandlerInterface, CorsInterface, RequestInterface, ResponseInterface, ServerConfigurations, RouteInterface, RouterInterface, OptionalObject } from './interfaces/index';
+import { ServerInterface, MiddleWareInterface, AssetsHandlerInterface, CorsInterface, RequestInterface, ResponseInterface, ServerConfigurations, RouteInterface, RouterInterface, OptionalObject } from './interfaces';
 import Request from "./Request";
 import Response from "./Response";
 import setprototypeof from "setprototypeof";

@@ -12,7 +12,7 @@ import Request from './Request';
 import Response from './Response';
 import Router from "./Router";
 import Route from "./Route";
-import { ServerInterface, MiddleWareInterface, CorsInterface, RequestInterface, ResponseInterface, ServerConfigurations, RouteInterface, RouterInterface } from './interfaces/index';
+import { ServerInterface, MiddleWareInterface, CorsInterface, RequestInterface, ResponseInterface, ServerConfigurations, RouteInterface, RouterInterface } from './interfaces';
 // import Server from "./Server";
 
 

@@ -7,7 +7,7 @@ file role: uploader file class
 import fs  from "fs";
 
 import path  from "path";
-import { OptionalObject } from './interfaces/index';
+import { OptionalObject } from './interfaces';
 // define uploader file class
 class FileUploadClass {
     uploadPath:string
@@ -20,7 +20,7 @@ class FileUploadClass {
         // method to check folder name
     makeDirectory(folder:string) {
             // return promise
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 folder = path.join(process.cwd(), folder);
                 fs.exists(folder, (exist:boolean) => {
                     if (exist) {

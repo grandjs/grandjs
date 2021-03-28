@@ -8,7 +8,7 @@
  * File Role: Application Router
  * ==============================================================================
  */
-import { RouterInterface, CorsInterface, MiddleWareInterface, RequestInterface, ResponseInterface, RouteInterface, StaticFolderInterface, ServerConfigurations, TempMiddleWares } from './interfaces/index';
+import { RouterInterface, CorsInterface, MiddleWareInterface, RequestInterface, ResponseInterface, RouteInterface, StaticFolderInterface, ServerConfigurations, TempMiddleWares } from './interfaces';
 import path from "path";
 import cors from "cors";
 import {Server} from "./Server"

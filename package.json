@@ -55,6 +55,7 @@
         "@types/multiparty": "0.0.32",
         "@types/node": "^13.11.1",
         "@types/proxy-addr": "^2.0.0",
+        "@types/qs": "^6.9.6",
         "@types/range-parser": "^1.2.3",
         "@types/send": "^0.14.5",
         "@types/utils-merge": "0.0.28",

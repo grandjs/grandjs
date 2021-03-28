@@ -9,7 +9,7 @@
  * ==============================================================================
  */
 const importJsx = require("import-jsx");
-import { OptionalObject, NodeInterface } from "./interfaces/index";
+import { OptionalObject, NodeInterface } from "./interfaces";
 import helpers from "./helpers";
 import Path from "path";
 import qs from "qs";

@@ -17,7 +17,7 @@ import config from "./config";
 import Request from "./Request";
 import Response from "./Response"
 import Route from "./Route";
-import {OptionalObject} from "./interfaces/index";
+import {OptionalObject} from "./interfaces";
 import querystring from "querystring";
 config.reverseMimeTypes();
 

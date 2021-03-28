@@ -10,13 +10,13 @@
  */
 ///<reference types="node"/>
 import http from "http";
-import Request from "../Request";
-import Response from "../Response";
-import Route from "../Route";
-import Router from "../Router";
+import Request from "./Request";
+import Response from "./Response";
+import Route from "./Route";
+import Router from "./Router";
 import Url from "url";
-import RequestParser from "../requestParser";
-import { RequestMethod } from '../common';
+import RequestParser from "./requestParser";
+import { RequestMethod } from './common';
 export interface OptionalObject {
   [key:string]:any
 }
@@ -199,4 +199,9 @@ export interface NodeInterface {
 }
 export interface Constructable<T> {
     new (...args: any): T;
+}
+export interface RepositoryPromiseResponseInterface{
+    success: boolean;
+    data?: any;
+    error?:any
 }
