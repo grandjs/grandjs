@@ -31,7 +31,7 @@ export interface APiResponseInterface {
     defaultMessage?:string
     getResponse():any
 }
-export interface SucessInfo{
+export interface SuccessInfo{
     textCode:string
     message?:string | {[key:string]:any}
     data?:any
@@ -89,7 +89,7 @@ export class APiSuccess extends APiResponse {
     status: HttpStatusCode = HttpStatusCode.OK
      data:any
      defaultMessage?:string
-    constructor(info:SucessInfo) {
+    constructor(info:SuccessInfo) {
         super({...info, status: HttpStatusCode.OK, type:APiType.success});
         this.status = info.status || this.status;
     }
@@ -140,7 +140,7 @@ export interface IResponse {
     validations?:any[]
     data?:any
 }
-export enum TextCodes{
+export enum TextCodes {
     REGISTER_SUCCESS = "REGISTER_SUCCESS",
     REGISTER_FAILED = "REGISTER_FAILED",
     REGISTER_VALIDATIONS_ERROR = "REGISTER_VALIDATIONS_ERROR",
@@ -160,4 +160,13 @@ export enum TextCodes{
     ENTITY_EXIST = "ENTITY_EXIST",
     ENTITY_NOT_EXIST = "ENTITY_NOT_EXIST",
     ENTITY_ALREADY_EXIST = "ENTITY_ALREADY_EXIST",
+    GRAPHQL_PARSE_FAILED = "GRAPHQL_PARSE_FAILED",
+    GRAPHQL_VALIDATION_FAILED = "GRAPHQL_VALIDATION_FAILED",
+    BAD_USER_INPUT = "BAD_USER_INPUT",
+    UNAUTHENTICATED = "UNAUTHENTICATED",
+    FORBIDDEN = "FORBIDDEN",
+    PERSISTED_QUERY_NOT_FOUND = "PERSISTED_QUERY_NOT_FOUND",
+    PERSISTED_QUERY_NOT_SUPPORTED = "PERSISTED_QUERY_NOT_SUPPORTED",
+    INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+    VALIDATIONS_ERROR = 'VALIDATIONS_ERROR'
 }

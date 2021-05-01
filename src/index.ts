@@ -16,7 +16,7 @@ import Response from "./Response";
 import helpers from './helpers';
 import FileUpload from './fileupload';
 import {GET, POST, PUT, PATCH, DELETE, MiddleWare, RouteMiddleWare, Use} from "./decorators";
-import {IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType, TextCodes, RequestMethod} from "./common"
+import {IResponse, APiError, APiSuccess, APiResponse, APiResponseInterface, HttpStatusCode, APiType, TextCodes, RequestMethod, ErrorInfo, SuccessInfo} from "./common"
 import {Constructable, MiddleWareOptions, ServerInterface, RepositoryPromiseResponseInterface} from "./interfaces"
 
 const validation = helpers.validation;
