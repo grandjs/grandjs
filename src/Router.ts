@@ -8,7 +8,7 @@
  * File Role: Application Router
  * ==============================================================================
  */
-import { RouterInterface, CorsInterface, MiddleWareInterface, RequestInterface, ResponseInterface, RouteInterface, StaticFolderInterface, ServerConfigurations, TempMiddleWares } from './interfaces';
+import { RouterInterface, CorsInterface, MiddleWareInterface, RequestInterface, ResponseInterface, RouteInterface, StaticFolderInterface, ServerConfigurations, TempMiddleWares, StaticFilesOptions } from './interfaces';
 import path from "path";
 import cors from "cors";
 import {Server} from "./Server"
@@ -45,7 +45,8 @@ class Router implements RouterInterface {
   statics: Route[]
   child: boolean = false;
   tempMiddleWares: TempMiddleWares[]
-  useMiddleWares: {path:string, middleWares:MiddleWareInterface[]}[]
+  useMiddleWares: { path: string, middleWares: MiddleWareInterface[] }[]
+  staticDecorators: StaticFilesOptions[];
   constructor(options?: { base?: string, staticFolder?: StaticFolderInterface }) {
     this.tempMiddleWares = this.tempMiddleWares || [];
     this.options = options || {};
@@ -62,11 +63,19 @@ class Router implements RouterInterface {
     this.staticFolder = this.options.staticFolder || this.staticFolder;
     this.parseUseDecorator();
     this.parseTempMiddleWares();
+    this.parseStaticDecorator();
   }
   parseUseDecorator() {
     this.useMiddleWares.map(obj => {
       this.parseUseMiddleWares(obj.path, ...obj.middleWares);
     });
+  }
+  parseStaticDecorator() {
+    this.staticDecorators = this.staticDecorators || [];
+    this.staticDecorators.map((staticFunc) => {
+      this.static(staticFunc);
+    });
+    this.staticDecorators = [];
   }
   private parseUseMiddleWares?(path:string, ...middleWares: MiddleWareInterface[]) {
           this.globalMiddleWares = this.globalMiddleWares || [];
@@ -190,6 +199,7 @@ class Router implements RouterInterface {
     let pathToSkip:string = req.pathname;
     let foundStaticRoute = this.statics.find(route => {
       let regexResult = route.routePattern.match(pathToSkip)
+      console.log(route, regexResult)
       if(regexResult) {
           return route;
       }
@@ -444,17 +454,24 @@ class Router implements RouterInterface {
 
   }
   // static method to serve static files
-    static(options:{url:string, path:string, absolute?:boolean, middleWares?:[]}) {
-        options.absolute = options.absolute || true;
+    static(options:StaticFilesOptions) {
+        options.absolute = options.absolute ?? true;
         let middleWares = options.middleWares || [];
+      this.statics = this.statics || [];
+      if (this.base) {
         let route =  {
-            url: `/${options.url}${options.absolute ? "/*": ""}`,
-            method: "GET",
-            middleWares: middleWares,
-            handler: helpers.serveAssets.bind({staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage || Server.errorPage}),
-            assetsPath: true
-        }
-        this.statics.push(new Route(route, this.base));
+          url: `/${options.url}${options.absolute ? "/*": ""}`,
+          method: "GET",
+          middleWares: middleWares,
+          handler: helpers.serveAssets.bind({staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage || Server.errorPage}),
+          assetsPath: true
+      }
+      console.log(route, this.base);
+      this.statics.push(new Route(route, this.base));
+      } else {
+        this.staticDecorators = this.staticDecorators || [];
+        this.staticDecorators.push(options);
+      }
     }
   // method to serve assets
   serverAssetsMiddleWare() {

@@ -119,7 +119,9 @@ export interface RouterInterface {
     tempMiddleWares: TempMiddleWares[]
     parseTempMiddleWares(): any
     parseUseDecorator(): any
-    useMiddleWares: {path:string, middleWares:MiddleWareInterface[]}[]
+    parseStaticDecorator(): any
+    useMiddleWares: { path: string, middleWares: MiddleWareInterface[] }[]
+    staticDecorators: StaticFilesOptions[]
 }
 export interface ServerConfigurations{
     http?: any;
@@ -204,4 +206,10 @@ export interface RepositoryPromiseResponseInterface{
     success: boolean;
     data?: any;
     error?:any
+}
+export interface StaticFilesOptions{
+    url: string,
+    path: string,
+    absolute?: boolean,
+    middleWares?: []
 }

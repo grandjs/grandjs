@@ -11,7 +11,7 @@
 
 // Dependencies
 import Router from "./Router";
-import { MiddleWareInterface, CorsInterface, TempMiddleWares, MiddleWareOptions } from './interfaces';
+import { MiddleWareInterface, CorsInterface, TempMiddleWares, MiddleWareOptions, StaticFilesOptions } from './interfaces';
 import { RequestMethod } from './common';
 // GET Decorator
 
@@ -73,4 +73,9 @@ const Use = (path: string, ...middleWares: MiddleWareInterface[]) => {
         constructor.prototype?.use?.(path, ...middleWares);
     }
 };
-export {MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare, Use}
+const Static = (options: StaticFilesOptions) => {
+    return (constructor: Function) => {
+        constructor.prototype?.static?.(options);
+    }
+}
+export {MiddleWare, GET, PUT, POST, PATCH, DELETE, RouteMiddleWare, Use, Static}
