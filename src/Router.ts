@@ -85,10 +85,7 @@ class Router implements RouterInterface {
       const applyMiddleWares = (comingMiddleWares: MiddleWareInterface[]) => {
         comingMiddleWares.map((func) => {
           const middleWare = (req: Request, res: Response, next: Function) => {
-            // console.log('yes checking middleWare');
-            // console.log(pattern, req.pathname);
             if (pattern.match(req.pathname)) {
-              // console.log('matched');
               func(req, res, next);
             } else {
               return next();
@@ -199,7 +196,6 @@ class Router implements RouterInterface {
     let pathToSkip:string = req.pathname;
     let foundStaticRoute = this.statics.find(route => {
       let regexResult = route.routePattern.match(pathToSkip)
-      console.log(route, regexResult)
       if(regexResult) {
           return route;
       }
@@ -466,7 +462,6 @@ class Router implements RouterInterface {
           handler: helpers.serveAssets.bind({staticFolder: {url:options.url, path:options.path}, errorPage: this.errorPage || Server.errorPage}),
           assetsPath: true
       }
-      console.log(route, this.base);
       this.statics.push(new Route(route, this.base));
       } else {
         this.staticDecorators = this.staticDecorators || [];

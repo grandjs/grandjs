@@ -192,10 +192,14 @@ class ViewClass {
     let parentPath:any = mainModulePath.split(Path.sep)
     parentPath = parentPath[parentPath.length - 2];
     let views = this.settings.get("views") || "";
+    let processCwd = process.cwd();
     if (path.includes(views)) {
       path = path.split(views)[1];
     }
-    let filePath = `${Path.join(process.cwd(), parentPath, views, path)}`;
+    if(processCwd.includes(parentPath)) {
+      processCwd = processCwd.split(parentPath)[0];
+    }
+    let filePath = `${Path.join(processCwd, parentPath, views, path)}`;
     const filename = Path.basename(filePath);
     if (!fileExtName) {
       const files = fs.readdirSync(Path.dirname(filePath));
