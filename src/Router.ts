@@ -193,7 +193,8 @@ class Router implements RouterInterface {
   // method to choose route
   chooseRoute(req: Request, res:Response) {
     let method = req.method;
-    let pathToSkip:string = req.pathname;
+    let pathToSkip: string = req.pathname;
+    pathToSkip = decodeURIComponent(pathToSkip);
     let foundStaticRoute = this.statics.find(route => {
       let regexResult = route.routePattern.match(pathToSkip)
       if(regexResult) {
