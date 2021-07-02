@@ -65,7 +65,6 @@ class BaseServer implements ServerInterface {
         let requests: Router[] = []
         Array.from(this.routers.keys()).map((item) => {
             const decodedPathname = decodeURIComponent(req.pathname);
-            console.log('============================= decoded pathname is', decodedPathname);
                 let routerRegex = new RouteParser(`${item}*`)
                 let regexResult = routerRegex.match(decodedPathname);
                 if (regexResult && typeof regexResult._ === "string" && ((regexResult._.startsWith("/") || regexResult._.length === 0) || item === "/")) {
