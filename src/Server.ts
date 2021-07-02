@@ -63,11 +63,13 @@ class BaseServer implements ServerInterface {
     }
     chooseHandler(req: Request, res: Response) {
         let requests: Router[] = []
-            Array.from(this.routers.keys()).map((item) => {
+        Array.from(this.routers.keys()).map((item) => {
+            const decodedPathname = decodeURIComponent(req.pathname);
+            console.log('============================= decoded pathname is', decodedPathname);
                 let routerRegex = new RouteParser(`${item}*`)
-                let regexResult = routerRegex.match(req.pathname);
+                let regexResult = routerRegex.match(decodedPathname);
                 if (regexResult && typeof regexResult._ === "string" && ((regexResult._.startsWith("/") || regexResult._.length === 0) || item === "/")) {
-                    let split = req.pathname.replace(regexResult._, "");
+                    let split = decodedPathname.replace(regexResult._, "");
                     let splittedPath = regexResult._.split("/");
                     let foundRouter: Router = this.routers.get(item);
                     if (foundRouter) {
