@@ -193,12 +193,13 @@ class ViewClass {
     parentPath = parentPath[parentPath.length - 2];
     let views = this.settings.get("views") || "";
     let processCwd = process.cwd();
+    if (path.includes('..')) {
+      path = path.replace('..', '/');
+      path = Path.normalize(`/${path}`);
+      path = path.replace(views, '');
+    }
     if (path.includes(views)) {
       path = path.split(views)[1];
-    }
-    if (path.includes('..')) {
-      console.log('=========================yes')
-      path.replace('..', '');
     }
     if(processCwd.includes(parentPath)) {
       processCwd = processCwd.split(parentPath)[0];
